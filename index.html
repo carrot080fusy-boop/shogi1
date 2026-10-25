@@ -11,6 +11,7 @@
   --wood:#d8b06a; --wood-dk:#b88a45; --grid:#5a3a14; --koma:#f1d9a4; --koma-ink:#2a1b0c; --pro:#b4231a;
   --enh:#c9502f; --res:#c99a34; --mag:#6e62c9;
   --poison:#8cc66a; --seize:#9d7ae0; --smoke:#c3c8d2; --gold:#e1b24c; --danger:#e8603c;
+  --beast-l:#8fa39a; --beast-r:#cbc2b8; --beast-head:#a6736b; --beast-body:#3e3345;
   --parch:#f2e7cc; --parch-ink:#2a2230;
   --f-disp:'Dela Gothic One','Hiragino Sans',sans-serif;
   --f-min:'Shippori Mincho B1','Hiragino Mincho ProN','Yu Mincho',serif;
@@ -88,6 +89,9 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
   display:grid;place-items:center;padding-top:14%;font-family:var(--f-min);font-weight:800;color:var(--koma-ink);font-size:calc(var(--bs) / 7 * .44);line-height:1}
 .pc.g .kw{transform:rotate(180deg)}
 .pc.pro .k{color:var(--pro)}
+.pc.beast .k{position:relative;color:transparent;background:linear-gradient(90deg,var(--beast-l) 50%,var(--beast-r) 50%)}
+.pc.beast .k::after{content:"";position:absolute;left:0;right:0;bottom:0;height:34%;background:var(--beast-body);clip-path:polygon(0 45%,28% 0,72% 0,100% 45%,100% 100%,0 100%)}
+.pc.beast .k::before{content:"";position:absolute;z-index:1;width:46%;aspect-ratio:1;left:27%;top:30%;border-radius:50%;background:var(--beast-head)}
 .pc.king .k{font-size:calc(var(--bs) / 7 * .48)}
 .pc.hid .k{color:#55606f;background:linear-gradient(170deg,#c9ccd3,#a5aab5)}
 .pc.mine-hid .kw{opacity:.72}
@@ -135,7 +139,7 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 
 .card{position:relative;flex:none;width:var(--cw);height:var(--ch);border-radius:9px;border:0;padding:0;cursor:pointer;background:var(--frame);
   box-shadow:0 6px 14px rgba(0,0,0,.45);transition:transform .15s ease, filter .15s;text-align:center;display:flex;flex-direction:column}
-.card.enh{--frame:var(--enh)} .card.res{--frame:var(--res)} .card.mag{--frame:var(--mag)}
+.card.enh{--frame:var(--enh)} .card.awk{--frame:#a3326b} .card.res{--frame:var(--res)} .card.mag{--frame:var(--mag)}
 .card .cost{position:absolute;left:-7px;top:-7px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;z-index:2;font-family:var(--f-disp);font-size:15px;color:#2a1c04;
   background:radial-gradient(circle at 35% 30%, #fff0bf, var(--gold) 55%, #7a5612);box-shadow:0 2px 4px rgba(0,0,0,.5)}
 .card .cost.down{background:radial-gradient(circle at 35% 30%, #e6ffd2, #7fd05a 55%, #2f6a18)}
@@ -154,7 +158,7 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .oh-label{font-size:12px;color:var(--muted);margin-right:2px}
 .oh-empty{font-size:12px;color:var(--muted)}
 .ochip{display:inline-flex;align-items:center;gap:6px;border:0;border-radius:6px;padding:3px 10px 3px 4px;font-size:12.5px;font-weight:700;color:#fff;cursor:pointer;background:var(--enh)}
-.ochip.res{background:#9a7420}.ochip.mag{background:var(--mag)}
+.ochip.res{background:#9a7420}.ochip.awk{background:#a3326b}.ochip.mag{background:var(--mag)}
 .ochip:hover{filter:brightness(1.15)}
 .ochip .oc{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-disp);font-weight:400;font-size:11px;color:#2a1c04;background:radial-gradient(circle at 35% 30%, #fff0bf, var(--gold) 55%, #7a5612)}
 .ochip .oheld{font-size:10px;background:var(--danger);border-radius:6px;padding:0 5px}
@@ -292,7 +296,9 @@ details.guide .glossary{margin-top:10px}
       <div><i style="background:repeating-linear-gradient(45deg,rgba(157,122,224,.8) 0 3px,transparent 3px 6px)"></i>シーズ：中の駒は動けない</div>
       <div><i style="background:rgba(195,200,210,.7)"></i>煙幕：中の駒は相手から正体不明</div>
       <div><i style="background:repeating-linear-gradient(90deg,rgba(40,90,40,.75) 0 2px,rgba(110,170,70,.35) 2px 5px)"></i>バイパーズピット：中の敵は2ターンで倒れる</div>
-      <div><i style="background:repeating-linear-gradient(0deg,rgba(232,96,60,.6) 0 3px,transparent 3px 6px)"></i>ローリングサンダー予告（数字＝着弾まで）</div>
+      <div><i style="background:repeating-linear-gradient(0deg,rgba(232,96,60,.6) 0 3px,transparent 3px 6px)"></i>アルマゲドン予告（数字＝着弾まで）</div>
+      <div><i style="background:repeating-linear-gradient(90deg,rgba(110,98,201,.7) 0 2px,transparent 2px 5px)"></i>ローリングサンダー予告（押し出し）</div>
+      <div><i style="background:radial-gradient(circle,rgba(240,220,60,.95) 0 40%,transparent 60%)"></i>雷の着弾予告（ネオン）</div>
       <div><i style="background:rgba(232,96,60,.85)"></i>爆撃跡：1ターンの間、入ると倒れる</div>
       <div><i style="background:radial-gradient(circle,transparent 45%,#c9502f 50%,#c9502f 62%,transparent 66%)"></i>アンカー（ランイットバックの戻り先）</div>
       <div><i style="background:repeating-linear-gradient(135deg,rgba(200,40,20,.7) 0 2px,transparent 2px 5px)"></i>弩の射線（溜め中）</div>
@@ -309,45 +315,65 @@ const $=s=>document.querySelector(s);
 const N=7, ROWS='一二三四五六七';
 const KJ={P:'歩',L:'香',N:'桂',S:'銀',G:'金',B:'角',R:'飛',K:'王'}, KJP={P:'と',L:'杏',N:'圭',S:'全',B:'馬',R:'龍'};
 const VAL={P:1,L:3,N:3,S:4,G:5,B:7,R:8,K:100}, VALP={P:4,L:5,N:5,S:5,B:10,R:11};
-const CAT={enh:'駒強化',res:'エネルギー・サーチ',mag:'魔法'};
+const CAT={enh:'駒強化',res:'エネルギー・サーチ',mag:'魔法',awk:'BEAST KING専用'};
 const CARDS={
   haste:{name:'疾風',cost:2,cat:'enh',art:'疾',target:'own',text:'次の自分の番から、この駒はメインの手とは別に1回動ける（駒は取れない）。使うと消える。'},
   ward:{name:'加護',cost:1,cat:'enh',art:'護',target:'own',text:'3ターンの間、毒・延焼・石化・シーズなど相手の妨害を受けない。今かかっている毒・延焼・石化も消す。'},
-  blade:{name:'毒刃',cost:2,cat:'enh',art:'刃',target:'ownNoKing',text:'武器。動く前に向き（前・左・右）を決める。動くたび、向いた方向2マスにいる敵駒に毒を与える。'},
-  operator:{name:'オペレーター',cost:4,cat:'enh',art:'狙',target:'ownNoKing',text:'狙撃銃を持たせる。メインの手の代わりに発砲し、縦横斜めの射線で最初に当たる敵駒（王も可）を破壊。撃つと2ターン撃てない。'},
+  blade:{name:'毒刃',cost:2,cat:'enh',art:'刃',target:'ownNoKing',text:'武器（付けた次の番から有効）。動く前に向き（前・左・右）を決める。動いた後、向いた方向2マス以内で最初に当たる敵駒に毒を与える（貫通しない）。毒を与えたら、次の1回の移動で装填し直す。'},
+  operator:{name:'オペレーター',cost:4,cat:'enh',art:'狙',target:'ownNoKing',text:'狙撃銃。付けた番と次の番は撃てない。メインの手とエネルギー1で、縦横斜めの射線で最初の敵駒（王も可）を破壊。撃つと4ターン撃てない。動く・押される・移されると、その番と次の番は撃てない。撃てる状態（覗き中）でスタンを受けると、スタン中は動けない。'},
   rib:{name:'ランイットバック',cost:4,cat:'enh',art:'戻',target:'own',text:'今のマスにアンカーを置く。次の番はメインと別に1回動ける（取れる）。倒されるか3ターン後にアンカーへ戻る。そこに駒がいると倒れる。'},
-  atomic:{name:'アトミック',cost:4,cat:'enh',art:'核',target:'ownPawn',text:'歩にだけ付けられる。4ターン後、この駒を中心に5×5マスの駒を、王も含め敵味方関係なくすべて破壊。'},
-  bomb:{name:'自爆',cost:2,cat:'enh',art:'爆',target:'ownNoKing',text:'3ターン後、この駒を中心に3×3マスの駒を、王も含め敵味方関係なくすべて破壊。'},
-  plunder:{name:'略奪',cost:2,cat:'enh',art:'奪',target:'own',text:'この駒が敵駒を倒すたびにエネルギー+1。取った時だけでなく、狙撃・弩・毒・延焼・爆発などこの駒の能力で倒した時も入る。'},
-  pit:{name:'バイパーズピット',cost:5,cat:'enh',art:'蛇',target:'own',text:'駒を中心に横5×縦2の毒領域を展開（駒が倒れるまで続く）。中の敵は2ターンで倒れる。中の味方は毒でも倒れず、相手から見えない。'},
-  arrow:{name:'火矢',cost:3,cat:'enh',art:'火',target:'ownNoKing',text:'メインの手の代わりに、真っすぐ前2マスで最初に当たる敵駒（王も可）に延焼を付ける。撃つと1ターン撃てない。'},
-  xbow:{name:'弩',cost:3,cat:'enh',art:'弩',target:'ownNoKing',text:'メインの手で溜め、次か次の次の番に手を使わず、向いた方向（前・左・右）3マスで最初の敵駒（王も可）を破壊。動くと溜めは消える。'},
-  snake:{name:'蛇の目',cost:3,cat:'enh',art:'睨',target:'ownNoKing',text:'向いた方向（前・左・右）2マス以内に止まった敵駒を石化させる。向きは動く前に決める。'},
+  atomic:{name:'アトミック',cost:4,cat:'enh',art:'核',target:'ownPawn',text:'歩にだけ付けられる。4ターン後、この駒を中心に5×5マスの駒を、王も含め敵味方関係なくすべて破壊。疾風・桂脚・逆行・ランイットバックとは重ねられない。'},
+  bomb:{name:'自爆',cost:1,cat:'enh',art:'爆',target:'ownNoKing',text:'2ターン後、この駒を中心に3×3マスの駒を、王も含め敵味方関係なくすべて破壊。巻き込まれた保険付きの自分の歩からはエネルギーが入る（自爆した駒自身の保険は出ない）。'},
+  iso:{name:'アイソアーマー',cost:3,cat:'enh',art:'甲',target:'own',text:'次の相手の番が終わるまで（1ターン）、どんな攻撃でも1回だけ耐える（取られても取られず、攻めた駒は元のマスに戻る）。付けてから2ターン以内にこの駒が敵駒を倒すと、アーマーが1ターン分復活する（倒すたびに2ターンの猶予も延びる）。'},
+  plunder:{name:'略奪',cost:1,cat:'enh',art:'奪',target:'own',text:'この駒が敵駒を倒すたびにエネルギー+1。取った時だけでなく、狙撃・弩・毒・延焼・爆発などこの駒の能力で倒した時も入る。'},
+  pit:{name:'バイパーズピット',cost:5,cat:'enh',art:'蛇',target:'own',text:'駒を中心に横5×縦2の毒領域を展開（付けた次の番から有効・駒が倒れるまで続く）。中の敵は2ターンで倒れる。中の味方は毒でも倒れず、相手から見えない。'},
+  arrow:{name:'火矢',cost:3,cat:'enh',art:'火',target:'ownNoKing',text:'武器（付けた次の番から有効）。メインの手の代わりに、真っすぐ前2マスで最初に当たる敵駒（王も可）に延焼を付ける。撃つと1ターン撃てない。'},
+  xbow:{name:'弩',cost:3,cat:'enh',art:'弩',target:'ownNoKing',text:'武器（付けた次の番から有効）。メインの手で溜め、次か次の次の番に手を使わず、向いた方向（前・左・右）3マスで最初の敵駒（王も可）を破壊。動くと溜めは消える。'},
+  snake:{name:'蛇の目',cost:3,cat:'enh',art:'睨',target:'ownNoKing',text:'武器（付けた次の番から有効）。向いた方向（前・左・右）2マス以内に止まった敵駒を石化させる。向きは動く前に決める。'},
+  neon:{name:'ネオン',cost:2,cat:'enh',art:'雷',target:'ownNoKing',text:'武器（付けた次の番から有効）。この駒が動いた後、2マス前へ雷を投げられる（手は使わない）。1ターン後に着弾し、そのマスの敵駒をスタン2ターン。投げると2ターン後に自動で再装填。'},
+  marshal:{name:'マーシャル',cost:3,cat:'enh',art:'狙',target:'ownNoKing',text:'武器（付けた次の番から有効）。メインの手の代わりに、斜め（角の動き）の射線で最初に当たる敵駒（王も可）を撃ち、毒を与える。撃つと2ターン撃てない。'},
   barrier:{name:'魔法障壁',cost:2,cat:'enh',art:'障',target:'own',text:'6ターンの間、この駒の周囲1マスは魔法防御になり、相手の魔法が届かない。'},
+  magician:{name:'魔術師',cost:3,cat:'enh',art:'術',target:'ownNoKing',text:'駒に付ける。この対局で使ったことのある徴兵・黄金期・触媒・解呪・暗雲を1枚預ける。この駒が自分の魔法防御（陣・魔法障壁）の外にいる時、2ターンに1回コストなしで使える。駒が倒れるまで何度でも。'},
   rewind:{name:'逆行',cost:1,cat:'enh',art:'逆',target:'ownNoKing',text:'3ターンの間、この駒は動きを前後反対にした「戻る動き」もできる（戻る動きでは駒を取れない）。桂馬や歩も下がれる。'},
   leg:{name:'桂脚',cost:1,cat:'enh',art:'跳',target:'ownNoKing',text:'2ターンの間、この駒は桂馬の動きもできる。'},
   command:{name:'前線指揮',cost:3,cat:'res',art:'指',target:'own',text:'この駒が中央の段か相手側にいる間、自分の魔法のコストが1下がる。付けられるのは1駒だけ。'},
   search:{name:'探索',cost:2,cat:'res',art:'探',target:'none',text:'山札から好きなカードを1枚選び、保留で手札に加える。保留のカードは使うまでターンをまたいで手札に残る。'},
-  insure:{name:'保険',cost:1,cat:'res',art:'保',target:'own',text:'次の相手の番が終わるまでにこの駒が倒されたら、エネルギー+3。'},
+  fixate:{name:'固定化',cost:4,cat:'res',art:'固',target:'none',exhaust:true,text:'デッキに入っている1コストのカードを1枚選ぶ。この対局中、2ターンに1回、そのカードのコピー（コスト0・使うと消える）を手札に加える。重ねて使えない。使うと対局から消える。'},
+  swarm:{name:'多勢に無勢',cost:2,cat:'res',art:'衆',target:'none',text:'デッキに入っている1コストの駒強化（加護・逆行・桂脚・自爆・略奪・保険）から1つ選び、コストなしで最大3つの駒に付ける。カードは減らない。'},
+  bounty:{name:'バウンティー',cost:1,cat:'res',art:'賞',target:'enemyBounty',text:'魔法防御の外にいる敵駒1つ（王以外）に懸賞をかける。次の自分の番の間にその駒を倒すとエネルギー+3。相手は逃がすか解呪で外すしかない。'},
+  insure:{name:'保険',cost:1,cat:'res',art:'保',target:'own',text:'次の相手の番が終わるまでにこの駒が倒されたら、エネルギー+3。自分の自爆に巻き込まれた歩でも受け取れる（自爆した駒自身・アトミックは除く）。'},
   barracks:{name:'兵舎',cost:4,cat:'res',art:'営',target:'none',exhaust:true,text:'この対局中、3ターンごとに、デッキに入っている3コスト以下の駒強化を1つ選び、コストなしで駒に付けられる。カードは減らない。使うと対局から消える。'},
   combo:{name:'連撃の構え',cost:1,cat:'res',art:'連',target:'none',text:'このターン、次に使うカードのコストが2下がる。'},
   keeper:{name:'保持化',cost:2,cat:'res',art:'持',target:'none',exhaust:true,text:'この対局中ずっと、毎ターン終了時に手札を1枚だけ次のターンへ持ち越せる。重ねて使えない。使うと対局から消える。'},
+  venomgift:{name:'瘴気の恵み',cost:2,cat:'res',art:'瘴',target:'none',text:'3ターンの間、敵の駒が毒で倒れるたびに、エネルギー+1とカードを1枚引く。'},
+  golden:{name:'黄金期',cost:3,cat:'res',art:'金',target:'none',text:'3ターンの間、敵の駒を倒した時の撃破ボーナスのエネルギーが+1される（歩を倒しても+1）。'},
+  awaken:{name:'BEAST KING',cost:6,cat:'res',art:'覚',target:'none',exhaust:true,sticky:true,text:'手札に来ると保留になる。王が覚醒し、デッキが専用デッキに変わる。残機1・子守唄の力を得る。代わりに2ターンに1回、番の開始時に自分の駒を1つ犠牲にする（犠牲がいなければ負け）。'},
+  poop:{name:'ブッチッパ',cost:1,cat:'awk',art:'糞',target:'poopLine',text:'王から縦横斜めの射線で最初に当たる敵駒（王も可）にうんちを投げる。1ターン後に倒れる（解呪・加護で助かる）。手は使わない。'},
+  peek:{name:'のぞき見',cost:1,cat:'awk',art:'覗',target:'none',text:'次に引くカードが両者に見える。この番は煙幕・暗雲などで隠れた駒も見える。'},
+  roar:{name:'んあー',cost:2,cat:'awk',art:'吼',target:'none',text:'王の周り5×5の駒を、王以外すべてスタン2ターン。魔法防御を無視する。使うとターンが終わる。'},
+  mist:{name:'子守唄の霧',cost:3,cat:'awk',art:'眠',target:'area',text:'3×3の敵駒を熟睡させる（次の番は動けない）。魔法防御で防げる。'},
+  lifeup:{name:'残機アップ',cost:2,cat:'awk',art:'命',target:'none',text:'王の残機+1。'},
+  here:{name:'ここだよ',cost:0,cat:'awk',art:'此',target:'enemyBounty',text:'バウンティーと同じ懸賞をかける。倒した時はさらにカードを1枚引き、ブッチッパを1枚手札に加える。'},
   insight:{name:'閃き',cost:1,cat:'res',art:'閃',target:'none',text:'カードを2枚引く。'},
-  offering:{name:'供物',cost:0,cat:'res',art:'供',target:'ownPawn',exhaust:true,text:'自分の歩を1枚盤上から取り除き、エネルギー+1。使うとこのカードは対局から消える。'},
-  cloud:{name:'暗雲',cost:4,cat:'mag',art:'雲',target:'none',text:'3ターンの間、自陣と自分の魔法障壁の範囲にいる自分の駒は、相手から正体が見えない。'},
+  offering:{name:'供物',cost:0,cat:'res',art:'供',target:'ownPawn',text:'自分の歩を1枚盤上から取り除き、エネルギー+1。その歩に保険が付いていれば、さらに保険の+2が入る（合計+3）。'},
+  cloud:{name:'暗雲',cost:3,cat:'mag',art:'雲',target:'none',text:'4ターンの間、自陣と自分の魔法障壁の範囲にいる自分の駒は、相手から正体が見えない。その間、相手からエネルギーと手札も見えない。'},
   seize:{name:'シーズ',cost:3,cat:'mag',art:'縛',target:'area',text:'3×3に2ターン残る。中の駒は敵味方とも範囲の外へ出られない（中では自由。転移なら脱出できる）。'},
   swamp:{name:'毒沼',cost:3,cat:'mag',art:'沼',target:'area',text:'3×3に2ターン残る沼。置いた時に敵駒がいるマスは沼にならず毒もかからない。通った相手の駒は毒。'},
-  smoke:{name:'煙幕',cost:3,cat:'mag',art:'煙',target:'area',text:'3×3に2ターン残る煙。中にいる自分の駒は相手から正体が見えない。'},
-  thunder:{name:'ローリングサンダー',cost:5,cat:'mag',art:'轟',target:'thunder',text:'横5×縦2を指定。2ターン後から毎ターン、右から2列→1列→2列と爆撃し中の駒を倒す。爆撃跡は1ターン残る。'},
+  smoke:{name:'煙幕',cost:3,cat:'mag',art:'煙',target:'area',text:'3×3に4ターン残る煙。中にいる自分の駒は相手から正体が見えない。その間、相手からエネルギーと手札も見えない。'},
+  thunder:{name:'アルマゲドン',cost:5,cat:'mag',art:'轟',target:'thunder',text:'2点を選んで横5×縦2か縦5×横2の範囲を指定。2ターン後から毎ターン、最初に選んだ側から2列→1列→2列と爆撃し中の駒を倒す（王は耐える）。爆撃跡は1ターン残る。'},
+  roll:{name:'ローリングサンダー',cost:4,cat:'mag',art:'押',target:'ownRoll',text:'自分の駒の前方、横3×縦4の範囲を予告。1ターン後、範囲内の敵味方すべての駒を相手側へ1マス押し出し、スタン1ターン。押し出せない駒はスタン2ターン。'},
+  infect:{name:'感染',cost:3,cat:'mag',art:'染',target:'enemyPoisoned',text:'毒を受けている敵駒1つを選ぶ。その周囲1マスの敵駒すべてに毒を与える（すでに毒の駒は2回目になり倒れる）。'},
+  erode:{name:'蝕み',cost:1,cat:'mag',art:'蝕',target:'enemyPoisoned',text:'毒を受けている敵駒1つ（王も可）をスタン1ターン。'},
+  catalyst:{name:'触媒',cost:2,cat:'mag',art:'媒',target:'none',text:'魔法防御の外にいる、毒を受けている敵駒すべての毒が消えるまでのターンを+2する。'},
   warp:{name:'転移',cost:2,cat:'mag',art:'転',target:'warp',text:'自分の駒1つを隣の空きマスへ移す。シーズからも抜け出せる。移した駒は次の自分の番まで動けず撃てない。'},
-  dispel:{name:'解呪',cost:2,cat:'mag',art:'解',target:'area',text:'3×3の範囲で、自分の駒の毒・延焼・石化・拘束を消し、相手のシーズと毒沼を取り除く。'},
+  dispel:{name:'解呪',cost:2,cat:'mag',art:'解',target:'area',text:'3×3の範囲で、自分の駒の毒・延焼・石化・拘束・懸賞を消し、相手のシーズと毒沼を取り除く。'},
   petri:{name:'石化の眼',cost:2,cat:'mag',art:'石',target:'enemyNear3',text:'自分の駒から3マス以内の敵駒1つ（王も可）を石化。次の番に動かないと、その次の番は動けない。'},
-  summon:{name:'徴兵',cost:2,cat:'mag',art:'兵',target:'summonSq',text:'自陣の魔法防御が残っている段か、自分の魔法障壁の範囲の空きマスに歩を1枚呼び出す。'},
+  summon:{name:'徴兵',cost:2,cat:'mag',art:'兵',target:'summonSq',text:'自陣の魔法防御が残っている段か、自分の魔法障壁の範囲の空きマスに歩を2枚呼び出す。'},
   breaker:{name:'結界崩し',cost:2,cat:'mag',art:'崩',target:'none',text:'相手の敵陣の魔法防御を1段はがす（手前の段→奥の段の順）。'},
 };
 const PRESET=['haste','blade','rib','search','insure','swamp','seize','breaker'];
 const TGT_HINT={own:'強化する自分の駒を選んでください',ownNoKing:'強化する自分の駒（王以外）を選んでください',ownPawn:'自分の歩を選んでください',
-  area:'3×3の中心にするマスを選んでください',summonSq:'歩を呼び出す空きマスを選んでください',ownPLN:'成っていない自分の歩・香・桂を選んでください',ownForward:'成っていない自分の歩・香・桂を選んでください',enemyNear3:'石化させる敵駒（自分の駒から3マス以内）を選んでください',thunder:'爆撃範囲（横5×縦2）の中心を選んでください',enemyBuffed:'強化を消す相手の駒を選んでください',warp:'移す自分の駒を選んでください'};
+  area:'3×3の中心にするマスを選んでください',poopLine:'うんちを投げる敵駒を選んでください',enemyBounty:'懸賞をかける敵駒を選んでください',enemyPoisoned:'毒を受けている敵駒を選んでください',ownRoll:'ローリングサンダーを撃つ自分の駒を選んでください',thunder:'爆撃範囲の始点（ここから爆撃が始まる）を選んでください',summonSq:'歩を呼び出す空きマスを選んでください',ownPLN:'成っていない自分の歩・香・桂を選んでください',ownForward:'成っていない自分の歩・香・桂を選んでください',enemyNear3:'石化させる敵駒（自分の駒から3マス以内）を選んでください',thunder:'爆撃範囲（横5×縦2）の中心を選んでください',enemyBuffed:'強化を消す相手の駒を選んでください',warp:'移す自分の駒を選んでください'};
 
 let G=null, uid=1, myDeck=[...PRESET];
 let SIM=false, botLevel=1;
@@ -395,14 +421,24 @@ const ward=p=>p.b.ward&&p.b.ward.until>G.T;
 const hasteReady=p=>p.b.haste&&G.T>=p.b.haste.ready;
 const ribExtra=p=>p.b.rib&&p.b.rib.extraAt===G.T&&!p.b.rib.used;
 const isLocked=p=>p.b.lock&&p.b.lock.until>G.T;
-const canShoot=p=>p.b.op&&G.T>=p.b.op.ready&&G.main&&!isLocked(p);
+const isStunned=p=>p.stun&&p.stun.until>G.T;
+function stunFor(p,n){const first=G.turn===p.c?G.T:G.T+1;const until=first+2*(n-1)+1;if(!p.stun||p.stun.until<until)p.stun={until};}
+const hideInfo=col=>G.fields.some(f=>f.owner===col&&active(f)&&(f.type==='smoke'||f.type==='cloud'));
+const MOVE_BUFFS=['haste','leg','rewind','rib'];
+const aiming=p=>p.b.op&&G.T>=p.b.op.ready;
+const isoOn=p=>p.b.iso&&p.b.iso.until>G.T&&p.b.iso.charge>0;
+const canShoot=p=>p.b.op&&G.T>=p.b.op.ready&&G.main&&!isLocked(p)&&!isStunned(p)&&G.players[p.c].energy>=1;
 const active=f=>f.until>G.T;
-const canArrow=p=>p.b.arrow&&G.T>=p.b.arrow.ready&&G.main&&!isLocked(p);
-const canCharge=p=>p.b.xbow&&p.b.xbow.ch==null&&G.main&&!isLocked(p);
+const canArrow=p=>p.b.arrow&&G.T>=p.b.arrow.ready&&G.main&&!isLocked(p)&&!isStunned(p);
+const canCharge=p=>p.b.xbow&&p.b.xbow.ch==null&&G.T>=(p.b.xbow.arm||0)&&G.main&&!isLocked(p);
 const xbowReady=p=>p.b.xbow&&p.b.xbow.ch!=null&&G.T>=p.b.xbow.ch+2&&G.T<=p.b.xbow.ch+4;
-const canXbow=p=>xbowReady(p)&&!isLocked(p);
+const canXbow=p=>xbowReady(p)&&!isLocked(p)&&!isStunned(p);
+const armed=w=>w&&G.T>=(w.at||0);
 const CENTER=[3,3];
 const hasFacing=p=>p.b.blade||p.b.xbow||p.b.snake;
+const canMarshal=p=>p.b.marshal&&G.T>=p.b.marshal.ready&&G.main&&!isLocked(p)&&!isStunned(p);
+const neonLoaded=p=>p.b.neon&&G.T>=p.b.neon.ready&&!isStunned(p);
+function neonCell(p,r,c){const rr=r+2*fw(p.c);return inB(rr,c)?[rr,c]:null;}
 function faceVec(col,face){const f=fw(col);if(face==='l')return [0,col==='s'?-1:1];if(face==='r')return [0,col==='s'?1:-1];return [f,0];}
 function faceCells(col,face,r,c,len){const[dr,dc]=faceVec(col,face);const out=[];for(let k=1;k<=len;k++){const rr=r+dr*k,cc=c+dc*k;if(!inB(rr,cc))break;out.push([rr,cc]);}return out;}
 const ARROW_GLYPH=v0=>{const v=ME==='g'?[-v0[0],-v0[1]]:v0;return v[0]<0?'↑':v[0]>0?'↓':v[1]<0?'←':'→';};
@@ -416,7 +452,7 @@ function isProtected(caster,r,c,ignoreBarrier){
   if(ignoreBarrier)return false;
   return piecesOf(opp(caster)).some(([r2,c2,p])=>p.b.barrier&&cheb(r,c,r2,c2)<=1);
 }
-function inOwnPit(p,r,c){return G.fields.some(f=>f.type==='pit'&&f.owner===p.c&&has(f.cells,r,c));}
+function inOwnPit(p,r,c){return G.fields.some(f=>f.type==='pit'&&f.owner===p.c&&G.T>=(f.from||0)&&has(f.cells,r,c));}
 function isHidden(p,r,c){
   if(inOwnPit(p,r,c))return true;
   return G.fields.some(f=>f.owner===p.c&&active(f)&&(
@@ -430,9 +466,8 @@ function log(t,c,sep){if(SIM)return;G.log.unshift({t,c,sep});if(G.log.length>150
 /* --- shapes --- */
 function areaCells(key,caster,r,c){
   const out=[];
-  if(key==='thunder'){
-    const cc0=Math.min(4,Math.max(2,c)); let r2=r+fw(caster); if(!inB(r2,0))r2=r-fw(caster);
-    for(const rr of[r,r2])for(let cc=cc0-2;cc<=cc0+2;cc++)if(!isProtected(caster,rr,cc))out.push([rr,cc]);
+  if(key==='roll'){
+    const f=fw(caster);for(let k=1;k<=4;k++)for(let cc=c-1;cc<=c+1;cc++){const rr=r+f*k;if(inB(rr,cc)&&!isProtected(caster,rr,cc))out.push([rr,cc]);}
     return out;
   }
   for(let rr=r-1;rr<=r+1;rr++)for(let cc=c-1;cc<=c+1;cc++){
@@ -442,6 +477,18 @@ function areaCells(key,caster,r,c){
   }
   return out;
 }
+function rectLines(a,b){
+  const dr=b[0]-a[0],dc=b[1]-a[1];
+  const long=Math.abs(dr)===4?'r':'c';
+  const lines=[];
+  for(let k=0;k<5;k++){const line=[];
+    if(long==='r'){const rr=a[0]+Math.sign(dr)*k;for(const cc of[a[1],b[1]])line.push([rr,cc]);}
+    else{const cc=a[1]+Math.sign(dc)*k;for(const rr of[a[0],b[0]])line.push([rr,cc]);}
+    lines.push(line);}
+  return lines;
+}
+function rectOk(a,b){const dr=Math.abs(b[0]-a[0]),dc=Math.abs(b[1]-a[1]);return (dr===4&&dc===1)||(dr===1&&dc===4);}
+function thunderCells(caster,a,b){return rectLines(a,b).flat().filter(([r,c])=>!isProtected(caster,r,c));}
 function pitCells(col,r,c){
   const out=[];const r2=r+fw(col);
   for(const rr of[r,r2]){if(!inB(rr,0))continue;for(let cc=c-2;cc<=c+2;cc++)if(inB(rr,cc))out.push([rr,cc]);}
@@ -451,7 +498,7 @@ function pitCells(col,r,c){
 /* ---------- game flow ---------- */
 function mkPlayer(keys){return {draw:shuffle(keys.map(k=>({uid:uid++,key:k}))),hand:[],discard:[],exhaust:[],energy:0,started:false};}
 function botDeck(){
-  const by=c=>Object.keys(CARDS).filter(k=>CARDS[k].cat===c);
+  const by=c=>Object.keys(CARDS).filter(k=>CARDS[k].cat===c&&k!=='awaken');
   const pick=(list,n,out)=>{let g=0;while(n>0&&g++<60){const k=list[Math.random()*list.length|0];if(out.filter(x=>x===k).length<2){out.push(k);n--;}}};
   const out=[];pick(by('enh'),3,out);pick(by('res'),2,out);pick(by('mag'),3,out);return out;
 }
@@ -477,7 +524,7 @@ function draw(col,n){
   for(let i=0;i<n;i++){
     if(pl.hand.length>=6)break;
     if(!pl.draw.length){if(!pl.discard.length)break;pl.draw=shuffle(pl.discard);pl.discard=[];log(`${who(col)}の捨て札をシャッフルして山札に戻した`,col);}
-    pl.hand.push(pl.draw.pop());
+    const dc=pl.draw.pop();if(CARDS[dc.key].sticky)dc.held=true;pl.hand.push(dc);
   }
 }
 function startTurn(){
@@ -486,18 +533,44 @@ function startTurn(){
   if(G.T===16)log('敵陣の魔法防御が自然に1段はがれた（手前の段）');
   if(G.T===26)log('敵陣の魔法防御がすべてはがれた');
   G.fields=G.fields.filter(f=>active(f)&&(f.type!=='pit'||findById(f.carrier)));
-  eachPiece(p=>{if(p.poison&&p.poison.until<=G.T)p.poison=null;for(const k of['ward','leg','insure','barrier','rewind'])if(p.b[k]&&p.b[k].until<=G.T)delete p.b[k];});
+  eachPiece(p=>{if(p.b.iso&&p.b.iso.win<=G.T)delete p.b.iso;if(p.bounty&&p.bounty.until<=G.T)delete p.bounty;if(p.poison&&p.poison.until<=G.T)p.poison=null;for(const k of['ward','leg','barrier','rewind'])if(p.b[k]&&p.b[k].until<=G.T)delete p.b[k];});
   // rolling thunder strikes
   for(const f of G.fields.filter(f=>f.type==='thunder'&&f.owner===me)){
     for(const st of f.stages){
       if(st.done||st.at>G.T)continue; st.done=true;
-      const cells=f.cells.filter(x=>st.cols.includes(x[1]));
-      log(`${who(me)}のローリングサンダーが着弾（${cells.length}マス）`,me);
+      const cells=st.cells;
+      log(`${who(me)}のアルマゲドンが着弾（${cells.length}マス）`,me);
       for(const[r,c]of cells){fx(r,c,'爆撃','kill');const q=G.board[r][c];if(q&&q.t!=='K')killPiece(r,c,'thunder',me);}
       G.fields.push({type:'burn',cells,until:G.T+2,owner:me});
     }
   }
   if(G.over)return;
+  for(const f of G.fields.filter(f=>f.type==='roll'&&f.owner===me&&f.at<=G.T&&!f.done)){
+    f.done=true;f.until=G.T;
+    const dr=fw(me);
+    const cells=[...f.cells].sort((x,y)=>me==='s'?x[0]-y[0]:y[0]-x[0]);
+    let moved=0,stuck=0;
+    for(const[r,c]of cells){
+      const p=G.board[r][c];if(!p)continue;
+      const nr=r+dr;
+      if(inB(nr,c)&&!G.board[nr][c]){
+        G.board[nr][c]=p;G.board[r][c]=null;moved++;
+        if(p.b.xbow)p.b.xbow.ch=null;
+        if(p.b.op)p.b.op.ready=Math.max(p.b.op.ready,G.T+4);
+        if(canPromote(p)&&(zone(p.c,r)||zone(p.c,nr)))p.pro=true;
+        stunFor(p,1);fx(nr,c,'押し出し','mag');
+      }else{stunFor(p,2);stuck++;fx(r,c,'スタン2','mag');}
+    }
+    log(`${who(me)}のローリングサンダーが発動。${moved}体を押し出し、${stuck}体は押し出せずスタン2ターン`,me);
+    for(const[r,c]of f.cells){const nr=r+dr;if(inB(nr,c)&&G.board[nr][c]){checkBurn(nr,c);if(G.board[nr][c])snakeCheck(nr,c);}if(G.over)return;}
+  }
+  G.fields=G.fields.filter(f=>!(f.type==='roll'&&f.done));
+  for(const f of G.fields.filter(f=>f.type==='neon'&&f.owner===me&&f.at<=G.T&&!f.done)){
+    f.done=true;const[r,c]=f.cells[0];const q=G.board[r][c];
+    if(q&&q.c!==me&&!ward(q)){stunFor(q,2);fx(r,c,'雷 スタン2','mag');log(`雷が${nota(r,c)}に着弾。${isHidden(q,r,c)?'？':pname(q)}をスタン2ターン`,me);}
+    else{fx(r,c,'雷 空振り','mag');log(`雷が${nota(r,c)}に着弾したが空振り`,me);}
+  }
+  G.fields=G.fields.filter(f=>!(f.type==='neon'&&f.done));
   // run it back: forced return
   for(const[r,c,p]of piecesOf(me)){ if(p.b.rib&&p.b.rib.until<=G.T){ log(`${pname(p)}（${nota(r,c)}）がアンカーへ強制帰還`,me); G.board[r][c]=null; ribReturn(p); if(G.over)return; } }
   // atomics
@@ -507,21 +580,36 @@ function startTurn(){
   // viper's pit ticks
   for(const f of G.fields.filter(f=>f.type==='pit'&&f.owner===me)){
     for(const[r,c]of f.cells){const q=G.board[r][c];if(!q)continue;
-      if(q.c===me){ if(!ward(q)){ q.poison={at:(q.poison&&q.poison.until>G.T)?q.poison.at:G.T,until:G.T+8}; } }
+      if(q.c===me){ if(!ward(q)){ q.poison={at:(q.poison&&q.poison.until>G.T)?q.poison.at:G.T,until:G.T+6}; } }
       else{const cf=findById(f.carrier);poisonPiece(r,c,'バイパーズピット',cf&&cf[2]);}}
   }
   if(G.over)return;
   for(const[r,c,p]of piecesOf(me)){if(p.b.xbow&&p.b.xbow.ch!=null&&G.T>p.b.xbow.ch+4){p.b.xbow.ch=null;log(`${pname(p)}（${nota(r,c)}）の弩の溜めが切れた`,me);}}
-  if(!pl.started){pl.started=true;pl.energy=2;if(pl.opener){pl.hand.push(pl.opener);pl.opener=null;draw(me,2);}else draw(me,3);}
+  if(!pl.started){pl.started=true;pl.energy=2;if(pl.opener){if(CARDS[pl.opener.key].sticky)pl.opener.held=true;pl.hand.push(pl.opener);pl.opener=null;draw(me,2);}else draw(me,3);}
   else{pl.energy=Math.min(10,pl.energy+1);draw(me,2);}
-  if(G.T>=11){const q=G.board[CENTER[0]][CENTER[1]];if(q&&q.c===me){pl.energy=Math.min(10,pl.energy+1);fx(CENTER[0],CENTER[1],'中央+1','res');log(`中央（${nota(...CENTER)}）を押さえているので${who(me)}はエネルギー+1`,me);}}
-  G.main=true;G.sel=null;G.pending=null;G.shootMode=false;
+  if(pl.fixate&&G.T>=pl.fixate.next&&pl.started){pl.fixate.next=G.T+4;if(pl.hand.length<6){pl.hand.push({uid:uid++,key:pl.fixate.key,zero:true});log(`固定化：「${CARDS[pl.fixate.key].name}」（コスト0）を手札に加えた`,me);}}
+  pl.awakeUsed=false;
+  for(const[r,c,q]of piecesOf(opp(me))){if(q.poop&&q.poop.by===me&&q.poop.at<=G.T){delete q.poop;log(`${isHidden(q,r,c)?'？':pname(q)}（${nota(r,c)}）はうんちで倒れた`,me);killPiece(r,c,'poop',me);if(G.over)return;}}
+  if(pl.awake&&G.T>=pl.awake.next){
+    const cand=piecesOf(me).filter(x=>x[2].t!=='K').sort((a,b)=>val(a[2])-val(b[2]));
+    if(!cand.length){log('犠牲にする駒がなく、BEAST KINGは力尽きた',me,true);gameOver(opp(me));return;}
+    const[sr,sc,sp]=cand[0];G.board[sr][sc]=null;fx(sr,sc,'犠牲','kill');log(`BEAST KINGの代償：${pname(sp)}（${nota(sr,sc)}）を犠牲にした`,me);pl.awake.next=G.T+4;
+  }
+  if(pl.magician&&!findById(pl.magician.pid))magicianEnd(me);
+  if(pl.magician&&G.T>=pl.magician.next){pl.magician.ready=true;if(SIM||(G.mode!=='online'&&me!==ME)){if(magicianOutside(me))magicianCast(me);}else log(`魔術師の「${CARDS[pl.magician.card.key].name}」がこの番に使える${magicianOutside(me)?'':'（魔術師の駒を自分の魔法防御の外に出すと使える）'}`,me);}
+  if(G.T>=11){const q=G.board[CENTER[0]][CENTER[1]];if(q&&q.c===me&&(G.T>=25||G.T>=(pl.centerNext||0))){pl.energy=Math.min(10,pl.energy+1);pl.centerNext=G.T+4;fx(CENTER[0],CENTER[1],'中央+1','res');log(`中央（${nota(...CENTER)}）を押さえているので${who(me)}はエネルギー+1${G.T>=25?'':'（次は2ターン後から）'}`,me);}}
+  G.main=true;G.sel=null;G.pending=null;G.shootMode=false;G.forceEnd=false;G.neonFrom=null;
   render();
   if(me==='g'&&!SIM&&G.mode!=='online')setTimeout(botTurn,700);
 }
 function endTurn(){
   const me=G.turn,pl=G.players[me];
   const cands=pl.hand.filter(c=>!c.held);
+  if(pl.awake&&cands.length){
+    if(me===ME&&!SIM){openBeastHold(cands);return;}
+    const k=[...cands].sort((a,b)=>(CARDS[b.key].cat==='awk')-(CARDS[a.key].cat==='awk')||CARDS[b.key].cost-CARDS[a.key].cost)[0];
+    k.held=true;finishEnd(null);return;
+  }
   if(pl.keeper&&cands.length){
     if(me===ME&&!SIM){openKeep(cands);return;}
     const k=[...cands].sort((a,b)=>CARDS[b.key].cost-CARDS[a.key].cost)[0];
@@ -532,6 +620,8 @@ function endTurn(){
 function finishEnd(keepUid){
   const me=G.turn,pl=G.players[me];
   G.modal=false;pl.discount=0;
+  if(pl.awake){const k=findKing(me);if(k)for(const[r,c,q]of piecesOf(opp(me))){if(cheb(r,c,k[0],k[1])<=1&&isLocked(q)){log(`王の周りで熟睡していた${pname(q)}（${nota(r,c)}）が倒れた`,me);killPiece(r,c,'sleep',me);if(G.over){render();return;}}}}
+  if(pl.magician&&pl.magician.ready){if(!SIM&&!(G.mode!=='online'&&me!==ME))log(`魔術師の「${CARDS[pl.magician.card.key].name}」は使われずに不発`,me);magicianFinish(me);}
   for(const[r,c,p]of piecesOf(me)){
     if(p.burn&&p.burn.dl<=G.T){log(`${pname(p)}（${nota(r,c)}）は動かなかったため延焼で倒れた`,opp(me));killPiece(r,c,'fire',opp(me),p.burn.by);if(G.over){render();return;}}
   }
@@ -540,10 +630,19 @@ function finishEnd(keepUid){
   }
   const out=pl.hand.filter(c=>!c.held&&c.uid!==keepUid);
   pl.hand=pl.hand.filter(c=>c.held||c.uid===keepUid);
-  if(out.length){out.forEach(c=>pl.discard.push(c));log(`使わなかった${out.length}枚を捨て札へ`,me);}
+  if(out.length){out.forEach(c=>{if(c.zero)return;if(pl.awake&&CARDS[c.key].cat!=='awk')pl.exhaust.push(c);else pl.discard.push(c);});log(`使わなかった${out.length}枚を捨て札へ`,me);}
   const kept=pl.hand.find(c=>c.uid===keepUid);
   if(kept)log(me===ME&&!isOnline()?`「${CARDS[kept.key].name}」を次のターンへ持ち越した`:`${who(me)}は1枚を次のターンへ持ち越した`,me);
   G.sel=null;G.pending=null;G.shootMode=false;G.turn=opp(G.turn);startTurn();
+}
+function openBeastHold(cands){
+  G.modal=true;
+  openModal(`<h3>BEAST KING：保留するカードを1枚選ぶ</h3><p>選んだカードは保留になり、使うまで手札に残ります（BEAST KINGの間は毎ターン1枚選べます）。残りは捨て札へ行きます。</p>
+    <div class="grid-cards">${cands.map(c=>cardHTML(c.key,c.uid,'',ME)).join('')}</div>
+    <div class="modal-actions"><button class="btn" data-none type="button">保留しない</button></div>`,root=>{
+    root.querySelectorAll('.grid-cards .card').forEach(el=>el.addEventListener('click',()=>{const c=cands.find(x=>x.uid===+el.dataset.uid);if(c)c.held=true;closeModal();log(`「${CARDS[c.key].name}」を保留にした`,G.turn);finishEnd(null);}));
+    root.querySelector('[data-none]').addEventListener('click',()=>{closeModal();finishEnd(null);});
+  });
 }
 function openKeep(cands){
   G.modal=true;
@@ -583,10 +682,11 @@ function genMoves(r,c,f){
 }
 function movesFor(r,c){
   const p=G.board[r][c];
-  if(!p||p.c!==G.turn||isLocked(p))return [];
+  if(!p||p.c!==G.turn||isLocked(p)||(isStunned(p)&&aiming(p)))return [];
   const mv=rawMoves(r,c);
-  if(G.main||ribExtra(p))return mv;
-  return hasteReady(p)?mv.filter(m=>!m.cap):[];
+  const noCap=list=>list.filter(m=>!m.cap||isHidden(G.board[m.r][m.c],m.r,m.c)).map(m=>m.cap?Object.assign({},m,{cap:false,bounce:true}):m);
+  if(G.main||ribExtra(p))return isStunned(p)?noCap(mv):mv;
+  return (hasteReady(p)||kingExtra(p))?noCap(mv):[];
 }
 function shootTargets(r,c){
   const p=G.board[r][c],out=[];
@@ -603,14 +703,23 @@ function attackedBy(r,c,by){
 }
 function died(p,r,c,cause,killer,by){
   if(p.b.rib&&cause!=='rib'){ribReturn(p);return false;}
-  if(cause!=='capture')fx(r,c,{poison:'毒で倒れた',atomic:'消滅',thunder:'爆撃',shot:'狙撃',burn:'爆撃跡',rib:'帰還失敗',fire:'延焼',bolt:'弩'}[cause]||'消滅','kill');
+  if(p.b.magician&&G.players[p.c].magician&&G.players[p.c].magician.pid===p.id)magicianEnd(p.c);
+  if(cause!=='capture')fx(r,c,{poop:'うんち',sleep:'熟睡',poison:'毒で倒れた',atomic:'消滅',bomb:'爆発',thunder:'爆撃',shot:'狙撃',burn:'爆撃跡',rib:'帰還失敗',fire:'延焼',bolt:'弩'}[cause]||'消滅','kill');
+  if(cause==='bomb'&&killer===p.c&&by&&by!==p&&p.t==='P'&&p.b.insure&&p.b.insure.until>=G.T){const pl=G.players[p.c];pl.energy=Math.min(10,pl.energy+3);fx(r,c,'保険+3','res');log(`自爆に巻き込まれた歩の保険：${who(p.c)}はエネルギー+3`,p.c);}
   if(p.b.insure&&p.b.insure.until>G.T&&killer&&killer!==p.c){const pl=G.players[p.c];pl.energy=Math.min(10,pl.energy+3);log(`保険が発動。${who(p.c)}はエネルギー+3`,p.c);}
-  if(killer&&killer!==p.c&&p.t!=='K'){const bonus=p.t==='P'&&!p.pro?0:(p.pro||'BR'.includes(p.t))?2:1;if(bonus){const kp=G.players[killer];kp.energy=Math.min(10,kp.energy+bonus);log(`撃破ボーナス：${who(killer)}はエネルギー+${bonus}`,killer);}}
+  if(killer&&killer!==p.c&&p.t!=='K'){const kg=G.players[killer].golden;const bonus=(p.t==='P'&&!p.pro?0:(p.pro||'BR'.includes(p.t))?2:1)+(kg&&kg.until>G.T?1:0);if(bonus){const kp=G.players[killer];kp.energy=Math.min(10,kp.energy+bonus);log(`撃破ボーナス：${who(killer)}はエネルギー+${bonus}`,killer);}}
+  if(p.bounty&&killer===p.bounty.by&&G.T>=p.bounty.from&&G.T<p.bounty.until){const kp=G.players[killer];kp.energy=Math.min(10,kp.energy+3);fx(r,c,'懸賞+3','res');log(`懸賞成功：${who(killer)}はエネルギー+3`,killer);}
+  if(p.bounty&&p.bounty.here&&killer===p.bounty.by&&G.T>=p.bounty.from&&G.T<p.bounty.until){draw(killer,1);const kp=G.players[killer];if(kp.hand.length<6)kp.hand.push({uid:uid++,key:'poop'});log(`ここだよ：${who(killer)}はカードを1枚引き、ブッチッパを手札に加えた`,killer);}
+  if(cause==='poison'&&killer&&killer!==p.c){const kp=G.players[killer];if(kp.venomgift&&kp.venomgift.until>G.T){kp.energy=Math.min(10,kp.energy+1);draw(killer,1);log(`瘴気の恵み：${who(killer)}はエネルギー+1、カードを1枚引いた`,killer);}}
+  if(by&&by.b.iso&&by.b.iso.win>G.T&&killer&&killer!==p.c&&by.c===killer){by.b.iso={until:G.T+2,win:G.T+4,charge:1};log(`${pname(by)}のアイソアーマーが復活した`,killer);}
   if(by&&by.b.plunder&&killer&&killer!==p.c&&by.c===killer){const kp=G.players[killer];kp.energy=Math.min(10,kp.energy+1);fx(r,c,'略奪+1','res');log(`略奪：${who(killer)}はエネルギー+1`,killer);}
   if(p.t==='K'){ if(G.blast)G.blast.push(p.c); else gameOver(opp(p.c)); }
   return true;
 }
-function killPiece(r,c,cause,killer,by){const p=G.board[r][c];if(!p)return false;G.board[r][c]=null;return died(p,r,c,cause,killer,by);}
+function killPiece(r,c,cause,killer,by){const p=G.board[r][c];if(!p)return false;
+  if(isoOn(p)){p.b.iso.charge=0;p.poison=null;delete p.burn;delete p.poop;fx(r,c,'アーマー','enh');log(`${pname(p)}（${nota(r,c)}）がアイソアーマーで耐えた`,p.c);return false;}
+  if(p.t==='K'&&G.players[p.c].lives>0){G.players[p.c].lives--;p.poison=null;delete p.burn;delete p.poop;fx(r,c,'残機-1','res');log(`${pname(p)}は残機で耐えた（残り${G.players[p.c].lives}）`,p.c);return false;}
+ G.board[r][c]=null;return died(p,r,c,cause,killer,by);}
 function ribReturn(p){
   const[a0,a1]=p.b.rib.anchor;delete p.b.rib;
   if(!G.board[a0][a1]){G.board[a0][a1]=p;fx(a0,a1,'帰還','enh');log(`${pname(p)}がアンカー（${nota(a0,a1)}）へ戻った`,p.c);}
@@ -623,16 +732,25 @@ function checkBurn(r,c,path){
 }
 function doMove(fr,fc,tr,tc,face){
   const b=G.board,p=b[fr][fc],t=b[tr][tc];
+  if(t&&t.c!==p.c&&(isStunned(p)||(!G.main&&!ribExtra(p)))){
+    G.main=false;G.forceEnd=true;G.sel=null;G.shootMode=false;
+    fx(fr,fc,'移動無効','mag');log(`${mark(p.c)}${isHidden(p,fr,fc)?'？':pname(p)}は見えない駒にぶつかり移動できなかった。ターン終了`,p.c);
+    render();return;
+  }
+  if(t&&t.c!==p.c&&isoOn(t)){t.b.iso.charge=0;G.main=false;G.sel=null;G.shootMode=false;fx(tr,tc,'アーマー','enh');log(`${pname(t)}（${nota(tr,tc)}）がアイソアーマーで攻撃を耐え、${pname(p)}は元のマスに戻った`,t.c);render();return;}
+  if(t&&t.c!==p.c&&t.t==='K'&&G.players[t.c].lives>0){G.players[t.c].lives--;G.main=false;G.sel=null;G.shootMode=false;fx(tr,tc,'残機-1','res');log(`${pname(t)}は残機で攻撃を耐え、${pname(p)}は元のマスに戻った（残り${G.players[t.c].lives}）`,t.c);render();return;}
   const mv=rawMoves(fr,fc).find(m=>m.r===tr&&m.c===tc);
   const hid=isHidden(p,fr,fc);
   let tag='';
   if(ribExtra(p)){p.b.rib.used=true;tag='〔アンカー移動〕';}
   else if(!t&&hasteReady(p)){delete p.b.haste;tag='〔疾風〕';}
+  else if(!t&&!G.main&&kingExtra(p)){G.players[p.c].awakeUsed=true;tag='〔子守唄〕';}
   else G.main=false;
   G.sel=null;G.shootMode=false;
   if(p.burn){delete p.burn;fx(fr,fc,'延焼回避','enh');}
   if(p.petri)delete p.petri;
   if(p.b.xbow&&p.b.xbow.ch!=null){p.b.xbow.ch=null;log(`${pname(p)}が動いたので弩の溜めが消えた`,p.c);}
+  if(p.b.op)p.b.op.ready=Math.max(p.b.op.ready,G.T+4);
   const pn=hid?'？':pname(p), tn=t?pname(t):'';
   b[fr][fc]=null;b[tr][tc]=p;
   if(t){ died(t,tr,tc,'capture',p.c,p); }
@@ -643,7 +761,14 @@ function doMove(fr,fc,tr,tc,face){
   if(G.over){render();return;}
   if(hasFacing(p)){const nf=face||(p.c==='g'?bestFace(p,tr,tc):null);if(nf)p.face=nf;}
   G.faceSel=null;
-  if(p.b.blade){for(const[rr,cc]of faceCells(p.c,p.face||'f',tr,tc,2)){const q=b[rr][cc];if(q&&q.c!==p.c)poisonPiece(rr,cc,'毒刃',p);}}
+  if(armed(p.b.blade)){
+    if(p.b.blade.empty){p.b.blade.empty=false;fx(tr,tc,'刃 装填','enh');}
+    else{for(const[rr,cc]of faceCells(p.c,p.face||'f',tr,tc,2)){const q=b[rr][cc];if(q){if(q.c!==p.c){poisonPiece(rr,cc,'毒刃',p);p.b.blade.empty=true;}break;}}}
+  }
+  if(b[tr][tc]===p&&neonLoaded(p)&&neonCell(p,tr,tc)){
+    if(p.c!==ME||SIM||(G.mode!=='online'&&p.c!==ME)){const nc=neonCell(p,tr,tc);const q=b[nc[0]][nc[1]];if(q&&q.c!==p.c)throwNeon(p.id);}
+    else G.neonFrom=p.id;
+  }
   if(mv&&b[tr][tc]===p&&mv.path.some(([r,c])=>fieldsAt('swamp',r,c).some(f=>f.owner!==p.c)))poisonPiece(tr,tc,'毒沼');
   if(mv&&b[tr][tc]===p)checkBurn(tr,tc,mv.path);
   if(b[tr][tc]===p)snakeCheck(tr,tc);
@@ -651,7 +776,7 @@ function doMove(fr,fc,tr,tc,face){
 }
 function shoot(fr,fc,tr,tc){
   const p=G.board[fr][fc],t=G.board[tr][tc];
-  G.main=false;p.b.op.ready=G.T+6;G.sel=null;G.shootMode=false;
+  G.main=false;p.b.op.ready=G.T+10;G.players[p.c].energy-=1;G.sel=null;G.shootMode=false;
   log(`${mark(p.c)}${isHidden(p,fr,fc)?'？':pname(p)}（${nota(fr,fc)}）が狙撃、${pname(t)}（${nota(tr,tc)}）を破壊`,p.c);
   G.last={fr,fc,tr,tc};
   killPiece(tr,tc,'shot',p.c,p);
@@ -669,12 +794,24 @@ function bestFace(p,r,c){
   let best=p.face||'f',bv=-1;
   for(const f of['f','l','r']){let v=0;
     if(p.b.xbow){const ts=lineFirst(r,c,[faceVec(p.c,f)],3).filter(x=>x[2].c!==p.c);if(ts.length)v+=ts[0][2].t==='K'?10:val(ts[0][2]);}
-    for(const[rr,cc]of faceCells(p.c,f,r,c,2)){const q=G.board[rr][cc];if(q&&q.c!==p.c)v+=p.b.blade?Math.min(val(q),10):0.5;else if(!q&&p.b.snake)v+=0.3;}
+    for(const[rr,cc]of faceCells(p.c,f,r,c,2)){const q=G.board[rr][cc];if(q&&q.c!==p.c){v+=p.b.blade?Math.min(val(q),10):0.5;if(p.b.blade)break;}else if(q)break;else if(!q&&p.b.snake)v+=0.3;}
     if(f==='f')v+=0.1;
     if(v>bv){bv=v;best=f;}}
   return best;
 }
-function modeTargets(mode,r,c){return mode==='op'?shootTargets(r,c):mode==='arrow'?arrowTargets(r,c):mode==='xbow'?xbowTargets(r,c):[];}
+function marshalTargets(r,c){const p=G.board[r][c];return lineFirst(r,c,DIAG,7).filter(x=>x[2].c!==p.c).map(x=>[x[0],x[1]]);}
+function modeTargets(mode,r,c){return mode==='op'?shootTargets(r,c):mode==='arrow'?arrowTargets(r,c):mode==='xbow'?xbowTargets(r,c):mode==='marshal'?marshalTargets(r,c):[];}
+function fireMarshal(fr,fc,tr,tc){
+  const p=G.board[fr][fc];G.main=false;p.b.marshal.ready=G.T+4;G.sel=null;G.shootMode=false;
+  log(`${mark(p.c)}${isHidden(p,fr,fc)?'？':pname(p)}（${nota(fr,fc)}）がマーシャルで撃った`,p.c);G.last={fr,fc,tr,tc};
+  poisonPiece(tr,tc,'マーシャル',p);render();
+}
+function throwNeon(id){
+  const f=findById(id);if(!f)return;const[r,c,p]=f;if(!neonLoaded(p))return;const nc=neonCell(p,r,c);if(!nc)return;
+  p.b.neon.ready=G.T+4;G.neonFrom=null;
+  G.fields.push({type:'neon',owner:p.c,cells:[nc],at:G.T+2,until:G.T+3});
+  fx(nc[0],nc[1],'雷 予告','mag');log(`${mark(p.c)}${isHidden(p,r,c)?'？':pname(p)}が${nota(...nc)}へ雷を投げた（1ターン後に着弾）`,p.c);render();
+}
 function burnPiece(r,c,src,by){
   const p=G.board[r][c];if(!p||ward(p))return;
   p.burn={dl:G.T+1,by};fx(r,c,'延焼','kill');
@@ -688,7 +825,7 @@ function petrify(r,c,src){
 }
 function snakeCheck(r,c){
   const q=G.board[r][c];if(!q)return;
-  for(const[sr,sc,s]of piecesOf(opp(q.c))){if(s.b.snake&&has(faceCells(s.c,s.face||'f',sr,sc,2),r,c))petrify(r,c,'蛇の目');}
+  for(const[sr,sc,s]of piecesOf(opp(q.c))){if(armed(s.b.snake)&&has(faceCells(s.c,s.face||'f',sr,sc,2),r,c))petrify(r,c,'蛇の目');}
 }
 function fireArrow(fr,fc,tr,tc){
   const p=G.board[fr][fc];G.main=false;p.b.arrow.ready=G.T+4;G.sel=null;G.shootMode=false;
@@ -706,16 +843,16 @@ function fireXbow(fr,fc,tr,tc){
 }
 function poisonPiece(r,c,src,by){
   const p=G.board[r][c];if(!p||ward(p))return;
-  if(inOwnPit(p,r,c)){p.poison={at:(p.poison&&p.poison.until>G.T)?p.poison.at:G.T,until:G.T+8};return;}
+  if(inOwnPit(p,r,c)){p.poison={at:(p.poison&&p.poison.until>G.T)?p.poison.at:G.T,until:G.T+6};return;}
   if(p.poison&&p.poison.until>G.T){
     if(p.poison.at!==G.T){log(`${isHidden(p,r,c)?'？':pname(p)}（${nota(r,c)}）は${src}で2度目の毒を受けて倒れた`,opp(p.c));killPiece(r,c,'poison',opp(p.c),by);}
-  }else{p.poison={at:G.T,until:G.T+8};fx(r,c,'毒','poi');log(`${isHidden(p,r,c)?'？':pname(p)}（${nota(r,c)}）が${src}で毒を受けた`,opp(p.c));}
+  }else{p.poison={at:G.T,until:G.T+6};fx(r,c,'毒','poi');log(`${isHidden(p,r,c)?'？':pname(p)}（${nota(r,c)}）が${src}で毒を受けた`,opp(p.c));}
 }
 function atomicBlast(r,c,rad){
   const me=G.board[r][c];
   log(`${mark(me.c)}${rad===2?'アトミック起動':'自爆'}（${nota(r,c)}中心の${rad*2+1}×${rad*2+1}）`,me.c);
   G.blast=[];
-  for(let rr=r-rad;rr<=r+rad;rr++)for(let cc=c-rad;cc<=c+rad;cc++){if(!inB(rr,cc))continue;const q=G.board[rr][cc];if(q)killPiece(rr,cc,'atomic',me.c,me);}
+  for(let rr=r-rad;rr<=r+rad;rr++)for(let cc=c-rad;cc<=c+rad;cc++){if(!inB(rr,cc))continue;const q=G.board[rr][cc];if(q)killPiece(rr,cc,rad===1?'bomb':'atomic',me.c,me);}
   const lost=G.blast;G.blast=null;
   if(lost.length>=2)gameOver('draw');else if(lost.length===1)gameOver(opp(lost[0]));
 }
@@ -726,12 +863,19 @@ function validTargets(key,first,col){
   const xy=a=>a.map(([r,c])=>[r,c]);
   switch(d.target){
     case 'none':return [];
-    case 'own':return xy(mine);
-    case 'ownNoKing':return xy(mine.filter(x=>x[2].t!=='K'));
-    case 'ownPawn':return xy(mine.filter(x=>x[2].t==='P'&&!x[2].pro));
+    case 'own':return xy(mine.filter(x=>!(MOVE_BUFFS.includes(key)&&x[2].b.atomic)));
+    case 'ownNoKing':return xy(mine.filter(x=>x[2].t!=='K'&&!(MOVE_BUFFS.includes(key)&&x[2].b.atomic)));
+    case 'ownPawn':return xy(mine.filter(x=>x[2].t==='P'&&!x[2].pro&&!(key==='atomic'&&MOVE_BUFFS.some(k=>x[2].b[k]))));
+    case 'ownRoll':return xy(mine.filter(([r,c])=>areaCells('roll',me,r,c).length>0));
     case 'enemyNear3':return xy(piecesOf(op).filter(([r,c,p])=>!isProtected(me,r,c)&&mine.some(([r2,c2])=>cheb(r,c,r2,c2)<=3)&&!ward(p)&&!p.petri&&!isLocked(p)&&!(p.petImm&&p.petImm>G.T)));
+    case 'poopLine':return poopTargets(me);
+    case 'enemyBounty':return xy(piecesOf(op).filter(([r,c,p])=>p.t!=='K'&&!p.bounty&&!ward(p)&&!isProtected(me,r,c)));
+    case 'enemyPoisoned':return xy(piecesOf(op).filter(([r,c,p])=>p.poison&&p.poison.until>G.T&&!isProtected(me,r,c)&&!ward(p)));
     case 'summonSq':{const o=[];for(let r=0;r<N;r++)for(let c=0;c<N;c++){if(G.board[r][c])continue;if(campRowProtected(me,r)||mine.some(([r2,c2,p])=>p.b.barrier&&cheb(r,c,r2,c2)<=1))o.push([r,c]);}return o;}
-    case 'area':case 'thunder':{const o=[];for(let r=0;r<N;r++)for(let c=0;c<N;c++)if(!isProtected(me,r,c))o.push([r,c]);return o;}
+    case 'thunder':{
+      if(!first){const o=[];for(let r=0;r<N;r++)for(let c=0;c<N;c++)if(!isProtected(me,r,c))o.push([r,c]);return o;}
+      const o=[];for(let r=0;r<N;r++)for(let c=0;c<N;c++)if(rectOk(first,[r,c])&&thunderCells(me,first,[r,c]).length)o.push([r,c]);return o;}
+    case 'area':{const o=[];for(let r=0;r<N;r++)for(let c=0;c<N;c++)if(!isProtected(me,r,c))o.push([r,c]);return o;}
     case 'enemyBuffed':return xy(piecesOf(op).filter(([r,c,p])=>Object.keys(p.b).length&&!ward(p)&&!isHidden(p,r,c)&&!isProtected(me,r,c,true)));
     case 'warp':{
       if(!first)return xy(mine);
@@ -742,30 +886,35 @@ function validTargets(key,first,col){
 }
 function canPlay(card,col){
   col=col||G.turn;const d=CARDS[card.key],pl=G.players[col];
-  if(pl.energy<costOf(card.key,col))return false;
+  if(pl.energy<(card.zero?0:costOf(card.key,col)))return false;
+  if(card.key==='fixate')return !pl.fixate&&fixateKeys(col,card).length>0;
   if(card.key==='search')return pl.draw.length>0;
   if(card.key==='keeper')return !pl.keeper;
+  if(card.key==='awaken')return !pl.awake&&!!findKing(col);
+  if(card.key==='swarm')return swarmKeys(col,card).length>0;
+  if(card.key==='magician')return !pl.magician&&magicianCands(col,card).length>0&&validTargets('magician',null,col).length>0;
   if(card.key==='barracks')return !pl.barracks;
   if(card.key==='breaker')return G.campManual[opp(col)]>0&&campLevel(opp(col))>0;
   return d.target==='none'||validTargets(card.key,null,col).length>0;
 }
 function playCard(card,t,opts){
   opts=opts||{};
-  const me=G.turn,pl=G.players[me],d=CARDS[card.key],b=G.board,cost=opts.free?0:costOf(card.key,me);
-  pl.energy-=cost;if(card.key!=='combo'&&!opts.free)pl.discount=0;
-  if(opts.virtual){pl.barracks.next=G.T+6;}else{pl.hand=pl.hand.filter(x=>x.uid!==card.uid);card.held=false;if(d.exhaust)pl.exhaust.push(card);else pl.discard.push(card);}
+  const me=G.turn,pl=G.players[me],d=CARDS[card.key],b=G.board,cost=opts.free||card.zero?0:costOf(card.key,me);
+  pl.energy-=cost;if(card.key!=='combo'&&!opts.free&&!card.zero)pl.discount=0;
+  if(!opts.auto&&!opts.virtual){pl.used=pl.used||{};pl.used[card.key]=true;}
+  if(opts.auto){}else if(opts.virtual){pl.barracks.next=G.T+6;}else{pl.hand=pl.hand.filter(x=>x.uid!==card.uid);card.held=false;if(card.zero){}else if(d.exhaust||(pl.awake&&d.cat!=='awk'))pl.exhaust.push(card);else pl.discard.push(card);}
   G.pending=null;G.sel=null;G.shootMode=false;
   const P=t&&!Array.isArray(t[0])?b[t[0]][t[1]]:null;
   let note='';
   const at=()=>`${pname(P)}（${nota(t[0],t[1])}）`;
   switch(card.key){
     case 'haste':P.b.haste={ready:G.T+2};fx(t[0],t[1],'疾風','enh');note=at();break;
-    case 'ward':P.b.ward={until:G.T+6};P.poison=null;delete P.burn;delete P.petri;fx(t[0],t[1],'加護','enh');note=at();break;
-    case 'blade':P.b.blade=true;P.face=P.face||'f';fx(t[0],t[1],'毒刃','enh');note=at();break;
-    case 'operator':P.b.op={ready:G.T};fx(t[0],t[1],'狙撃銃','enh');note=at();break;
+    case 'ward':P.b.ward={until:G.T+6};P.poison=null;delete P.burn;delete P.petri;delete P.poop;fx(t[0],t[1],'加護','enh');note=at();break;
+    case 'blade':P.b.blade={at:G.T+2};P.face=P.face||'f';fx(t[0],t[1],'毒刃','enh');note=at();break;
+    case 'operator':P.b.op={ready:G.T+4};fx(t[0],t[1],'狙撃銃','enh');note=at();break;
     case 'rib':P.b.rib={anchor:[t[0],t[1]],extraAt:G.T+2,used:false,until:G.T+6};fx(t[0],t[1],'アンカー','enh');note=at();break;
     case 'atomic':P.b.atomic={at:G.T+8};fx(t[0],t[1],'アトミック','kill');note=at();break;
-    case 'pit':{const cells=pitCells(me,t[0],t[1]);G.fields.push({type:'pit',owner:me,cells,carrier:P.id,until:1e9});P.b.pit=true;fx(t[0],t[1],'毒領域','poi');note=at();break;}
+    case 'pit':{const cells=pitCells(me,t[0],t[1]);G.fields.push({type:'pit',owner:me,cells,carrier:P.id,until:1e9,from:G.T+2});P.b.pit=true;fx(t[0],t[1],'毒領域','poi');note=at();break;}
     case 'barrier':P.b.barrier={until:G.T+12};fx(t[0],t[1],'魔法障壁','mag');note=at();break;
     case 'rewind':P.b.rewind={until:G.T+6};fx(t[0],t[1],'逆行','enh');note=at();break;
     case 'leg':P.b.leg={until:G.T+4};fx(t[0],t[1],'桂脚','enh');note=at();break;
@@ -774,34 +923,57 @@ function playCard(card,t,opts){
     case 'insight':draw(me,2);break;
     case 'barracks':pl.barracks={next:G.T};note='3ターンごとに駒強化を付与できるようになった';break;
     case 'combo':pl.discount=2;note='次に使うカードのコスト-2';break;
-    case 'arrow':P.b.arrow={ready:G.T};fx(t[0],t[1],'火矢','enh');note=at();break;
-    case 'xbow':P.b.xbow={ch:null};P.face=P.face||'f';fx(t[0],t[1],'弩','enh');note=at();break;
-    case 'snake':P.b.snake=true;P.face=P.face||'f';fx(t[0],t[1],'蛇の目','enh');note=at();break;
+    case 'arrow':P.b.arrow={ready:G.T+2};fx(t[0],t[1],'火矢','enh');note=at();break;
+    case 'xbow':P.b.xbow={ch:null,arm:G.T+2};P.face=P.face||'f';fx(t[0],t[1],'弩','enh');note=at();break;
+    case 'neon':P.b.neon={ready:G.T+2};fx(t[0],t[1],'ネオン','enh');note=at();break;
+    case 'marshal':P.b.marshal={ready:G.T+2};fx(t[0],t[1],'マーシャル','enh');note=at();break;
+    case 'snake':P.b.snake={at:G.T+2};P.face=P.face||'f';fx(t[0],t[1],'蛇の目','enh');note=at();break;
     case 'petri':note=at();petrify(t[0],t[1],'石化の眼');break;
     case 'keeper':pl.keeper=true;note='毎ターン1枚持ち越せるようになった';break;
-    case 'offering':note=at();b[t[0]][t[1]]=null;fx(t[0],t[1],'供物','res');pl.energy=Math.min(10,pl.energy+1);break;
-    case 'bomb':P.b.bomb={at:G.T+6};fx(t[0],t[1],'自爆まで3','kill');note=at();break;
+    case 'offering':{note=at();const pw=b[t[0]][t[1]];const ins=pw&&pw.b.insure&&pw.b.insure.until>=G.T;b[t[0]][t[1]]=null;fx(t[0],t[1],ins?'供物+3':'供物','res');pl.energy=Math.min(10,pl.energy+(ins?3:1));if(ins)note+='（保険+2）';}break;
+    case 'bomb':P.b.bomb={at:G.T+4};fx(t[0],t[1],'自爆まで2','kill');note=at();break;
+    case 'iso':P.b.iso={until:G.T+2,win:G.T+4,charge:1};fx(t[0],t[1],'アーマー','enh');note=at();break;
     case 'plunder':P.b.plunder=true;fx(t[0],t[1],'略奪','res');note=at();break;
-    case 'summon':b[t[0]][t[1]]=mkPiece('P',me);fx(t[0],t[1],'徴兵','mag');note=nota(t[0],t[1]);break;
+    case 'summon':{const sq=Array.isArray(t[0])?t:[t];const done=[];for(const[r0,c0]of sq.slice(0,2)){if(!b[r0][c0]&&!has(done,r0,c0)){b[r0][c0]=mkPiece('P',me);fx(r0,c0,'徴兵','mag');done.push([r0,c0]);}}note=done.map(x=>nota(...x)).join('・');break;}
     case 'search':break;
-    case 'cloud':G.fields.push({type:'cloud',owner:me,until:G.T+6});break;
+    case 'cloud':G.fields.push({type:'cloud',owner:me,until:G.T+8});break;
+    case 'golden':pl.golden={until:G.T+6};note='3ターンの間、撃破ボーナス+1';break;
+    case 'catalyst':{let n=0;for(const[r,c,q]of piecesOf(opp(me))){if(q.poison&&q.poison.until>G.T&&!isProtected(me,r,c)){q.poison.until+=4;n++;fx(r,c,'毒延長','poi');}}note=`${n}体の毒を2ターン延長`;break;}
+    case 'awaken':{pl.awake={next:G.T+4};pl.lives=1;pl.draw=shuffle(AWAKE_DECK.map(k=>({uid:uid++,key:k})));pl.discard=[];const k=findKing(me);if(k)fx(k[0],k[1],'覚醒','kill');note='王が覚醒した。デッキが専用デッキに変わった';try{localStorage.setItem('shogi7_awake','1');}catch(e){}break;}
+    case 'poop':{P.poop={by:me,at:G.T+2};fx(t[0],t[1],'うんち','kill');note=at();break;}
+    case 'peek':{pl.peek={until:G.T+1};const nx=pl.draw[pl.draw.length-1];note=nx?`次に引くのは「${CARDS[nx.key].name}」`:'山札が空（次はシャッフル）';break;}
+    case 'roar':{const k=findKing(me);let n=0;if(k)for(let rr=k[0]-2;rr<=k[0]+2;rr++)for(let cc=k[1]-2;cc<=k[1]+2;cc++){if(!inB(rr,cc))continue;const q=b[rr][cc];if(q&&q!==k[2]){stunFor(q,2);fx(rr,cc,'スタン2','mag');n++;}}G.main=false;G.forceEnd=true;note=`${n}体をスタン。ターン終了`;if(!SIM&&!isBotC(me))setTimeout(()=>{if(G.forceEnd&&G.turn===me&&!G.over)endTurn();},800);break;}
+    case 'mist':{const cells=areaCells('mist',me,t[0],t[1]);let n=0;for(const[rr,cc]of cells){const q=b[rr][cc];if(q&&q.c!==me&&!ward(q)){q.b.lock={until:G.T+2};fx(rr,cc,'熟睡','mag');n++;}}note=`${n}体を熟睡させた`;break;}
+    case 'lifeup':pl.lives=(pl.lives||0)+1;note=`残機${pl.lives}`;break;
+    case 'here':P.bounty={by:me,from:G.T+2,until:G.T+3,here:true};fx(t[0],t[1],'ここだよ','res');note=at();break;
+    case 'bounty':P.bounty={by:me,from:G.T+2,until:G.T+3};fx(t[0],t[1],'懸賞','res');note=at();break;
+    case 'swarm':break;
+    case 'fixate':break;
+    case 'venomgift':pl.venomgift={until:G.T+6};note='3ターンの間、毒で倒すとエネルギーとカード';break;
+    case 'infect':{note=at();let n=0;for(let rr=t[0]-1;rr<=t[0]+1;rr++)for(let cc=t[1]-1;cc<=t[1]+1;cc++){if(!inB(rr,cc)||(rr===t[0]&&cc===t[1]))continue;const q=b[rr][cc];if(q&&q.c!==me&&!isProtected(me,rr,cc)){poisonPiece(rr,cc,'感染');n++;}}note+=`の周り${n}体に感染`;break;}
+    case 'erode':note=at();stunFor(P,1);fx(t[0],t[1],'スタン','mag');break;
+    case 'magician':note=at();P.b.magician=true;fx(t[0],t[1],'魔術師','mag');break;
+    case 'roll':{const cells=areaCells('roll',me,t[0],t[1]);G.fields.push({type:'roll',owner:me,cells,at:G.T+2,until:G.T+3});note=`${nota(t[0],t[1])}の前方を予告`;break;}
     case 'breaker':{const o=opp(me);G.campManual[o]=Math.max(0,Math.min(G.campManual[o],campLevel(o))-1);note=`${who(o)}の敵陣の魔法防御が残り${campLevel(o)}段`;break;}
     case 'seize':case 'swamp':case 'smoke':{
-      const cells=areaCells(card.key,me,t[0],t[1]);G.fields.push({type:card.key,owner:me,cells,until:G.T+4});note=`${nota(t[0],t[1])}を中心に`;break;}
+      const cells=areaCells(card.key,me,t[0],t[1]);G.fields.push({type:card.key,owner:me,cells,until:G.T+(card.key==='smoke'?8:4)});note=`${nota(t[0],t[1])}を中心に`;break;}
     case 'thunder':{
-      const cells=areaCells('thunder',me,t[0],t[1]);
-      const cols=[...new Set(cells.map(x=>x[1]))].sort((a,z)=>me==='s'?z-a:a-z);
-      const stages=[{at:G.T+4,cols:cols.slice(0,2)},{at:G.T+6,cols:cols.slice(2,3)},{at:G.T+8,cols:cols.slice(3,5)}];
-      G.fields.push({type:'thunder',owner:me,cells,stages,until:G.T+9});note=`${nota(t[0],t[1])}周辺、2ターン後から着弾`;break;}
+      const[a,z]=t;const lines=rectLines(a,z).map(l=>l.filter(([r,c])=>!isProtected(me,r,c)));
+      const cells=lines.flat();
+      const stages=[{at:G.T+4,cells:[...lines[0],...lines[1]]},{at:G.T+6,cells:[...lines[2]]},{at:G.T+8,cells:[...lines[3],...lines[4]]}];
+      G.fields.push({type:'thunder',owner:me,cells,stages,until:G.T+9});note=`${nota(...a)}側から、2ターン後に着弾開始`;break;}
     case 'dispel':{const cells=areaCells('dispel',me,t[0],t[1]);let n=0;
-      for(const[r,c]of cells){const q=b[r][c];if(q&&q.c===me&&(q.poison||q.b.lock||q.burn||q.petri)){q.poison=null;delete q.b.lock;delete q.burn;delete q.petri;fx(r,c,'解呪','mag');n++;}}
+      for(const[r,c]of cells){const q=b[r][c];if(q&&q.c===me&&(q.poison||q.b.lock||q.burn||q.petri||q.bounty||q.poop)){q.poison=null;delete q.b.lock;delete q.burn;delete q.petri;delete q.bounty;delete q.poop;fx(r,c,'解呪','mag');n++;}}
       for(const f of G.fields)if((f.type==='seize'||f.type==='swamp')&&f.owner!==me){const before=f.cells.length;f.cells=f.cells.filter(x=>!has(cells,x[0],x[1]));n+=before-f.cells.length;}
       note=`${nota(t[0],t[1])}周辺（${n}件を解除）`;break;}
-    case 'warp':{const[a,z]=t;const q=b[a[0]][a[1]];b[z[0]][z[1]]=q;b[a[0]][a[1]]=null;if(canPromote(q)&&zone(q.c,z[0]))q.pro=true;q.b.lock={until:G.T+2};if(q.b.xbow)q.b.xbow.ch=null;fx(z[0],z[1],'転移','mag');
+    case 'warp':{const[a,z]=t;const q=b[a[0]][a[1]];b[z[0]][z[1]]=q;b[a[0]][a[1]]=null;if(canPromote(q)&&zone(q.c,z[0]))q.pro=true;q.b.lock={until:G.T+2};if(q.b.xbow)q.b.xbow.ch=null;if(q.b.op)q.b.op.ready=Math.max(q.b.op.ready,G.T+4);fx(z[0],z[1],'転移','mag');
       note=`${isHidden(q,z[0],z[1])?'？':pname(q)} ${nota(...a)}→${nota(...z)}`;checkBurn(z[0],z[1]);snakeCheck(z[0],z[1]);break;}
   }
   const hiddenNote=P&&d.cat!=='mag'&&G.board[t[0]]&&G.board[t[0]][t[1]]&&isHidden(P,t[0],t[1]);
-  log(`${who(me)}${opts.virtual?'の兵舎が':''}「${d.name}」${note&&!hiddenNote?'→ '+note:''}`,me);
+  log(`${who(me)}${opts.virtual?'の兵舎が':opts.swarm?'の多勢に無勢で':opts.auto?'の魔術師が':''}「${d.name}」${note&&!hiddenNote?'→ '+note:''}`,me);
+  if(card.key==='swarm'){if(me===ME&&!SIM)openSwarm(card);else swarmAuto(me);}
+  if(card.key==='fixate'){if(me===ME&&!SIM)openFixate(card);else{const ks=fixateKeys(me,card);const pref=['combo','insight','bounty','plunder','insure','ward','erode','leg','rewind','bomb'];ks.sort((a,b)=>pref.indexOf(a)-pref.indexOf(b));setFixate(me,ks[0]);}}
+  if(card.key==='magician'&&P){if(me===ME&&!SIM)openMagician(card,P.id);else{const c=magicianCands(me,card);if(c.length)setMagician(me,c.sort((x,y)=>MAGIC_PREF.indexOf(x.key)-MAGIC_PREF.indexOf(y.key))[0],P.id);}}
   if(card.key==='search'){
     if(me!==ME){const best=[...pl.draw].sort((a,b)=>CARDS[b.key].cost-CARDS[a.key].cost)[0];if(best){pl.draw=pl.draw.filter(x=>x!==best);best.held=true;pl.hand.push(best);log('botは山札からカードを1枚保留で手札に加えた','g');}}
     else if(!SIM)openSearch();
@@ -811,7 +983,101 @@ function playCard(card,t,opts){
 }
 
 /* ---------- input ---------- */
-function barracksCards(col){const pl=G.players[col];const keys=[...new Set([...pl.draw,...pl.hand,...pl.discard,...(pl.opener?[pl.opener]:[])].map(c=>c.key))];let v=-1;return keys.filter(k=>CARDS[k].cat==='enh'&&CARDS[k].cost<=3&&validTargets(k,null,col).length).map(k=>({uid:v--,key:k,virtual:true}));}
+const SWARM_KEYS=['ward','rewind','leg','bomb','plunder','insure'];
+function swarmKeys(col,except){const pl=G.players[col];const ks=new Set([...pl.draw,...pl.hand,...pl.discard,...(pl.opener?[pl.opener]:[])].filter(c=>!except||c.uid!==except.uid).map(c=>c.key));return SWARM_KEYS.filter(k=>ks.has(k)&&validTargets(k,null,col).length);}
+function fixateKeys(col,except){const pl=G.players[col];const ks=new Set([...pl.draw,...pl.hand,...pl.discard,...(pl.opener?[pl.opener]:[])].filter(c=>!c.zero&&(!except||c.uid!==except.uid)).map(c=>c.key));return [...ks].filter(k=>CARDS[k].cost===1);}
+function setFixate(col,key){G.players[col].fixate={key,next:G.T+2};log(`固定化：${who(col)}は2ターンに1回「${CARDS[key].name}」（コスト0）を手札に加える`,col);}
+function openFixate(card){
+  const keys=fixateKeys(ME,card);G.modal=true;
+  openModal(`<h3>固定化：毎回もらうカードを選ぶ</h3><p>デッキに入っている1コストのカードから選びます。2ターンに1回、そのコピーがコスト0で手札に入ります（使うと消えます。使わずにターンを終えても消えます）。</p>
+    <div class="grid-cards">${keys.map((k,i)=>cardHTML(k,-(i+1),'',ME)).join('')}</div>`,root=>{
+    root.querySelectorAll('.grid-cards .card').forEach(el=>el.addEventListener('click',()=>{const k=keys[-(+el.dataset.uid)-1];G.modal=false;closeModal();setFixate(ME,k);render();}));
+  });
+}
+function swarmApply(col,key,targets){
+  const vc={uid:-999,key};
+  for(const t of targets){const q=G.board[t[0]][t[1]];if(q&&q.c===col&&has(validTargets(key,null,col),t[0],t[1]))playCard(vc,t,{free:true,auto:true,swarm:true});if(G.over)return;}
+}
+function swarmAuto(col){
+  const op=opp(col);let best=null;
+  for(const k of swarmKeys(col)){
+    const sc=([r,c])=>{const p=G.board[r][c];const att=attackedBy(r,c,op);
+      if(k==='ward')return (p.poison||p.burn||p.petri?4:0)+(att?1:0)+(p.t==='K'?2:0);
+      if(k==='insure')return att?2+val(p)*0.1:0;
+      if(k==='plunder')return (col==='g'?r:6-r)*0.4+(p.t==='K'?-5:0);
+      if(k==='bomb'){let v=0;for(const[r2,c2,q]of piecesOf(op))if(cheb(r,c,r2,c2)<=1)v+=q.t==='K'?20:val(q);for(const[r2,c2,q]of piecesOf(col))if(q!==p&&cheb(r,c,r2,c2)<=1)v-=q.t==='K'?40:val(q);return v-val(p);}
+      return 0.3;};
+    const list=validTargets(k,null,col).map(t=>[t,sc(t)]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]).slice(0,3);
+    const tot=list.reduce((a,x)=>a+x[1],0);
+    if(list.length&&(!best||tot>best.tot))best={k,ts:list.map(x=>x[0]),tot};
+  }
+  if(best)swarmApply(col,best.k,best.ts);
+}
+function openSwarm(mcard){
+  const keys=swarmKeys(ME,mcard);G.modal=true;
+  openModal(`<h3>多勢に無勢：付ける駒強化を選ぶ</h3><p>デッキに入っている1コストの駒強化から1つ選びます。そのあと、付ける駒を最大3つ選んでください（カードそのものは減りません）。</p>
+    <div class="grid-cards">${keys.map((k,i)=>cardHTML(k,-(i+1),'',ME)).join('')}</div>`,root=>{
+    root.querySelectorAll('.grid-cards .card').forEach(el=>el.addEventListener('click',()=>{const k=keys[-(+el.dataset.uid)-1];G.modal=false;closeModal();G.pending={uid:-999,key:k,first:null,aim:null,multi:true,picked:[],vcard:{uid:-999,key:k}};G.sel=null;G.shootMode=false;render();}));
+  });
+}
+function finishSwarm(){
+  if(!G.pending||!G.pending.multi)return;const P=G.pending;G.pending=null;
+  if(P.summon){if(!P.picked.length){render();return;}playCard(P.card,P.picked,P.magic?{free:true,auto:true}:undefined);if(P.magic)magicianFinish(ME);render();return;}
+  swarmApply(ME,P.key,P.picked);render();
+}
+const isBotC=c=>typeof isBotSide==='function'?isBotSide(c):(G.mode!=='online'&&c!==ME);
+const AWAKE_DECK=['poop','poop','here','here','peek','roar','mist','lifeup'];
+function awakeSeen(){if(G&&(G.players.s.awake||G.players.g.awake))return true;try{return localStorage.getItem('shogi7_awake')==='1';}catch(e){return false;}}
+const anyAsleep=col=>piecesOf(opp(col)).some(([r,c,q])=>isLocked(q));
+const kingExtra=p=>p.t==='K'&&G.players[p.c].awake&&!G.players[p.c].awakeUsed&&anyAsleep(p.c)&&!isStunned(p);
+function poopTargets(col){const k=findKing(col);if(!k)return [];return lineFirst(k[0],k[1],[...ORTH,...DIAG],7).filter(x=>x[2].c!==col&&!ward(x[2])).map(x=>[x[0],x[1]]);}
+const peeking=col=>G.players[col].peek&&G.players[col].peek.until>G.T;
+const AWAKE_RULES=`<div><h4>BEAST KING（ネタカード）</h4><p>6コストの「BEAST KING」は手札に来ると保留になり、使うまで残ります。使うと王が覚醒し、山札と捨て札が専用デッキ（ブッチッパ・ここだよ・のぞき見・んあー・子守唄の霧・残機アップ）に入れ替わります。<br>残機：王は残機の数だけ倒されずに耐えます。取られそうになった時は取られず、攻めた駒は元のマスに戻ります。残機は相手にも見えます。<br>子守唄：熟睡（動けない状態）の敵駒がいる間、王はメインとは別に1回動けます（取れない）。ターン終了時、王の周りで熟睡している敵駒は倒れます。<br>山札：覚醒後は、専用デッキ以外のカードは使ったり捨てたりすると対局から消えるので、シャッフルしても専用デッキのままです。<br>保留：覚醒中は毎ターン終了時に、手札を1枚選んで保留にできます。<br>代償：覚醒から2ターンに1回、番の開始時に自分の駒（王以外・一番弱い駒）を1つ犠牲にします。犠牲にする駒がなければ負けです。</p></div>`;
+const MAGIC_KEYS=['summon','golden','catalyst','dispel','cloud'],MAGIC_PREF=['golden','cloud','summon','catalyst','dispel'];
+function magicianCands(col,except){const pl=G.players[col],used=pl.used||{};return [...pl.draw,...pl.discard,...pl.hand].filter(c=>MAGIC_KEYS.includes(c.key)&&used[c.key]&&c!==except&&(!except||c.uid!==except.uid));}
+function inOwnZone(col,r,c){return campRowProtected(col,r)||piecesOf(col).some(([r2,c2,p])=>p.b.barrier&&cheb(r,c,r2,c2)<=1);}
+function magicianOutside(col){const pl=G.players[col];if(!pl.magician)return false;const f=findById(pl.magician.pid);return !!f&&!inOwnZone(col,f[0],f[1]);}
+function magicianEnd(col){const pl=G.players[col];if(!pl.magician)return;pl.discard.push(pl.magician.card);const f=findById(pl.magician.pid);if(f)delete f[2].b.magician;pl.magician=null;log('魔術師の駒がいなくなり、預けたカードが捨て札に戻った',col);}
+function setMagician(col,card,pid){
+  const pl=G.players[col];
+  pl.draw=pl.draw.filter(x=>x.uid!==card.uid);pl.discard=pl.discard.filter(x=>x.uid!==card.uid);pl.hand=pl.hand.filter(x=>x.uid!==card.uid);
+  card.held=false;pl.magician={card,pid,next:G.T+2};
+  log(`魔術師が「${CARDS[card.key].name}」を預かった。魔術師の駒が魔法防御の外にいれば、2ターンに1回使える`,col);
+}
+function openMagician(mcard,pid){
+  const list=magicianCands(ME,mcard);G.modal=true;
+  openModal(`<h3>魔術師：預けるカードを選ぶ</h3><p>この対局で使ったことのある魔法から選べます。選んだカードは、魔術師の駒が倒れるまでデッキから外れます。魔術師の駒が自分の魔法防御（陣の残っている段・自分の魔法障壁の周り）の外にいれば、2ターンに1回、エネルギー表示の下のボタンからコストなしで使えます。その番に使わないと、次は2ターン後です。</p>
+    <div class="grid-cards">${list.map(c=>cardHTML(c.key,c.uid,'',ME)).join('')}</div>`,root=>{
+    root.querySelectorAll('.grid-cards .card').forEach(el=>el.addEventListener('click',()=>{const c=list.find(x=>x.uid===+el.dataset.uid);G.modal=false;closeModal();setMagician(ME,c,pid);render();}));
+  });
+}
+function autoTarget(key,col){
+  const d=CARDS[key];if(d.target==='none')return 'none';
+  const v=validTargets(key,null,col);if(!v.length)return null;
+  if(key==='summon'){const front=shuffle(v.filter(([r])=>r===(col==='s'?5:1)));const l=[...front,...shuffle(v.filter(x=>!has(front,x[0],x[1])))];return l.slice(0,2);}
+  if(key==='dispel'){let best=null,bv=0;for(const t of v){let s=0;for(const[r,c]of areaCells('dispel',col,t[0],t[1])){const q=G.board[r][c];if(q&&q.c===col&&(q.poison||q.burn||q.petri||q.b.lock||q.stun))s+=q.t==='K'?20:val(q)+1;}if(s>bv){bv=s;best=t;}}return best;}
+  return v[0];
+}
+function magicianCast(col){
+  const pl=G.players[col],m=pl.magician;
+  const t=autoTarget(m.card.key,col);
+  if(t)playCard(m.card,t==='none'?null:t,{free:true,auto:true});
+  else log(`魔術師の「${CARDS[m.card.key].name}」は対象がなく不発`,col);
+  magicianFinish(col);
+}
+function magicianFinish(col){
+  const pl=G.players[col],m=pl.magician;if(!m)return;
+  m.ready=false;m.next=G.T+4;
+}
+function magicianUse(){
+  const pl=G.players[ME],m=pl.magician;if(!m||!m.ready||!magicianOutside(ME))return;
+  const d=CARDS[m.card.key];
+  if(d.target==='none'){playCard(m.card,null,{free:true,auto:true});magicianFinish(ME);render();return;}
+  if(!validTargets(m.card.key,null,ME).length){G.flash=m.card.key;render();return;}
+  if(m.card.key==='summon'){G.pending={uid:m.card.uid,key:'summon',multi:true,summon:true,magic:true,max:Math.min(2,validTargets('summon',null,ME).length),picked:[],card:m.card};G.sel=null;G.shootMode=false;render();return;}
+  G.pending={uid:m.card.uid,key:m.card.key,first:null,aim:null,magic:true,vcard:m.card};G.sel=null;G.shootMode=false;render();
+}
+function barracksCards(col){const pl=G.players[col];const keys=[...new Set([...pl.draw,...pl.hand,...pl.discard,...(pl.opener?[pl.opener]:[])].map(c=>c.key))];let v=-1;return keys.filter(k=>CARDS[k].cat==='enh'&&k!=='magician'&&CARDS[k].cost<=3&&validTargets(k,null,col).length).map(k=>({uid:v--,key:k,virtual:true}));}
 function barracksReady(col){const pl=G.players[col];return pl.barracks&&G.T>=pl.barracks.next&&barracksCards(col).length>0;}
 function openBarracks(){
   const list=barracksCards(ME);if(!list.length)return;
@@ -825,26 +1091,32 @@ function openBarracks(){
 }
 function mustMove(){
   if(!G||G.turn!==ME||!G.main)return false;
-  for(const[r,c,p]of piecesOf(ME)){if(movesFor(r,c).length)return true;if(canShoot(p)&&shootTargets(r,c).length)return true;if(canArrow(p)&&arrowTargets(r,c).length)return true;if(canCharge(p))return true;}
+  for(const[r,c,p]of piecesOf(ME)){if(movesFor(r,c).length)return true;if(canShoot(p)&&shootTargets(r,c).length)return true;if(canArrow(p)&&arrowTargets(r,c).length)return true;if(canMarshal(p)&&marshalTargets(r,c).length)return true;if(canCharge(p))return true;}
   return false;
 }
 function locked(){return !G||G.preview||G.over||G.busy||G.modal||G.waiting||G.turn!==ME;}
 function onSquare(r,c){
   if(locked())return;
+  if(G.pending&&G.pending.multi){
+    const P=G.pending;if(!has(validTargets(P.key,null,ME),r,c))return;
+    if(has(P.picked,r,c))P.picked=P.picked.filter(x=>!(x[0]===r&&x[1]===c));else P.picked.push([r,c]);
+    if(P.picked.length>=(P.max||3))finishSwarm();else render();return;
+  }
   if(G.pending){
-    const card=G.pending.barracks?G.pending.vcard:G.players[ME].hand.find(x=>x.uid===G.pending.uid);const tg=CARDS[card.key].target;
+    const card=G.pending.vcard?G.pending.vcard:G.players[ME].hand.find(x=>x.uid===G.pending.uid);const tg=CARDS[card.key].target;
     const v=validTargets(G.pending.key,G.pending.first);
     if(!v.some(t=>t[0]===r&&t[1]===c))return;
-    if(tg==='warp'&&!G.pending.first){G.pending.first=[r,c];render();return;}
-    if(tg==='area'||tg==='thunder'){
+    if((tg==='warp'||tg==='thunder')&&!G.pending.first){G.pending.first=[r,c];render();return;}
+    if(tg==='area'){
       if(!G.pending.aim||G.pending.aim[0]!==r||G.pending.aim[1]!==c){G.pending.aim=[r,c];render();return;}
     }
-    playCard(card,tg==='warp'?[G.pending.first,[r,c]]:[r,c],G.pending.barracks?{free:true,virtual:true}:undefined);return;
+    const wasMagic=!!G.pending.magic;
+    playCard(card,(tg==='warp'||tg==='thunder')?[G.pending.first,[r,c]]:[r,c],G.pending.barracks?{free:true,virtual:true}:wasMagic?{free:true,auto:true}:undefined);if(wasMagic)magicianFinish(ME);render();return;
   }
   const p=G.board[r][c];
   if(G.sel){
-    if(G.shootMode){const st=modeTargets(G.shootMode,G.sel[0],G.sel[1]);if(st.some(t=>t[0]===r&&t[1]===c)){const[a,z]=G.sel;if(G.shootMode==='op')shoot(a,z,r,c);else if(G.shootMode==='arrow')fireArrow(a,z,r,c);else fireXbow(a,z,r,c);return;}}
-    else{const mv=movesFor(G.sel[0],G.sel[1]).find(m=>m.r===r&&m.c===c);if(mv){doMove(G.sel[0],G.sel[1],r,c,G.faceSel);return;}}
+    if(G.shootMode){const st=modeTargets(G.shootMode,G.sel[0],G.sel[1]);if(st.some(t=>t[0]===r&&t[1]===c)){const[a,z]=G.sel;if(G.shootMode==='op')shoot(a,z,r,c);else if(G.shootMode==='arrow')fireArrow(a,z,r,c);else if(G.shootMode==='marshal')fireMarshal(a,z,r,c);else fireXbow(a,z,r,c);return;}}
+    else{const mv=movesFor(G.sel[0],G.sel[1]).find(m=>m.r===r&&m.c===c);if(mv){doMove(G.sel[0],G.sel[1],r,c,G.faceSel);if(G.forceEnd&&!G.over)setTimeout(()=>{if(G.forceEnd&&G.turn===ME&&!G.over)endTurn();},700);return;}}
   }
   if(p&&p.c===ME){G.sel=(G.sel&&G.sel[0]===r&&G.sel[1]===c)?null:[r,c];G.shootMode=false;G.faceSel=null;render();return;}
   G.sel=null;G.shootMode=false;render();
@@ -855,6 +1127,7 @@ function onCard(cuid){
   if(G.pending&&G.pending.uid===cuid){G.pending=null;render();return;}
   if(!canPlay(card)){G.pending=null;G.sel=null;G.flash=card.key;render();return;}
   if(CARDS[card.key].target==='none'){playCard(card,null);return;}
+  if(card.key==='summon'){G.pending={uid:cuid,key:'summon',multi:true,summon:true,max:Math.min(2,validTargets('summon',null,ME).length),picked:[],card};G.sel=null;G.shootMode=false;render();return;}
   G.pending={uid:cuid,key:card.key,first:null,aim:null};G.sel=null;G.shootMode=false;render();
 }
 
@@ -864,7 +1137,8 @@ function danger(r,c,me){
   let d=0;
   for(const f of G.fields){
     if(!active(f)||!f.cells)continue;
-    if(f.type==='thunder'&&has(f.cells,r,c)&&f.stages.some(s=>!s.done&&s.cols.includes(c)))d+=1;
+    if(f.type==='thunder'&&f.stages.some(s=>!s.done&&has(s.cells,r,c)))d+=1;
+    if(f.type==='roll'&&f.owner!==me&&has(f.cells,r,c))d+=0.3;
     if(f.type==='burn'&&has(f.cells,r,c))d+=3;
       if(f.type==='pit'&&f.owner!==me&&has(f.cells,r,c))d+=0.7;
   }
@@ -891,6 +1165,7 @@ function scoreMove(fr,fc,m,me){
   if(p.t!=='K'&&m.path.some(([r,c])=>fieldsAt('burn',r,c).length))s-=v1+5;
   s+=(danger(fr,fc,me)-danger(m.r,m.c,me))*Math.min(v0,10)*0.5;
   if(p.burn)s+=Math.min(v0,30);
+  if(p.bounty)s+=1.5;
   if(p.petri)s+=Math.min(v0,8)*0.4;
   if(p.b.xbow&&p.b.xbow.ch!=null)s-=2;
   if(G.T>=9&&m.r===CENTER[0]&&m.c===CENTER[1])s+=0.8;
@@ -902,9 +1177,10 @@ function bestMove(me,extraOnly){
   for(const[r,c,p]of piecesOf(me)){
     if(isLocked(p))continue;
     const rx=ribExtra(p),hx=hasteReady(p);
-    if(extraOnly&&!rx&&!hx)continue;
+    if(extraOnly&&!rx&&!hx&&!kingExtra(p))continue;
     for(const m of rawMoves(r,c)){
       if(extraOnly&&!rx&&m.cap)continue;
+      if(m.cap&&isStunned(p))continue;
       const s=scoreMove(r,c,m,me);if(!best||s>best.s)best={fr:r,fc:c,m,s};
     }
   }
@@ -939,21 +1215,40 @@ function botCard(late,only){
       case 'search':case 'insight':if(pl.hand.length<=3)t='none';break;
       case 'keeper':if(G.T<=20)t='none';break;
       case 'barracks':t='none';break;
-      case 'offering':{const pw=own.filter(x=>x[2].t==='P'&&!x[2].pro&&x[0]<=1);if(pw.length>=5&&pl.hand.some(c=>c.key!=='offering'&&costOf(c.key,me)===pl.energy+1))t=[pw[0][0],pw[0][1]];break;}
+      case 'offering':{const insP=own.find(x=>x[2].t==='P'&&!x[2].pro&&x[2].b.insure&&x[2].b.insure.until>=G.T);if(insP){t=[insP[0],insP[1]];break;}const pw=own.filter(x=>x[2].t==='P'&&!x[2].pro&&x[0]<=1);if(pw.length>=5&&pl.hand.some(c=>c.key!=='offering'&&costOf(c.key,me)===pl.energy+1))t=[pw[0][0],pw[0][1]];break;}
       case 'cloud':if(pl.energy>=5&&Math.random()<0.4)t='none';break;
       case 'breaker':if(pl.hand.some(c=>CARDS[c.key].cat==='mag'&&c.key!=='breaker')&&Math.random()<0.6)t='none';break;
-      case 'seize':case 'swamp':case 'smoke':case 'thunder':{
+      case 'thunder':{let best=null,bv=-1e9;for(const a of validTargets('thunder',null,me))for(const z of validTargets('thunder',a,me)){const cells=thunderCells(me,a,z);const v=sumIn(cells.filter(x=>!(G.board[x[0]][x[1]]&&G.board[x[0]][x[1]].t==='K')),op)-sumIn(cells,me)*0.8;if(v>bv){bv=v;best=[a,z];}}if(best&&bv>=6)t=best;break;}
+      case 'roll':{const[x,v]=pickMax(validTargets('roll',null,me),([r,c])=>{const cells=areaCells('roll',me,r,c);let n=0;for(const[rr,cc]of cells){const q=G.board[rr][cc];if(q)n+=q.c===op?1:-0.5;}return n;});if(x&&v>=2)t=x;break;}
+      case 'catalyst':{const n=piecesOf(op).filter(([r,c,q])=>q.poison&&q.poison.until>G.T&&!isProtected(me,r,c)).length;if(n>=1)t='none';break;}
+      case 'golden':if(pl.energy>=4&&Math.random()<0.5)t='none';break;
+      case 'magician':{const[x]=pickMax(nonKing.filter(x=>!x[2].b.magician),x=>-val(x[2])+x[0]*0.3+Math.random());if(x)t=[x[0],x[1]];break;}
+      case 'seize':case 'swamp':case 'smoke':{
         const[x,v]=pickMax(validTargets(k,null,me),([r,c])=>{const cells=areaCells(k,me,r,c);
           if(k==='seize')return sumIn(cells,op)-sumIn(cells,me);
-          if(k==='thunder')return sumIn(cells,op)-sumIn(cells,me)*0.8;
           if(k==='smoke')return sumIn(cells,me);
           return cells.filter(([rr,cc])=>!G.board[rr][cc]&&piecesOf(op).some(([r2,c2])=>cheb(rr,cc,r2,c2)<=1)).length;});
-        if(x&&v>=(k==='thunder'?6:4))t=x;break;}
+        if(x&&v>=4)t=x;break;}
       case 'dispel':{const[x,v]=pickMax(validTargets('dispel',null,me),([r,c])=>{const cells=areaCells('dispel',me,r,c);let s=0;for(const[rr,cc]of cells){const q=G.board[rr][cc];if(q&&q.c===me&&q.poison)s+=val(q)>50?6:val(q);if(q&&q.c===me&&fieldsAt('seize',rr,cc).some(f=>f.owner!==me))s+=2;}return s;});if(x&&v>=3)t=x;break;}
-      case 'summon':{const v=validTargets('summon',null,me);if(v.length&&pl.energy>=3&&Math.random()<0.5)t=v[Math.random()*v.length|0];break;}
+      case 'summon':{const v=validTargets('summon',null,me);if(v.length&&pl.energy>=3&&Math.random()<0.5)t=autoTarget('summon',me);break;}
+      case 'neon':case 'marshal':{const list=nonKing.filter(x=>!x[2].b[k]&&!x[2].b.op);const[x]=pickMax(list,x=>x[0]+val(x[2])*0.2+Math.random());if(x)t=[x[0],x[1]];break;}
+      case 'infect':{const[x,v]=pickMax(validTargets('infect',null,me),([r,c])=>{let s=0;for(let rr=r-1;rr<=r+1;rr++)for(let cc=c-1;cc<=c+1;cc++){if(!inB(rr,cc)||(rr===r&&cc===c))continue;const q=G.board[rr][cc];if(q&&q.c===op&&!isProtected(me,rr,cc))s+=(q.poison&&q.poison.until>G.T?2:0.6)*(q.t==='K'?10:val(q));}return s;});if(x&&v>=3)t=x;break;}
+      case 'erode':{const[x,v]=pickMax(validTargets('erode',null,me),([r,c])=>{const q=G.board[r][c];return q.t==='K'?8:val(q);});if(x&&v>=3)t=x;break;}
+      case 'swarm':if(swarmKeys(me,card).length)t='none';break;
+      case 'awaken':break;
+      case 'poop':{const[x]=pickMax(validTargets('poop',null,me),([r,c])=>{const q=G.board[r][c];return q.t==='K'?50:val(q);});if(x)t=x;break;}
+      case 'peek':if(Math.random()<0.3)t='none';break;
+      case 'roar':{const k=findKing(me);if(k){let e=0,o=0;for(const[r,c,q]of piecesOf(op))if(cheb(r,c,k[0],k[1])<=2)e++;for(const[r,c,q]of piecesOf(me))if(q!==k[2]&&cheb(r,c,k[0],k[1])<=2)o++;if(e>=2&&e>o)t='none';}break;}
+      case 'mist':{const[x,v]=pickMax(validTargets('mist',null,me),([r,c])=>areaCells('mist',me,r,c).filter(([rr,cc])=>G.board[rr][cc]&&G.board[rr][cc].c===op).length);if(x&&v>=2)t=x;break;}
+      case 'lifeup':t='none';break;
+      case 'here':{const[x,v]=pickMax(validTargets('here',null,me),([r,c])=>{const q=G.board[r][c];return (attackedBy(r,c,me)?3:0)+val(q)*0.2;});if(x&&v>=3)t=x;break;}
+      case 'fixate':if(G.T<=24)t='none';break;
+      case 'bounty':{const[x,v]=pickMax(validTargets('bounty',null,me),([r,c])=>{const q=G.board[r][c];return (attackedBy(r,c,me)?3:0)+val(q)*0.2;});if(x&&v>=3)t=x;break;}
+      case 'venomgift':{const n=piecesOf(op).filter(([r,c,q])=>q.poison&&q.poison.until>G.T).length;if(n>=2)t='none';break;}
       case 'arrow':case 'xbow':case 'snake':{const key=k==='arrow'?'arrow':k;const list=nonKing.filter(x=>!x[2].b[key]&&!x[2].b.op);const[x]=pickMax(list,x=>x[0]+val(x[2])*0.2+Math.random());if(x)t=[x[0],x[1]];break;}
       case 'petri':{const[x,v]=pickMax(validTargets('petri',null,me),([r,c])=>{const q=G.board[r][c];return q.t==='K'?8:seenVal(q,r,c);});if(x&&v>=3)t=x;break;}
       case 'combo':{if(pl.hand.some(c=>c.key!=='combo'&&costOf(c.key,me)>pl.energy&&costOf(c.key,me)-2<=pl.energy-1))t='none';break;}
+      case 'iso':{const list=own.filter(([r,c,p])=>!isoOn(p)&&(attackedBy(r,c,op)||p.b.op||p.b.xbow||p.t==='K'));const[x]=pickMax(list,x=>(x[2].t==='K'?20:val(x[2]))+(attackedBy(x[0],x[1],op)?5:0));if(x)t=[x[0],x[1]];break;}
       case 'rewind':{const list=nonKing.filter(([r,c,p])=>!p.b.rewind&&'PLN'.includes(p.t)&&!p.pro&&attackedBy(r,c,op));const[x]=pickMax(list,x=>val(x[2]));if(x)t=[x[0],x[1]];break;}
       case 'plunder':{const list=nonKing.filter(x=>!x[2].b.plunder);const[x]=pickMax(list,x=>x[0]+val(x[2])*0.3);if(x)t=[x[0],x[1]];break;}
       case 'bomb':{const[x,v]=pickMax(nonKing.filter(x=>!x[2].b.bomb),([r,c])=>{const cells=[];for(let rr=r;rr<=r+2;rr++)for(let cc=c-1;cc<=c+1;cc++)if(inB(rr,cc))cells.push([rr,cc]);return sumIn(cells,op)-sumIn(cells,me)*0.6;});if(x&&v>=3)t=[x[0],x[1]];break;}
@@ -969,10 +1264,11 @@ async function botTurn(){
   const wait=ms=>new Promise(r=>setTimeout(r,ms));
   const stale=()=>G!==myG||G.over;
   if(barracksReady('g')){for(const c of shuffle(barracksCards('g'))){const a=botCard(false,c);if(a){await wait(600);if(stale())return;a();break;}}if(stale())return;}
-  for(let i=0;i<2;i++){await wait(650);if(stale())return;const a=botCard(false);if(!a)break;a();if(stale())return;}
+  for(let i=0;i<2;i++){await wait(650);if(stale())return;const a=botCard(false);if(!a)break;a();if(stale())return;if(G.forceEnd)break;}
   for(const[r,c,p]of piecesOf('g')){if(canXbow(p)){const ts=xbowTargets(r,c);if(ts.length){const[tr,tc]=ts.sort((a,z)=>seenVal(G.board[z[0]][z[1]],...z)-seenVal(G.board[a[0]][a[1]],...a))[0];await wait(600);if(stale())return;fireXbow(r,c,tr,tc);if(stale())return;}}}
   for(let i=0;i<5;i++){
     await wait(600);if(stale())return;
+    if(G.forceEnd)break;
     if(G.main){
       const mv=bestMove('g',false),sh=bestShot('g');
       let ar=null,cg=null;
@@ -981,13 +1277,16 @@ async function botTurn(){
         if(canCharge(p)){for(const f of['f','l','r']){const v=xbowTargets(r,c,f).reduce((m,[tr,tc])=>Math.max(m,G.board[tr][tc].t==='K'?10:seenVal(G.board[tr][tc],tr,tc)),0);if(v>=3&&(!cg||v>cg.v))cg={r,c,v,f};}}
       }
       const mvS=mv?mv.s:-99;
-      if(sh&&sh.v>=3&&sh.v>=mvS){shoot(sh.fr,sh.fc,sh.tr,sh.tc);}
+      const gm=greedyMain('g');
+      if(gm&&gm.type==='marshal'){simApply(gm);}
+      else if(sh&&sh.v>=3&&sh.v>=mvS){shoot(sh.fr,sh.fc,sh.tr,sh.tc);}
       else if(ar&&ar.v>=2&&ar.v>=mvS){fireArrow(ar.fr,ar.fc,ar.tr,ar.tc);}
       else if(cg&&mvS<1.5&&Math.random()<0.8){chargeXbow(cg.r,cg.c,cg.f);}
       else if(mv)doMove(mv.fr,mv.fc,mv.m.r,mv.m.c);
       else break;
     }else{const h=bestMove('g',true);if(!h||h.s<0.2)break;doMove(h.fr,h.fc,h.m.r,h.m.c);}
     if(stale())return;
+    if(G.forceEnd)break;
   }
   await wait(450);if(stale())return;
   const a=botCard(true);if(a){a();await wait(500);if(stale())return;}
@@ -999,7 +1298,8 @@ function targetOk(key,t,col){
   const d=CARDS[key];
   if(d.target==='none')return t==null;
   if(!t)return false;
-  if(d.target==='warp'){if(!has(validTargets(key,null,col),t[0][0],t[0][1]))return false;return has(validTargets(key,t[0],col),t[1][0],t[1][1]);}
+  if(key==='summon'&&Array.isArray(t[0])){const v=validTargets(key,null,col);return t.length>=1&&t.length<=2&&t.every(x=>has(v,x[0],x[1]));}
+  if(d.target==='warp'||d.target==='thunder'){if(!has(validTargets(key,null,col),t[0][0],t[0][1]))return false;return has(validTargets(key,t[0],col),t[1][0],t[1][1]);}
   return has(validTargets(key,null,col),t[0],t[1]);
 }
 function simApply(a){
@@ -1009,6 +1309,7 @@ function simApply(a){
     case 'barracks':{if(!barracksReady(me))return false;const vc=barracksCards(me).find(x=>x.key===a.key);if(!vc||!targetOk(a.key,a.t,me))return false;playCard(vc,a.t,{free:true,virtual:true});return true;}
     case 'move':{if(!movesFor(a.fr,a.fc).some(m=>m.r===a.tr&&m.c===a.tc))return false;doMove(a.fr,a.fc,a.tr,a.tc,a.face);return true;}
     case 'shoot':{const p=G.board[a.fr][a.fc];if(!p||p.c!==me||!canShoot(p)||!has(shootTargets(a.fr,a.fc),a.tr,a.tc))return false;shoot(a.fr,a.fc,a.tr,a.tc);return true;}
+    case 'marshal':{const p=G.board[a.fr][a.fc];if(!p||p.c!==me||!canMarshal(p)||!has(marshalTargets(a.fr,a.fc),a.tr,a.tc))return false;fireMarshal(a.fr,a.fc,a.tr,a.tc);return true;}
     case 'arrow':{const p=G.board[a.fr][a.fc];if(!p||p.c!==me||!canArrow(p)||!has(arrowTargets(a.fr,a.fc),a.tr,a.tc))return false;fireArrow(a.fr,a.fc,a.tr,a.tc);return true;}
     case 'charge':{const p=G.board[a.r][a.c];if(!p||p.c!==me||!canCharge(p))return false;chargeXbow(a.r,a.c,a.face);return true;}
     case 'xbow':{const p=G.board[a.fr][a.fc];if(!p||p.c!==me||!canXbow(p)||!has(xbowTargets(a.fr,a.fc),a.tr,a.tc))return false;fireXbow(a.fr,a.fc,a.tr,a.tc);return true;}
@@ -1025,7 +1326,9 @@ function greedyExtras(me,rec){
 function greedyMain(me){
   const mv=bestMove(me,false),sh=bestShot(me);let ar=null;
   for(const[r,c,p]of piecesOf(me))if(canArrow(p))for(const[tr,tc]of arrowTargets(r,c)){const q=G.board[tr][tc];if(ward(q))continue;const v=q.t==='K'?8:val(q)*0.6;if(!ar||v>ar.v)ar={fr:r,fc:c,tr,tc,v};}
+  let ms=null;for(const[r,c,p]of piecesOf(me))if(canMarshal(p))for(const[tr,tc]of marshalTargets(r,c)){const q=G.board[tr][tc];if(ward(q))continue;const v=(q.t==='K'?12:val(q))*(q.poison&&q.poison.until>G.T?1:0.5);if(!ms||v>ms.v)ms={fr:r,fc:c,tr,tc,v};}
   const mvS=mv?mv.s:-99;
+  if(ms&&ms.v>=2.5&&ms.v>=mvS)return {type:'marshal',fr:ms.fr,fc:ms.fc,tr:ms.tr,tc:ms.tc};
   if(sh&&sh.v>=3&&sh.v>=mvS)return {type:'shoot',fr:sh.fr,fc:sh.fc,tr:sh.tr,tc:sh.tc};
   if(ar&&ar.v>=2&&ar.v>=mvS)return {type:'arrow',fr:ar.fr,fc:ar.fc,tr:ar.tr,tc:ar.tc};
   if(mv)return {type:'move',fr:mv.fr,fc:mv.fc,tr:mv.m.r,tc:mv.m.c};
@@ -1041,8 +1344,9 @@ function oppGreedyTurn(){
 function genMains(me){
   const out=[];
   for(const[r,c,p]of piecesOf(me)){
-    for(const m of movesFor(r,c))out.push({a:{type:'move',fr:r,fc:c,tr:m.r,tc:m.c},q:scoreMove(r,c,m,me)});
+    for(const m of movesFor(r,c))if(!m.bounce)out.push({a:{type:'move',fr:r,fc:c,tr:m.r,tc:m.c},q:scoreMove(r,c,m,me)});
     if(canShoot(p))for(const[tr,tc]of shootTargets(r,c)){const q=G.board[tr][tc];out.push({a:{type:'shoot',fr:r,fc:c,tr,tc},q:(q.t==='K'?100:val(q))*1.2});}
+    if(canMarshal(p))for(const[tr,tc]of marshalTargets(r,c)){const q=G.board[tr][tc];out.push({a:{type:'marshal',fr:r,fc:c,tr,tc},q:(q.t==='K'?30:val(q))*(q.poison&&q.poison.until>G.T?1:0.5)});}
     if(canArrow(p))for(const[tr,tc]of arrowTargets(r,c)){const q=G.board[tr][tc];out.push({a:{type:'arrow',fr:r,fc:c,tr,tc},q:(q.t==='K'?20:val(q))*0.6});}
     if(canCharge(p))for(const f of['f','l','r']){const ts=xbowTargets(r,c,f);if(ts.length){const q=G.board[ts[0][0]][ts[0][1]];out.push({a:{type:'charge',r,c,face:f},q:(q.t==='K'?20:val(q))*0.5});}}
   }
@@ -1053,21 +1357,24 @@ function optTargets(key,me){
   const pv=t=>{const q=G.board[t[0]][t[1]];return q?(q.t==='K'?30:val(q)):0;};
   if(d.target==='none')return [null];
   if(d.target==='warp'){const out=[];for(const f of validTargets(key,null,me).sort((a,b)=>pv(b)-pv(a)).slice(0,5))for(const z of validTargets(key,f,me))out.push([f,z]);return out.slice(0,12);}
-  if(d.target==='area'||d.target==='thunder'){
+  if(d.target==='thunder'){const out=[];for(const a of validTargets(key,null,me))for(const z of validTargets(key,a,me)){const cells=thunderCells(me,a,z);let v=0;for(const[r,c]of cells){const q=G.board[r][c];if(q&&q.t!=='K')v+=(q.c===op?1:-0.8)*val(q);}if(v>0)out.push([[a,z],v]);}return out.sort((x,y)=>y[1]-x[1]).slice(0,5).map(x=>x[0]);}
+  if(d.target==='ownRoll'){return validTargets(key,null,me).map(t=>{let v=0;for(const[r,c]of areaCells('roll',me,t[0],t[1])){const q=G.board[r][c];if(q)v+=q.c===op?1:-0.5;}return [t,v];}).filter(x=>x[1]>=1).sort((a,b)=>b[1]-a[1]).slice(0,4).map(x=>x[0]);}
+  if(d.target==='area'){
     const sc=t=>{const cells=areaCells(key,me,t[0],t[1]);let v=0;for(const[r,c]of cells){const q=G.board[r][c];
       if(key==='smoke'){if(q&&q.c===me)v+=val(q)>50?4:val(q);}
       else if(key==='swamp'){if(!q&&piecesOf(op).some(([r2,c2])=>cheb(r,c,r2,c2)<=1))v+=1;}
       else if(key==='dispel'){if(q&&q.c===me&&(q.poison||q.burn||q.petri||q.b.lock))v+=val(q)>50?8:val(q)+1;}
-      else if(q)v+=(q.c===op?1:-1)*(q.t==='K'?(key==='thunder'?0:6):val(q));}return v;};
+      else if(q)v+=(q.c===op?1:-1)*(q.t==='K'?6:val(q));}return v;};
     return validTargets(key,null,me).map(t=>[t,sc(t)]).sort((a,b)=>b[1]-a[1]).slice(0,5).filter(x=>x[1]>0).map(x=>x[0]);
   }
+  if(key==='summon'){const out=[];for(let i=0;i<3;i++){const a=autoTarget('summon',me);if(a&&a.length)out.push(a);}return out;}
   const list=validTargets(key,null,me);
   return list.sort((a,b)=>pv(b)-pv(a)).slice(0,10);
 }
 function genCardOpts(me){
   const pl=G.players[me],out=[],seen=new Set();
   for(const card of pl.hand){
-    if(seen.has(card.key)||!canPlay(card,me))continue;seen.add(card.key);
+    if(card.key==='awaken'||seen.has(card.key)||!canPlay(card,me))continue;seen.add(card.key);
     for(const t of optTargets(card.key,me))out.push({type:'card',uid:card.uid,key:card.key,t});
   }
   if(barracksReady(me))for(const vc of barracksCards(me))for(const t of optTargets(vc.key,me).slice(0,5))out.push({type:'barracks',key:vc.key,t});
@@ -1084,17 +1391,18 @@ function evalState(me){
         if(p.burn)m-=0.55;
         if(p.petri)m-=0.15;
         if(isLocked(p))m-=0.1;
-        if(G.fields.some(f=>f.type==='thunder'&&f.owner!==col&&active(f)&&has(f.cells,r,c)&&f.stages.some(st=>!st.done&&st.cols.includes(c))))m-=0.5;
+        if(G.fields.some(f=>f.type==='thunder'&&f.owner!==col&&active(f)&&f.stages.some(st=>!st.done&&has(st.cells,r,c))))m-=0.5;
+        if(isStunned(p))m-=0.08;
         if(G.fields.some(f=>f.type==='pit'&&f.owner!==col&&has(f.cells,r,c)))m-=0.4;
         s+=val(p)*Math.max(0.05,m);
       }
       const b=p.b;
-      s+=(b.op?3:0)+(b.xbow?1.5+(b.xbow.ch!=null?1:0):0)+(b.arrow?1.5:0)+(b.blade?1:0)+(b.snake?1:0)+(b.rib?1.5:0)+(b.pit?2:0)+(b.plunder?0.5:0)+(b.haste?0.8:0)+(ward(p)?0.5:0)+(b.barrier?0.5:0)+(b.command?0.8:0)+(b.leg?0.3:0)+(b.rewind?0.2:0)+(b.insure?0.3:0);
+      s+=(p.b.iso&&p.b.iso.until>G.T&&p.b.iso.charge>0?2:0)+(b.marshal?2:0)+(b.neon?1.2:0)+(b.op?3:0)+(b.xbow?1.5+(b.xbow.ch!=null?1:0):0)+(b.arrow?1.5:0)+(b.blade?1:0)+(b.snake?1:0)+(b.rib?1.5:0)+(b.pit?2:0)+(b.plunder?0.5:0)+(b.haste?0.8:0)+(ward(p)?0.5:0)+(b.barrier?0.5:0)+(b.command?0.8:0)+(b.leg?0.3:0)+(b.rewind?0.2:0)+(b.insure?0.3:0);
       if(G.T>=9&&r===CENTER[0]&&c===CENTER[1])s+=0.6;
       if(p.t!=='K')s+=(col==='g'?r:6-r)*0.05;
       for(const[k,rad]of[['atomic',2],['bomb',1]])if(b[k]){let net=0;for(const[r2,c2,q]of piecesOf(oc))if(cheb(r,c,r2,c2)<=rad)net+=q.t==='K'?25:val(q);for(const[r2,c2,q]of piecesOf(col))if(q!==p&&cheb(r,c,r2,c2)<=rad)net-=q.t==='K'?50:val(q);s+=net*0.45;}
     }
-    const pl=G.players[col];s+=Math.min(pl.energy,10)*0.45+pl.hand.length*0.25+(pl.keeper?1:0)+(pl.barracks?1.5:0);
+    const pl=G.players[col];s+=(pl.lives||0)*5+(pl.awake?2:0)+(pl.golden&&pl.golden.until>G.T?1:0)+(pl.magician?2:0)+Math.min(pl.energy,10)*0.45+pl.hand.length*0.25+(pl.keeper?1:0)+(pl.barracks?1.5:0)+(pl.fixate?1.5:0);
     const k=findKing(col);if(!k)return s-1e5;
     if(attackedBy(k[0],k[1],oc))s-=k[2].b.rib?2:9;
     if(k[2].burn)s-=6;
@@ -1184,8 +1492,8 @@ async function botTurnSearch(){
   const best=await searchPlan(botLevel,botLevel===3?10000:6000);
   if(stale())return;
   render();
-  if(best)for(const a of best.rec){await wait(550);if(stale())return;simApply(a);if(stale())return;}
-  if(G.main){const g2=greedyMain('g');if(g2){await wait(500);if(stale())return;simApply(g2);if(stale())return;}}
+  if(best)for(const a of best.rec){await wait(550);if(stale())return;simApply(a);if(stale())return;if(G.forceEnd)break;}
+  if(G.main&&!G.forceEnd){const g2=greedyMain('g');if(g2){await wait(500);if(stale())return;simApply(g2);if(stale())return;}}
   await wait(450);if(stale())return;
   G.busy=false;endTurn();
 }
@@ -1240,20 +1548,28 @@ function badgesFor(p){
   const out=[];const T=G.T;
   if(p.poison&&p.poison.until>T)out.push(`<span class="bd poi">毒${turnsLeft(p.poison.until)}</span>`);
   if(p.b.atomic)out.push(`<span class="bd dng">核${turnsLeft(p.b.atomic.at)}</span>`);
-  if(p.b.op)out.push(`<span class="bd dng">${T>=p.b.op.ready?'狙':'狙'+turnsLeft(p.b.op.ready)}</span>`);
+  if(p.b.op)out.push(`<span class="bd dng">${T>=p.b.op.ready?'覗':'狙'+turnsLeft(p.b.op.ready)}</span>`);
   if(p.b.rib)out.push(`<span class="bd">戻${turnsLeft(p.b.rib.until)}</span>`);
   if(p.b.pit)out.push('<span class="bd poi">蛇</span>');
   if(p.b.bomb)out.push(`<span class="bd dng">爆${turnsLeft(p.b.bomb.at)}</span>`);
   if(p.b.plunder)out.push('<span class="bd res">奪</span>');
-  if(isLocked(p))out.push('<span class="bd mag">固</span>');
+  if(p.b.iso&&p.b.iso.win>T)out.push(`<span class="bd" style="background:#5f7d98">${isoOn(p)?'甲':'甲'+turnsLeft(p.b.iso.win)+'↻'}</span>`);
+  if(p.b.magician)out.push('<span class="bd mag">術</span>');
+  if(isLocked(p))out.push(`<span class="bd mag">${G.players[opp(p.c)].awake?'眠':'固'}</span>`);
+  if(p.poop)out.push('<span class="bd dng">糞</span>');
+  if(p.t==='K'&&G.players[p.c].awake)out.push(`<span class="bd dng">覚</span><span class="bd res">残${G.players[p.c].lives||0}</span>`);
+  if(p.bounty)out.push(`<span class="bd res">${G.T>=p.bounty.from?'賞!':'賞'}</span>`);
   if(p.burn)out.push('<span class="bd dng">延</span>');
   if(p.petri)out.push('<span class="bd mag">石</span>');
   if(p.b.arrow)out.push(`<span class="bd">${T>=p.b.arrow.ready?'火':'火'+turnsLeft(p.b.arrow.ready)}</span>`);
-  if(p.b.xbow)out.push(`<span class="bd dng">${p.b.xbow.ch==null?'弩':xbowReady(p)?'弩!':'弩…'}</span>`);
-  if(p.b.snake)out.push('<span class="bd">睨</span>');
+  if(p.b.xbow)out.push(`<span class="bd dng">${p.b.xbow.ch==null?(G.T>=(p.b.xbow.arm||0)?'弩':'弩…'):xbowReady(p)?'弩!':'弩…'}</span>`);
+  if(p.b.snake)out.push(`<span class="bd">${armed(p.b.snake)?'睨':'睨…'}</span>`);
+  if(isStunned(p))out.push(`<span class="bd mag">眩${turnsLeft(p.stun.until)||1}</span>`);
   if(hasFacing(p))out.push(`<span class="bd res">${ARROW_GLYPH(faceVec(p.c,p.face||'f'))}</span>`);
   if(p.b.haste)out.push(`<span class="bd">${hasteReady(p)?'疾':'疾…'}</span>`);
-  if(p.b.blade)out.push('<span class="bd">刃</span>');
+  if(p.b.blade)out.push(`<span class="bd">${!armed(p.b.blade)?'刃…':p.b.blade.empty?'刃↻':'刃'}</span>`);
+  if(p.b.neon)out.push(`<span class="bd" style="background:#c9a91c;color:#241a06">${G.T>=p.b.neon.ready?'雷':'雷'+turnsLeft(p.b.neon.ready)}</span>`);
+  if(p.b.marshal)out.push(`<span class="bd poi">${G.T>=p.b.marshal.ready?'帥':'帥'+turnsLeft(p.b.marshal.ready)}</span>`);
   if(p.b.ward&&p.b.ward.until>T)out.push('<span class="bd">護</span>');
   if(p.b.leg&&p.b.leg.until>T)out.push('<span class="bd">跳</span>');
   if(p.b.rewind&&p.b.rewind.until>T)out.push(`<span class="bd">逆${turnsLeft(p.b.rewind.until)}</span>`);
@@ -1268,9 +1584,10 @@ function renderPieces(){
     alive.add(p.id);let el=pieceEls.get(p.id);
     if(!el){el=document.createElement('div');el.innerHTML='<div class="kw"><div class="k"></div></div><div class="badges"></div>';layer.appendChild(el);pieceEls.set(p.id,el);}
     el.style.left=`calc(${c}*100%/7)`;el.style.top=`calc(${r}*100%/7)`;
-    const hid=isHidden(p,r,c),enemyHid=hid&&p.c!==ME&&!G.over;
-    el.className='pc '+p.c+(p.pro&&!enemyHid?' pro':'')+(p.t==='K'&&!enemyHid?' king':'')+(enemyHid?' hid':'')+(hid&&p.c===ME?' mine-hid':'');
-    el.querySelector('.k').textContent=enemyHid?'？':pname(p);
+    const hid=isHidden(p,r,c),enemyHid=hid&&p.c!==ME&&!G.over&&!peeking(ME);
+    const beast=p.t==='K'&&G.players[p.c].awake&&!enemyHid;
+    el.className='pc '+p.c+(p.pro&&!enemyHid?' pro':'')+(p.t==='K'&&!enemyHid?' king':'')+(beast?' beast':'')+(enemyHid?' hid':'')+(hid&&p.c===ME?' mine-hid':'');
+    el.querySelector('.k').textContent=enemyHid?'？':beast?'':pname(p);
     el.querySelector('.badges').innerHTML=enemyHid?'':badgesFor(p);
     let ring=el.querySelector('.ring');
     if(p.b.barrier&&!enemyHid){if(!ring){ring=document.createElement('div');ring.className='ring';el.appendChild(ring);}}else if(ring)ring.remove();
@@ -1286,6 +1603,8 @@ function renderSquares(){
     if(G.pending){const d=CARDS[G.pending.key];tgtc=d.cat==='enh'?'var(--enh)':d.cat==='res'?'var(--gold)':'var(--mag)';magTargeting=d.cat==='mag';
       if(G.pending.first)add(G.pending.first[0],G.pending.first[1],'sel');
       if(G.pending.aim){for(const[r,c]of areaCells(G.pending.key,ME,G.pending.aim[0],G.pending.aim[1]))add(r,c,'area');}
+      else if(G.pending.key==='roll'){for(const[r,c]of validTargets('roll',null,ME))add(r,c,'tgt');}
+      else if(G.pending.multi){for(const[r,c]of validTargets(G.pending.key,null,ME))add(r,c,has(G.pending.picked,r,c)?'sel':'tgt');}
       else for(const[r,c]of validTargets(G.pending.key,G.pending.first))add(r,c,'tgt');
       if(G.pending.key==='pit'){}}
     else if(G.sel){add(G.sel[0],G.sel[1],'sel');const p=G.board[G.sel[0]][G.sel[1]];
@@ -1294,12 +1613,14 @@ function renderSquares(){
   }
   const anchors=[];eachPiece((p,r,c)=>{if(p.b.rib&&!(p.c!==ME&&isHidden(p,r,c)))anchors.push(p.b.rib.anchor);});
   const xlines=[];eachPiece((p,r,c)=>{if(p.b.xbow&&p.b.xbow.ch!=null)xlines.push(...xbowLineCells(r,c));});
-  const watch=[];eachPiece((p,r,c)=>{if(p.b.snake&&!(p.c!==ME&&isHidden(p,r,c)))watch.push(...faceCells(p.c,p.face||'f',r,c,2));});
+  const watch=[];eachPiece((p,r,c)=>{if(armed(p.b.snake)&&!(p.c!==ME&&isHidden(p,r,c)))watch.push(...faceCells(p.c,p.face||'f',r,c,2));});
   let facePrev=[];if(G.sel&&!G.pending&&G.turn===ME){const sp=G.board[G.sel[0]][G.sel[1]];if(sp&&hasFacing(sp))facePrev=faceCells(ME,G.faceSel||sp.face||'f',G.sel[0],G.sel[1],sp.b.xbow?3:2);}
   document.querySelectorAll('#squares .sq').forEach(el=>{
     const r=+el.dataset.r,c=+el.dataset.c,layers=[];let cd='';
     if(fieldsAt('burn',r,c).length)layers.push('radial-gradient(circle,rgba(255,170,60,.9),rgba(232,96,60,.75))');
-    for(const f of G.fields)if(f.type==='thunder'&&active(f)&&has(f.cells,r,c)){const st=f.stages.find(s=>!s.done&&s.cols.includes(c));if(st){layers.push('repeating-linear-gradient(0deg,rgba(232,96,60,.5) 0 4px,transparent 4px 9px)');cd=turnsLeft(st.at);}}
+    for(const f of G.fields)if(f.type==='neon'&&active(f)&&has(f.cells,r,c)){layers.push('radial-gradient(circle,rgba(240,220,60,.85) 0 25%,rgba(240,220,60,.25) 27%,transparent 60%)');cd=Math.max(1,turnsLeft(f.at));}
+    for(const f of G.fields)if(f.type==='roll'&&active(f)&&has(f.cells,r,c)){layers.push('repeating-linear-gradient(90deg,rgba(110,98,201,.45) 0 3px,transparent 3px 8px)');cd=Math.max(1,turnsLeft(f.at));}
+    for(const f of G.fields)if(f.type==='thunder'&&active(f)&&has(f.cells,r,c)){const st=f.stages.find(s=>!s.done&&has(s.cells,r,c));if(st){layers.push('repeating-linear-gradient(0deg,rgba(232,96,60,.5) 0 4px,transparent 4px 9px)');cd=turnsLeft(st.at);}}
     if(G.fields.some(f=>f.type==='pit'&&has(f.cells,r,c)))layers.push('repeating-linear-gradient(90deg,rgba(40,90,40,.45) 0 3px,rgba(110,170,70,.25) 3px 8px)');
     if(fieldsAt('swamp',r,c).length)layers.push('linear-gradient(rgba(110,170,70,.55),rgba(110,170,70,.55))');
     if(fieldsAt('seize',r,c).length)layers.push('repeating-linear-gradient(45deg,rgba(130,95,210,.55) 0 5px,transparent 5px 11px)');
@@ -1318,9 +1639,9 @@ function renderSquares(){
   });
 }
 function cardHTML(key,cuid,extra,col){
-  const d=CARDS[key];const cost=G&&!G.preview&&col?costOf(key,col):d.cost;
+  const d=CARDS[key];const cost=(extra||'').includes('zero')?0:G&&!G.preview&&col?costOf(key,col):d.cost;
   return `<button type="button" class="card ${d.cat} ${extra||''}" ${cuid!=null?`data-uid="${cuid}"`:''} aria-label="${d.name} コスト${cost}">
-    <span class="cost${cost<d.cost?' down':''}">${cost}</span>${(extra||'').includes('held')?'<span class="heldtag">保留</span>':''}<span class="cname">${d.name}</span><span class="art">${d.art}</span>
+    <span class="cost${cost<d.cost?' down':''}">${cost}</span>${(extra||'').includes('held')?'<span class="heldtag">保留</span>':''}${(extra||'').includes('zero')?'<span class="heldtag" style="background:var(--gold);color:#241a06">固定</span>':''}<span class="cname">${d.name}</span><span class="art">${d.art}</span>
     <span class="ctype">${CAT[d.cat]}</span><span class="ctext">${d.text}</span></button>`;
 }
 function stripHTML(col){
@@ -1328,7 +1649,7 @@ function stripHTML(col){
   const side=col==='s'?'先手':'後手';
   const name=col===ME?`あなた（${side}）`:isOnline()?`相手（${side}）${G.oppGone?'・接続が切れています':''}`:`bot（${side}）・${LV_NAME[botLevel]}${G.botDeckName?'「'+G.botDeckName+'」':''}`;
   return `<div class="who"><span class="mk">${mark(col)}</span>${name}</div>
-    <div class="stat"><span class="en">エネルギー <b>${pl.energy}</b></span><span>手札 <b>${pl.hand.length}</b></span><span>山札 <b>${pl.draw.length}</b></span><span>捨て札 <b>${pl.discard.length}</b></span><span>駒 <b>${piecesOf(col).length}</b></span><span>陣の魔法防御 <b>${G.preview?2:campLevel(col)}段</b></span></div>
+    <div class="stat"><span class="en">エネルギー <b>${col!==ME&&hideInfo(col)&&!G.over?'？':pl.energy}</b></span><span>手札 <b>${col!==ME&&hideInfo(col)&&!G.over?'？':pl.hand.length}</b></span><span>山札 <b>${pl.draw.length}</b></span><span>捨て札 <b>${pl.discard.length}</b></span><span>駒 <b>${piecesOf(col).length}</b></span>${pl.awake?`<span style="color:var(--danger)">覚醒・残機 <b>${pl.lives||0}</b>・犠牲まで <b>${turnsLeft(pl.awake.next)}</b></span>`:''}<span>陣の魔法防御 <b>${G.preview?2:campLevel(col)}段</b></span></div>
     ${act?`<span class="turnno">手番中 · 第${G.T}手</span>`:''}`;
 }
 function render(){
@@ -1339,16 +1660,18 @@ function render(){
   ms.innerHTML=stripHTML(ME);ms.classList.toggle('active',G.turn===ME&&!G.over&&!G.preview);
   renderPieces();renderSquares();
   const gh=G.players[OP].hand;
-  $('#oppHand').innerHTML=G.preview||G.waiting?'':`<span class="oh-label">${isOnline()?'相手':'bot'}の手札</span>${gh.length?gh.map(c=>{const d=CARDS[c.key];return `<button type="button" class="ochip ${d.cat}" data-key="${c.key}" title="${d.name}：${d.text}"><span class="oc">${costOf(c.key,OP)}</span>${d.name}${c.held?'<span class="oheld">保留</span>':''}</button>`;}).join(''):'<span class="oh-empty">なし</span>'}`;
+  const opPeek=peeking(OP)?`<span class="oh-empty">相手が次に引く：${G.players[OP].draw.length?CARDS[G.players[OP].draw[G.players[OP].draw.length-1].key].name:'（シャッフル後）'}</span>`:'';
+  $('#oppHand').innerHTML=G.preview||G.waiting?'':hideInfo(OP)&&!G.over?`<span class="oh-label">${isOnline()?'相手':'bot'}の手札</span><span class="oh-empty">暗雲・煙幕で見えません</span>`:`<span class="oh-label">${isOnline()?'相手':'bot'}の手札</span>${gh.length?gh.map(c=>{const d=CARDS[c.key];return `<button type="button" class="ochip ${d.cat}" data-key="${c.key}" title="${d.name}：${d.text}"><span class="oc">${costOf(c.key,OP)}</span>${d.name}${c.held?'<span class="oheld">保留</span>':''}</button>`;}).join(''):'<span class="oh-empty">なし</span>'}`;
+  if(opPeek)$('#oppHand').innerHTML+=opPeek;
   const pl=G.players[ME],myTurn=G.turn===ME&&!G.over&&!G.preview&&!G.waiting;
   const orb=$('#orb');orb.textContent=pl.energy;orb.classList.toggle('off',!myTurn);
   const extraN=piecesOf(ME).filter(([r,c,p])=>hasteReady(p)||ribExtra(p)).length;
-  const shootN=piecesOf(ME).filter(([r,c,p])=>(canShoot(p)&&shootTargets(r,c).length)||(canArrow(p)&&arrowTargets(r,c).length)||(canXbow(p)&&xbowTargets(r,c).length)).length;
-  $('#chips').innerHTML=myTurn?`<span class="chip ${G.main?'on':'off'}">${G.main?'メインの手：残り1':'メインの手：使用済み'}</span>${extraN?`<span class="chip">別に動ける駒 ×${extraN}</span>`:''}${shootN?`<span class="chip" style="border-color:var(--danger)">撃てる駒 ×${shootN}</span>`:''}${hasCommand(ME)?'<span class="chip off" style="color:#7fd05a;border-color:#7fd05a">魔法コスト-1</span>':''}${pl.discount?`<span class="chip on" style="background:var(--gold);border-color:var(--gold);color:#241a06">次のカード -${pl.discount}</span>`:''}${pl.keeper?'<span class="chip off" style="color:var(--gold);border-color:var(--gold)">保持化：1枚持ち越し</span>':''}${pl.barracks?(barracksReady(ME)?'<button type="button" class="chip on" data-barracks style="cursor:pointer;background:var(--gold);border-color:var(--gold);color:#241a06">兵舎：駒強化を付ける</button>':`<span class="chip off">兵舎：${G.T>=pl.barracks.next?'付けられるカードなし':'あと'+turnsLeft(pl.barracks.next)+'ターン'}</span>`):''}`:'<span class="chip off">相手の番</span>';
+  const shootN=piecesOf(ME).filter(([r,c,p])=>(canShoot(p)&&shootTargets(r,c).length)||(canArrow(p)&&arrowTargets(r,c).length)||(canXbow(p)&&xbowTargets(r,c).length)||(canMarshal(p)&&marshalTargets(r,c).length)).length;
+  $('#chips').innerHTML=myTurn?`<span class="chip ${G.main?'on':'off'}">${G.main?'メインの手：残り1':'メインの手：使用済み'}</span>${extraN?`<span class="chip">別に動ける駒 ×${extraN}</span>`:''}${shootN?`<span class="chip" style="border-color:var(--danger)">撃てる駒 ×${shootN}</span>`:''}${hasCommand(ME)?'<span class="chip off" style="color:#7fd05a;border-color:#7fd05a">魔法コスト-1</span>':''}${pl.discount?`<span class="chip on" style="background:var(--gold);border-color:var(--gold);color:#241a06">次のカード -${pl.discount}</span>`:''}${G.neonFrom&&findById(G.neonFrom)?`<button type="button" class="chip on" data-neon style="cursor:pointer;background:#e6d24a;border-color:#e6d24a;color:#241a06">雷を投げる（${nota(...neonCell(findById(G.neonFrom)[2],findById(G.neonFrom)[0],findById(G.neonFrom)[1]))}）</button>`:''}${pl.venomgift&&pl.venomgift.until>G.T?`<span class="chip off" style="color:var(--poison);border-color:var(--poison)">瘴気の恵み：あと${turnsLeft(pl.venomgift.until)}ターン</span>`:''}${pl.keeper?'<span class="chip off" style="color:var(--gold);border-color:var(--gold)">保持化：1枚持ち越し</span>':''}${pl.awake&&anyAsleep(ME)&&!pl.awakeUsed?'<span class="chip on" style="background:var(--danger);border-color:var(--danger)">子守唄：王がもう1回動ける</span>':''}${peeking(ME)?`<span class="chip off">次に引く：${pl.draw.length?CARDS[pl.draw[pl.draw.length-1].key].name:'（シャッフル後）'}</span>`:''}${pl.fixate?`<span class="chip off" style="color:var(--gold);border-color:var(--gold)">固定化：${CARDS[pl.fixate.key].name}・${G.T>=pl.fixate.next?'次の番':'あと'+turnsLeft(pl.fixate.next)+'ターン'}</span>`:''}${pl.golden&&pl.golden.until>G.T?`<span class="chip off" style="color:var(--gold);border-color:var(--gold)">黄金期：あと${turnsLeft(pl.golden.until)}ターン</span>`:''}${pl.magician?(pl.magician.ready&&magicianOutside(ME)?`<button type="button" class="chip on" data-magic style="cursor:pointer;background:var(--mag);border-color:var(--mag);color:#fff">魔術師：${CARDS[pl.magician.card.key].name}を発動</button>`:`<span class="chip off" style="color:#c8bdff;border-color:var(--mag)">魔術師：${CARDS[pl.magician.card.key].name}・${pl.magician.ready?'駒を魔法防御の外へ出すと使える':'あと'+turnsLeft(pl.magician.next)+'ターン'}</span>`):''}${pl.barracks?(barracksReady(ME)?'<button type="button" class="chip on" data-barracks style="cursor:pointer;background:var(--gold);border-color:var(--gold);color:#241a06">兵舎：駒強化を付ける</button>':`<span class="chip off">兵舎：${G.T>=pl.barracks.next?'付けられるカードなし':'あと'+turnsLeft(pl.barracks.next)+'ターン'}</span>`):''}`:'<span class="chip off">相手の番</span>';
   const hand=$('#hand');
   if(!pl.hand.length)hand.innerHTML=`<span class="empty-hand">${G.preview?'デッキを組むと対局が始まります':'手札なし'}</span>`;
   else{
-    hand.innerHTML=pl.hand.map(c=>cardHTML(c.key,c.uid,(G.pending&&G.pending.uid===c.uid?'pending ':'')+(c.held?'held ':'')+(!myTurn||!canPlay(c)?'dim':''),ME)).join('');
+    hand.innerHTML=pl.hand.map(c=>cardHTML(c.key,c.uid,(G.pending&&G.pending.uid===c.uid?'pending ':'')+(c.held?'held ':'')+(c.zero?'zero ':'')+(!myTurn||!canPlay(c)?'dim':''),ME)).join('');
     hand.querySelectorAll('.card').forEach(el=>el.addEventListener('click',()=>onCard(+el.dataset.uid)));
     layoutHand();
   }
@@ -1377,28 +1700,35 @@ function hintText(){
     return `「${d.name}」を使える対象がありません。`;}
   if(G.pending){const d=CARDS[G.pending.key];
     if(G.pending.barracks)return `<b>兵舎：${d.name}</b>：${TGT_HINT[d.target]}（コストなし）。Escで取り消し。`;
+    if(G.pending.multi&&G.pending.summon)return `<b>${G.pending.magic?'魔術師：':''}徴兵</b>：歩を置く空きマスを選んでください（${G.pending.picked.length}/${G.pending.max}）。もう一度押すと外します。<button type="button" class="hb on" data-swarmdone>${G.pending.picked.length?G.pending.picked.length+'体呼び出して決定':'やめる'}</button>`;
+    if(G.pending.multi)return `<b>多勢に無勢：${d.name}</b>：付ける駒を選んでください（${G.pending.picked.length}/3）。もう一度押すと外します。<button type="button" class="hb on" data-swarmdone>${G.pending.picked.length?G.pending.picked.length+'つに付けて決定':'付けずに終わる'}</button>`;
+    if(G.pending.magic)return G.pending.aim?`<b>魔術師：${d.name}</b>：白枠の範囲に使います。同じマスをもう一度押すと確定。`:`<b>魔術師：${d.name}</b>：${TGT_HINT[d.target]}（コストなし）。Escで取り消し、あとでボタンから使えます。`;
     if(G.pending.aim)return `<b>${d.name}</b>：白枠の範囲に使います。<b>同じマスをもう一度押すと確定</b>、別のマスで位置を変更。`;
-    const t=G.pending.first?'移す先の空きマス（2マス以内）を選んでください':TGT_HINT[d.target];
+    const t=G.pending.first?(G.pending.key==='thunder'?'範囲の反対の角を選んでください（横5×縦2か縦5×横2）':'移す先の空きマス（隣）を選んでください'):TGT_HINT[d.target];
     return `<b>${d.name}</b>：${t}。カードをもう一度押すと取り消し。`;}
   if(G.sel){const p=G.board[G.sel[0]][G.sel[1]];
     const[sr,sc]=G.sel;const acts=[];
-    if(canShoot(p)&&shootTargets(sr,sc).length)acts.push(['op','狙撃する']);
+    if(canShoot(p)&&shootTargets(sr,sc).length)acts.push(['op','狙撃する（エネルギー1）']);
     if(canArrow(p)&&arrowTargets(sr,sc).length)acts.push(['arrow','火矢を撃つ']);
+    if(canMarshal(p)&&marshalTargets(sr,sc).length)acts.push(['marshal','マーシャルで撃つ']);
     if(canXbow(p)&&xbowTargets(sr,sc).length)acts.push(['xbow','弩を撃つ（手を使わない）']);
     if(canCharge(p))acts.push(['charge','弩を溜める（メインの手）']);
     if(G.shootMode)acts.unshift(['move','移動に戻す']);
     let btn=acts.map(([a,l])=>`<button type="button" class="hb${G.shootMode===a?' on':''}" data-act="${a}">${l}</button>`).join('');
     if(hasFacing(p)&&!G.shootMode){const cur=G.faceSel||p.face||'f';btn+=`<span class="facepick">向き：${[['f','前'],['l','左'],['r','右']].map(([f,l])=>`<button type="button" class="hb face${cur===f?' on':''}" data-face="${f}">${l} ${ARROW_GLYPH(faceVec(ME,f))}</button>`).join('')}</span>`;}
     if(hasFacing(p)&&!G.shootMode&&G.main){}
-    if(G.shootMode){const nm={op:'狙撃（メインの手を使う）',arrow:'火矢（メインの手を使う）',xbow:'弩（手を使わない）'}[G.shootMode];return `<b>${nm}</b>：赤い照準の敵駒を選んでください。${btn}`;}
+    if(G.shootMode){const nm={marshal:'マーシャル（メインの手を使い、当たった敵に毒）',op:'狙撃（メインの手とエネルギー1を使う）',arrow:'火矢（メインの手を使う）',xbow:'弩（手を使わない）'}[G.shootMode];return `<b>${nm}</b>：赤い照準の敵駒を選んでください。${btn}`;}
     if(xbowReady(p)&&!xbowTargets(sr,sc).length&&!G.shootMode){}
-    if(p.b.op&&!canShoot(p)&&G.main)return `この駒は${turnsLeft(p.b.op.ready)}ターン後に再び撃てます。移動先を選んでください。`;
+    if(p.b.op&&!canShoot(p)&&G.main&&!G.shootMode){const why=isStunned(p)?'スタン中で撃てません':G.T<p.b.op.ready?`${turnsLeft(p.b.op.ready)}ターン後から撃てます`:G.players[ME].energy<1?'発砲にはエネルギー1が必要です':'';if(why&&!btn)return `この駒は${why}。移動先を選んでください。`;}
     const mv=movesFor(G.sel[0],G.sel[1]);
     if(!mv.length&&fieldsAt('seize',G.sel[0],G.sel[1]).length)return `この${pname(p)}はシーズの外に出られず、中に動ける空きもありません。${btn}`;
+    if(isStunned(p)&&aiming(p))return `この${pname(p)}は覗き中にスタンを受けたので、スタン中は動けず撃てません。`;
     if(isLocked(p))return `この${pname(p)}は転移か石化で固まっていて、この番は動けません。`;
     if(!G.main&&!hasteReady(p)&&!ribExtra(p))return `メインの手は使用済みです。疾風かアンカー移動を持つ駒なら動かせます。${btn}`;
-    const extra=(hasFacing(p)?'向きを選んでから移動先を選んでください（溜める時も選んだ向きになります）。':'')+(p.burn?'<b>延焼中：この番に動かさないと倒れます。</b>':p.petri?'<b>石化中：この番に動かさないと次の番は動けません。</b>':'')+(p.b.xbow&&p.b.xbow.ch!=null?'動くと弩の溜めが消えます。':'')+(ribExtra(p)?'この手はアンカー移動（取ってもよい）として使います。':hasteReady(p)?'駒を取らない移動は疾風を使います。':'');
+    const extra=(isStunned(p)?'<b>スタン中：駒を取れず、撃てません。</b>':'')+(hasFacing(p)?'向きを選んでから移動先を選んでください（溜める時も選んだ向きになります）。':'')+(p.burn?'<b>延焼中：この番に動かさないと倒れます。</b>':p.petri?'<b>石化中：この番に動かさないと次の番は動けません。</b>':'')+(p.b.xbow&&p.b.xbow.ch!=null?'動くと弩の溜めが消えます。':'')+(ribExtra(p)?'この手はアンカー移動（取ってもよい）として使います。':hasteReady(p)?'駒を取らない移動は疾風を使います。':'');
     return `${pname(p)}の移動先を選んでください。${extra}${btn}`;}
+  if(G.neonFrom&&findById(G.neonFrom)&&!G.pending&&!G.sel)return `<b>雷を投げられます</b>（エネルギー表示の下のボタン）。投げると1ターン後、2マス前に着弾し敵駒をスタン2ターン。`+(G.main?'駒も1手動かしてください。':'');
+  if(G.players[ME].magician&&G.players[ME].magician.ready&&!G.pending&&!G.sel)return (magicianOutside(ME)?`<b>魔術師の「${CARDS[G.players[ME].magician.card.key].name}」が使えます</b>（エネルギー表示の下のボタン）。`:`<b>魔術師の「${CARDS[G.players[ME].magician.card.key].name}」</b>は、魔術師の駒を自分の魔法防御の外に出すと使えます。`)+'この番に使わないと、次は2ターン後です。'+(G.main?'駒も1手動かしてください。':'');
   if(G.main&&!mustMove())return '動かせる駒がありません。カードを使うか、ターンを終了しましょう。';
   const burning=piecesOf(ME).filter(([r,c,p])=>p.burn).length,pet=piecesOf(ME).filter(([r,c,p])=>p.petri).length;
   const warn=(burning?`<b>延焼中の駒が${burning}枚</b>（動かさないと倒れる）。`:'')+(pet?`<b>石化中の駒が${pet}枚</b>（動かさないと次の番に固まる）。`:'');
@@ -1450,11 +1780,11 @@ function showCard(key){
 }
 function showLibrary(){
   const prev=G?G.modal:false;if(G)G.modal=true;
-  const color={enh:'var(--enh)',res:'var(--res)',mag:'var(--mag)'};
+  const color={enh:'var(--enh)',res:'var(--res)',mag:'var(--mag)',awk:'#a3326b'};
   const owned=k=>G&&!G.preview?[ME,opp(ME)].map(c=>{const pl=G.players[c];const all=[...pl.draw,...pl.hand,...pl.discard,...(pl.opener?[pl.opener]:[])];return all.filter(x=>x.key===k).length;}):[0,0];
   openModal(`<div class="deckrow" style="margin-bottom:6px"><h3 style="margin:0">カード一覧</h3><span class="grow"></span><button class="btn" data-close type="button">閉じる</button></div>
     <p>対局中に出てくる全カードの効果です。カードの下の数字は、あなたと相手のデッキに残っている枚数（山札・手札・捨て札の合計）です。</p>
-    ${['enh','res','mag'].map(c=>`<div class="cat"><h4><i style="background:${color[c]}"></i>${CAT[c]}</h4><div class="pool">
+    ${['enh','res','mag',...(awakeSeen()?['awk']:[])].map(c=>`<div class="cat"><h4><i style="background:${color[c]}"></i>${CAT[c]}</h4><div class="pool">
       ${Object.keys(CARDS).filter(k=>CARDS[k].cat===c).map(k=>{const[a,b]=owned(k);return `<div class="libitem">${cardHTML(k,null,'static')}${G&&!G.preview?`<div class="libcount">あなた ${a} ／ ${isOnline()?'相手':'bot'} ${b}</div>`:''}</div>`;}).join('')}
     </div></div>`).join('')}
     <div class="cat"><h4><i style="background:var(--poison)"></i>状態と盤面の効果</h4>
@@ -1463,18 +1793,27 @@ function showLibrary(){
   },true);
 }
 const GLOSSARY_HTML=`      <div class="glossary">
-        <div><b>毒</b>4ターンで消える。毒の間に別の手番でもう一度毒を受けると倒れる。</div>
+        <div><b>毒</b>3ターンで消える。毒の間に別の手番でもう一度毒を受けると倒れる。</div>
         <div><b>向き</b>毒刃・弩・蛇の目を持つ駒は、前・左・右のどれかを向く。向きは駒を動かす前（弩は溜める前）に選ぶ。駒の矢印バッジが今の向き。</div>
+        <div><b>スタン</b>移動はできるが、駒を取れず、狙撃・火矢・弩も撃てない。見えない駒にぶつかると移動は無効になり、ターンが終わる。ローリングサンダーで付く。</div>
+        <div><b>武器の準備</b>毒刃・火矢・弩・蛇の目・バイパーズピットは、付けた番は働かず、次の自分の番から有効。オペレーターは付けた番と次の番は撃てず、動いた・押された・移された時もその番と次の番は撃てない。</div>
+        <div><b>覗き中（オペレーター）</b>撃てる状態のオペレーターの駒（バッジ「覗」）。この状態でスタンを受けると、スタン中は動くこともできない。</div>
+        <div><b>情報の秘匿</b>自分の煙幕・暗雲が出ている間、相手からはあなたのエネルギーと手札が見えない。</div>
+        <div><b>雷（ネオン）</b>投げた次の自分の番に、2マス前のマスに着弾。その時そこにいる敵駒はスタン2ターン。黄色い印と数字で予告される。</div>
+        <div><b>毒刃の装填</b>毒刃は毒を与えると空になり（刃↻）、次の1回の移動で装填し直す。毒は最初に当たった駒にだけかかる。</div>
+        <div><b>懸賞（バウンティー）</b>かけた側が次の自分の番の間にその駒を倒すとエネルギー+3。駒のバッジ「賞!」が有効中。解呪で外せる。</div>
+        <div><b>アイソアーマー</b>付けた番から次の相手の番が終わるまで、どんな攻撃でも1回だけ耐える（バッジ「甲」）。付けてから2ターン以内にその駒が敵を倒すと、アーマーが1ターン分復活する（バッジ「甲N↻」は復活できる残りターン）。</div>
         <div><b>延焼</b>次の自分の番に動かさないと倒れる。火矢で付く。</div>
         <div><b>石化</b>次の自分の番に動かさないと、その次の番は動けない。石化の眼・蛇の目で付く。</div>
         <div><b>弩の溜め</b>溜めた次か次の次の番に撃てる。射線は赤い斜線で表示。動くと消える。</div>
         <div><b>撃破ボーナス</b>相手の駒を倒すとエネルギー。歩0、香・桂・銀・金+1、飛・角・成った駒+2。</div>
-        <div><b>中央</b>11手目から、中央（4四）に自分の駒がいると番の開始時にエネルギー+1。</div>
+        <div><b>中央</b>11手目から、中央（4四）に自分の駒がいると番の開始時にエネルギー+1。受け取ったら次は2ターン後から。25手目からは毎ターン受け取れる。</div>
+        <div><b>歩の燃料</b>自分の自爆に、保険を付けた自分の歩が巻き込まれると、1体につきエネルギー+3。自爆した駒自身とアトミックでは出ない。</div>
         <div><b>保留</b>探索で加えたカード。使うまで手札に残る。</div>
         <div><b>固（転移の拘束）</b>次の自分の番まで動けず、撃てない。</div>
         <div><b>魔法防御</b>相手の陣の残っている段と、魔法障壁（6ターンで解除）の周り1マスには相手の魔法が届かない。15手・25手で1段ずつ自然にはがれる。</div>
         <div><b>シーズ</b>中の駒は範囲の外へ出られない。中では自由に動ける。</div>
-        <div><b>爆撃跡</b>ローリングサンダーの着弾マス。1ターンの間、入った駒は倒れる（王は耐える）。</div>
+        <div><b>爆撃跡</b>アルマゲドンの着弾マス。1ターンの間、入った駒は倒れる（王は耐える）。</div>
         <div><b>アンカー</b>ランイットバックの戻り先。倒されるか3ターン後に戻り、そこに駒がいると倒れる。</div>
       </div>`;
 const RULES_HTML=`<div class="rules">
@@ -1483,18 +1822,19 @@ const RULES_HTML=`<div class="rules">
     <div><h4>エネルギー</h4><p>最初の手番は2エネルギーと手札3枚で始まります。以降は毎ターンエネルギー+1、カードを2枚引きます。使わなかったエネルギーは持ち越せます（上限10）。使わなかった手札はターン終了時にすべて捨て札へ行き、山札が尽きると捨て札をシャッフルして山札に戻します。</p></div>
     <div><h4>デッキ</h4><p>対局前に8枚を選びます（同じカードは2枚まで）。一番左の「初手」枠のカードは、必ず最初の手札に入ります。使ったカードは捨て札へ行き、山札が尽きたらシャッフルして戻ります。</p></div>
     <div><h4>魔法防御（段階式）</h4><p>各陣地（相手側2段）は魔法防御2段で始まります。15手目を過ぎると手前の段、25手目を過ぎると奥の段も自然にはがれます。「結界崩し」を使えば相手の陣の防御を早めに1段ずつはがせます。魔法障壁を持つ駒の周り1マスにも相手の魔法は届きません（解呪だけは例外）。</p></div>
-    <div><h4>毒</h4><p>毒は4ターンで自然に消えます。毒が残っている間に、別の手番でもう一度毒を受けると倒れます。バイパーズピットの中では、持ち主側の駒は毒になっても倒れません。</p></div>
+    <div><h4>毒</h4><p>毒は3ターンで自然に消えます。毒が残っている間に、別の手番でもう一度毒を受けると倒れます。バイパーズピットの中では、持ち主側の駒は毒になっても倒れません。</p></div>
     <div><h4>延焼と石化</h4><p>延焼した駒は、次の自分の番に自分の手（メインの手・疾風・アンカー移動）で動かさないと倒れます。石化した駒は、次の自分の番に動かさないと、その次の番は動けなくなります。転移で動かしても解除されません。固まりが解けた直後は、しばらく石化を受けません。</p></div>
+    <div><h4>スタンと武器の準備</h4><p>スタンした駒は移動はできますが、駒を取ることも、狙撃・火矢・弩を撃つこともできません。取れない状態で、煙幕・暗雲に隠れた駒のマスへ動こうとすると、移動は無効になりターンが終わります。武器（毒刃・火矢・弩・蛇の目・バイパーズピット）は付けた番は働かず、次の自分の番から有効です。オペレーターは付けた番と次の番は撃てず、動いた・押された・移された時もその番と次の番は撃てません。撃つと4ターン撃てません。撃てる状態（覗き中）でスタンを受けると、スタン中は動けません。発砲にはエネルギー1が必要です。</p></div>
     <div><h4>弩の溜め</h4><p>弩はメインの手を使って溜めます。溜めた次の番か次の次の番に、手を使わず撃てます。撃たずに過ぎるか、その駒が動くと溜めは消えます。溜めている間は射線が赤く表示されます。</p></div>
-    <div><h4>撃破ボーナスと中央</h4><p>相手の駒を倒すとエネルギーが入ります（歩0、香・桂・銀・金+1、飛・角・成った駒+2）。11手目からは、盤の中央（4四）に自分の駒を置いて番を迎えるとエネルギー+1。</p></div>
+    <div><h4>撃破ボーナスと中央</h4><p>相手の駒を倒すとエネルギーが入ります（歩0、香・桂・銀・金+1、飛・角・成った駒+2）。11手目からは、盤の中央（4四）に自分の駒を置いて番を迎えるとエネルギー+1。受け取ったら次に受け取れるのは2ターン後です。25手目からは、中央にいれば毎ターン受け取れます。</p></div>
     <div><h4>botの強さ</h4><p>デッキを組む画面で3段階から選べます。やさしいはすぐに指します。ふつうは約6秒、つよいは約10秒考え、カードと駒の動かし方の組み合わせを先読みして選びます。つよいは5種類の最強デッキ（狙撃部隊・毒と石・焦土作戦・火矢の前線・兵站部隊）のどれかで挑んできます。</p></div>
-    <div><h4>王について</h4><p>王は取られるほか、毒・延焼・アトミック・自爆・狙撃・弩でも倒れます。ローリングサンダーの爆撃と爆撃跡だけは耐えます。爆発で両方の王が同時に倒れたら引き分けです。</p></div>
-    <div><h4>保留と消えるカード</h4><p>探索で手札に加えたカードは「保留」になり、使うまでターンをまたいで手札に残ります。「保持化」を使うと、以降毎ターン終了時に手札を1枚だけ持ち越せます（新しく引くのは2枚のままなので、次の手札は3枚）。供物は使うと対局から消えます（2枚入れれば2回使えます）。</p></div>
+    <div><h4>王について</h4><p>王は取られるほか、毒・延焼・アトミック・自爆・狙撃・弩でも倒れます。アルマゲドンの爆撃と爆撃跡だけは耐えます。爆発で両方の王が同時に倒れたら引き分けです。</p></div>
+    <div><h4>保留と消えるカード</h4><p>探索で手札に加えたカードは「保留」になり、使うまでターンをまたいで手札に残ります。「保持化」を使うと、以降毎ターン終了時に手札を1枚だけ持ち越せます（新しく引くのは2枚のままなので、次の手札は3枚）。供物は使っても消えず、捨て札に戻ります。保険を付けた歩を供物にすると、保険の+2も入ります（合計+3）。</p></div>
     <div><h4>ターンの数え方</h4><p>カードの「2ターン」は、使った人の手番が2回来るまで続きます。駒のバッジや盤上の数字は残りターン数です。</p></div>
   </div>`;
 function showRules(){
   const prev=G?G.modal:false;if(G)G.modal=true;
-  openModal(`<h3>七路将棋カードバトルのルール</h3>${RULES_HTML}<div class="modal-actions" style="margin-top:16px"><button class="btn on" data-close type="button">閉じる</button></div>`,root=>{
+  openModal(`<h3>七路将棋カードバトルのルール</h3>${RULES_HTML}${awakeSeen()?'<div class="rules" style="margin-top:12px">'+AWAKE_RULES+'</div>':''}<div class="modal-actions" style="margin-top:16px"><button class="btn on" data-close type="button">閉じる</button></div>`,root=>{
     root.querySelector('[data-close]').addEventListener('click',()=>{if(G)G.modal=prev;closeModal();render();});
   });
 }
@@ -1616,7 +1956,7 @@ function openBuilder(tab){
   let mode=tab==='online'?'online':'bot';
   const cats=['enh','res','mag'];
   const desc={enh:'駒に付けて強くするカード。',res:'エネルギーの管理やカードのサーチを行うカード。',mag:'盤面に直接影響を与えるカード。相手の陣（魔法防御が残っている段）や魔法障壁の範囲には置けない。'};
-  const color={enh:'var(--enh)',res:'var(--res)',mag:'var(--mag)'};
+  const color={enh:'var(--enh)',res:'var(--res)',mag:'var(--mag)',awk:'#a3326b'};
   openModal(`<div class="deckbar">
       <div class="deckrow"><h3 style="margin:0">デッキを組む</h3><span class="count">選択中 <b id="dc">0</b> / 8</span><span class="grow"></span>
         <button class="btn" id="dbRand" type="button">おまかせ</button><button class="btn" id="dbClear" type="button">空にする</button><button class="btn on" id="dbGo" type="button">この8枚で対局開始</button></div>
@@ -1631,7 +1971,7 @@ function openBuilder(tab){
     ${cats.map(c=>`<div class="cat"><h4><i style="background:${color[c]}"></i>${CAT[c]}</h4><p>${desc[c]}</p><div class="pool">
       ${Object.keys(CARDS).filter(k=>CARDS[k].cat===c).map(k=>`<div class="pick" data-key="${k}"><span class="n" hidden>0</span>${cardHTML(k,null,'')}</div>`).join('')}
     </div></div>`).join('')}
-    <details class="guide"><summary>基本ルール</summary>${RULES_HTML}</details>
+    <details class="guide"><summary>基本ルール</summary>${RULES_HTML}${awakeSeen()?'<div class="rules" style="margin-top:12px">'+AWAKE_RULES+'</div>':''}</details>
     <details class="guide"><summary>状態・デバフの説明</summary>${GLOSSARY_HTML}</details>`,root=>{
     const upd=()=>{
       root.querySelector('#dc').textContent=draft.length;
@@ -1735,13 +2075,13 @@ $('#bResign').addEventListener('click',()=>{
 $('#bAgain').addEventListener('click',()=>{if(G&&!G.preview)newGame(myDeck);});
 $('#bRules').addEventListener('click',showRules);
 $('#bLib').addEventListener('click',showLibrary);
-$('#chips').addEventListener('click',e=>{if(e.target.closest('[data-barracks]')&&!locked())openBarracks();});
+$('#chips').addEventListener('click',e=>{if(e.target.closest('[data-neon]')&&!locked()&&G.neonFrom){throwNeon(G.neonFrom);return;}if(e.target.closest('[data-barracks]')&&!locked())openBarracks();if(e.target.closest('[data-magic]')&&!locked())magicianUse();});
 $('#oppHand').addEventListener('click',e=>{const b=e.target.closest('[data-key]');if(b)showCard(b.dataset.key);});
 $('#endBtn').addEventListener('click',()=>{if(!locked()&&!mustMove())endTurn();});
 $('#pDraw').addEventListener('click',()=>showPile('draw'));
 $('#pDisc').addEventListener('click',()=>showPile('discard'));
-$('#hint').addEventListener('click',e=>{const fb=e.target.closest('[data-face]');if(fb&&!locked()&&G.sel){G.faceSel=fb.dataset.face;render();return;}const b=e.target.closest('[data-act]');if(!b||locked()||!G.sel)return;const a=b.dataset.act;if(a==='charge'){chargeXbow(G.sel[0],G.sel[1],G.faceSel);return;}if(a==='move'){G.shootMode=false;render();return;}G.shootMode=G.shootMode===a?false:a;render();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&G&&!G.modal&&(G.pending||G.sel)){G.pending=null;G.sel=null;G.shootMode=false;render();}});
+$('#hint').addEventListener('click',e=>{if(e.target.closest('[data-swarmdone]')&&!locked()){finishSwarm();return;}const fb=e.target.closest('[data-face]');if(fb&&!locked()&&G.sel){G.faceSel=fb.dataset.face;render();return;}const b=e.target.closest('[data-act]');if(!b||locked()||!G.sel)return;const a=b.dataset.act;if(a==='charge'){chargeXbow(G.sel[0],G.sel[1],G.faceSel);return;}if(a==='move'){G.shootMode=false;render();return;}G.shootMode=G.shootMode===a?false:a;render();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&G&&!G.modal&&G.pending&&G.pending.multi){finishSwarm();return;}if(e.key==='Escape'&&G&&!G.modal&&(G.pending||G.sel)){G.pending=null;G.sel=null;G.shootMode=false;render();}});
 window.addEventListener('resize',()=>{if(G)layoutHand();});
 
 buildBoard();
