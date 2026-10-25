@@ -325,6 +325,11 @@ const CARDS={
   atomic:{name:'アトミック',cost:4,cat:'enh',art:'核',target:'ownPawn',text:'歩にだけ付けられる。4ターン後、この駒を中心に5×5マスの駒を、王も含め敵味方関係なくすべて破壊。疾風・桂脚・逆行・ランイットバックとは重ねられない。'},
   bomb:{name:'自爆',cost:1,cat:'enh',art:'爆',target:'ownNoKing',text:'2ターン後、この駒を中心に3×3マスの駒を、王も含め敵味方関係なくすべて破壊。巻き込まれた保険付きの自分の歩からはエネルギーが入る（自爆した駒自身の保険は出ない）。'},
   iso:{name:'アイソアーマー',cost:3,cat:'enh',art:'甲',target:'own',text:'次の相手の番が終わるまで（1ターン）、どんな攻撃でも1回だけ耐える（取られても取られず、攻めた駒は元のマスに戻る）。自分で起動したアトミック・自爆では耐えられない。付けてから2ターン以内にこの駒が敵駒を倒すと、アーマーが1ターン分復活する（倒すたびに2ターンの猶予も延びる）。'},
+  assassin:{name:'アサシン',cost:3,cat:'enh',art:'影',target:'ownNoKing',text:'3ターンの間、相手から見えなくなる（盤から消える）。見えない間は駒を取れないが、次の自分の番から毎ターン、メインの手とは別に1回動ける（取れない）。この駒が敵駒を取れる位置関係になると姿を現す（自分の移動で現した番は取れない）。一度だけ、まだ動いていない番に「潜伏」でき、動かすまで最大4ターン見えなくなる。見えない駒のマスに入ろうとした敵はぶつかってターン終了。単体を狙う魔法・武器の対象にならないが、範囲攻撃は当たる。武器・アトミック・移動系の強化とは重ねられない（自爆は可）。'},
+  breach:{name:'ブリーチ',cost:3,cat:'enh',art:'破',target:'ownNoKing',text:'武器（付けた次の番から有効）。メインの手を使うか、この駒を動かした後に、前方の7つのエリア（正面・左右の縦3マス、その外の縦2マス、斜めの2マス）から1つを選んでスタン弾を撃つ。1ターン後に着弾し、中の敵駒をスタン2ターン（王も可・魔法防御も貫通）。撃つと3ターン撃てない。'},
+  molotov:{name:'遠投兵',cost:3,cat:'enh',art:'瓶',target:'ownNoKing',text:'武器（付けた次の番から有効）。メインの手を使い、火炎瓶を投げる。落とす中心（正面3マス先・2マス前の左右）と倒す向き（上下左右）を選び、1×2マスにいる駒すべて（敵味方・王も）に延焼。即着弾。間の駒は飛び越え、魔法防御も貫通する。投げると4ターン投げられない。'},
+  outlaw:{name:'アウトロー',cost:4,cat:'enh',art:'無',target:'ownNoKing',text:'武器（付けた次の番から有効）。メインの手を使い、前1〜3マスは直線、その先4〜6マスは直進・左・右のどれかに曲げて撃つ。最初に当たった敵駒（王も可）に致死毒。相手がすでに何かのデバフ（懸賞以外）を受けていればその場で倒れる。魔法防御も貫通。撃つと3ターン撃てない。'},
+  priest:{name:'プリースト',cost:3,cat:'enh',art:'聖',target:'own',text:'自分の番の開始時に、この駒自身か周囲1マスの味方1体のデバフ（毒・致死毒・延焼・石化・熟睡・スタン・うんち・懸賞）を解除する（自動。複数いれば選ぶ）。前の自分の番にこの駒が動いていたら使えない。プリーストが何体いても1ターンに1体まで。武器は持てない。'},
   plunder:{name:'略奪',cost:1,cat:'enh',art:'奪',target:'own',text:'この駒が敵駒を倒すたびにエネルギー+1。取った時だけでなく、狙撃・弩・毒・延焼・爆発などこの駒の能力で倒した時も入る。'},
   pit:{name:'バイパーズピット',cost:5,cat:'enh',art:'蛇',target:'own',text:'駒を中心に横5×縦2の毒領域を展開（付けた次の番から有効・駒が倒れるまで続く）。中の敵は2ターンで倒れる。中の味方は毒でも倒れず、相手から見えない。'},
   arrow:{name:'火矢',cost:3,cat:'enh',art:'火',target:'ownNoKing',text:'武器（付けた次の番から有効）。メインの手の代わりに、真っすぐ前2マスで最初に当たる敵駒（王も可）に延焼を付ける。撃つと1ターン撃てない。'},
@@ -341,6 +346,7 @@ const CARDS={
   fixate:{name:'固定化',cost:4,cat:'res',art:'固',target:'none',exhaust:true,text:'デッキに入っている1コストのカードを1枚選ぶ。この対局中、2ターンに1回、そのカードのコピー（コスト0・使うと消える）を手札に加える。重ねて使えない。使うと対局から消える。'},
   swarm:{name:'多勢に無勢',cost:2,cat:'res',art:'衆',target:'none',text:'デッキに入っている1コストの駒強化（加護・逆行・桂脚・自爆・略奪・保険）から1つ選び、コストなしで最大3つの駒に付ける。カードは減らない。'},
   bounty:{name:'バウンティー',cost:1,cat:'res',art:'賞',target:'enemyBounty',text:'魔法防御の外にいる敵駒1つ（王以外）に懸賞をかける。次の自分の番の間にその駒を倒すとエネルギー+3。相手は逃がすか解呪で外すしかない。'},
+  amazon:{name:'アマゾン',cost:1,cat:'res',art:'箱',target:'none',text:'自分のデッキにない3コスト以下の駒強化からランダムに3つの候補が届く。1枚を選んで保留で手札に加える。取り寄せたカードは使うと消える。アマゾン自身は捨て札に戻り、また使える。'},
   insure:{name:'保険',cost:1,cat:'res',art:'保',target:'own',text:'次の相手の番が終わるまでにこの駒が倒されたら、エネルギー+3。自分の自爆に巻き込まれた歩でも受け取れる（自爆した駒自身・アトミックは除く）。'},
   barracks:{name:'兵舎',cost:4,cat:'res',art:'営',target:'none',exhaust:true,text:'この対局中、3ターンごとに、デッキに入っている3コスト以下の駒強化を1つ選び、コストなしで駒に付けられる。カードは減らない。使うと対局から消える。'},
   combo:{name:'連撃の構え',cost:1,cat:'res',art:'連',target:'none',text:'このターン、次に使うカードのコストが2下がる。'},
@@ -369,11 +375,13 @@ const CARDS={
   dispel:{name:'解呪',cost:2,cat:'mag',art:'解',target:'area',text:'3×3の範囲で、自分の駒の毒・延焼・石化・拘束・懸賞を消し、相手のシーズと毒沼を取り除く。'},
   petri:{name:'石化の眼',cost:2,cat:'mag',art:'石',target:'enemyNear3',text:'自分の駒から3マス以内の敵駒1つ（王も可）を石化。次の番に動かないと、その次の番は動けない。'},
   summon:{name:'徴兵',cost:2,cat:'mag',art:'兵',target:'summonSq',text:'自陣の魔法防御が残っている段か、自分の魔法障壁の範囲の空きマスに歩を2枚呼び出す。'},
+  tdf:{name:'ツールドフォース',cost:5,cat:'mag',art:'撃',target:'dirShot',text:'自分の駒1つと縦横斜めの方向を選ぶ。射線が予告され、その駒は発射まで動けない。1ターン後、射線で最初に当たった駒（敵味方・王も）を破壊し、そこを中心にシーズ（魔法防御の中にも広がる）が発動。当たった駒が相手の魔法防御の中なら不発。撃つ駒が倒されたり動かされたりしても不発。'},
+  hunter:{name:'ハンターズフューリー',cost:5,cat:'mag',art:'狩',target:'hunterPath',text:'自分の駒1つと軌道（前1〜3マスは直線、4〜6マスは直進・左・右）を選ぶ。1ターン後、軌道上の駒すべて（敵味方・王も）を貫通して毒。その番、手を使わずに2発目を予告でき、さらに1ターン後に発射。予告中は撃つ駒は動けず、倒されると不発。魔法防御は貫通しない。'},
   breaker:{name:'結界崩し',cost:2,cat:'mag',art:'崩',target:'none',text:'相手の敵陣の魔法防御を1段はがす（手前の段→奥の段の順）。'},
 };
 const PRESET=['haste','blade','rib','search','insure','swamp','seize','breaker'];
 const TGT_HINT={own:'強化する自分の駒を選んでください',ownNoKing:'強化する自分の駒（王以外）を選んでください',ownPawn:'自分の歩を選んでください',
-  area:'3×3の中心にするマスを選んでください',poopLine:'うんちを投げる敵駒を選んでください',enemyBounty:'懸賞をかける敵駒を選んでください',enemyPoisoned:'毒を受けている敵駒を選んでください',ownRoll:'ローリングサンダーを撃つ自分の駒を選んでください',thunder:'爆撃範囲の始点（ここから爆撃が始まる）を選んでください',summonSq:'歩を呼び出す空きマスを選んでください',ownPLN:'成っていない自分の歩・香・桂を選んでください',ownForward:'成っていない自分の歩・香・桂を選んでください',enemyNear3:'石化させる敵駒（自分の駒から3マス以内）を選んでください',thunder:'爆撃範囲（横5×縦2）の中心を選んでください',enemyBuffed:'強化を消す相手の駒を選んでください',warp:'移す自分の駒を選んでください'};
+  area:'3×3の中心にするマスを選んでください',poopLine:'うんちを投げる敵駒を選んでください',enemyBounty:'懸賞をかける敵駒を選んでください',dirShot:'ツールドフォースを撃つ自分の駒を選んでください',hunterPath:'ハンターズフューリーを撃つ自分の駒を選んでください',enemyPoisoned:'毒を受けている敵駒を選んでください',ownRoll:'ローリングサンダーを撃つ自分の駒を選んでください',thunder:'爆撃範囲の始点（ここから爆撃が始まる）を選んでください',summonSq:'歩を呼び出す空きマスを選んでください',ownPLN:'成っていない自分の歩・香・桂を選んでください',ownForward:'成っていない自分の歩・香・桂を選んでください',enemyNear3:'石化させる敵駒（自分の駒から3マス以内）を選んでください',thunder:'爆撃範囲（横5×縦2）の中心を選んでください',enemyBuffed:'強化を消す相手の駒を選んでください',warp:'移す自分の駒を選んでください'};
 
 let G=null, uid=1, myDeck=[...PRESET];
 let SIM=false, botLevel=1;
@@ -422,9 +430,25 @@ const hasteReady=p=>p.b.haste&&G.T>=p.b.haste.ready;
 const ribExtra=p=>p.b.rib&&p.b.rib.extraAt===G.T&&!p.b.rib.used;
 const isLocked=p=>p.b.lock&&p.b.lock.until>G.T;
 const isStunned=p=>p.stun&&p.stun.until>G.T;
-function stunFor(p,n){const first=G.turn===p.c?G.T:G.T+1;const until=first+2*(n-1)+1;if(!p.stun||p.stun.until<until)p.stun={until};}
+function stunFor(p,n){if(p.lethal&&lethalTrigger(p,'スタン'))return;const first=G.turn===p.c?G.T:G.T+1;const until=first+2*(n-1)+1;if(!p.stun||p.stun.until<until)p.stun={until};}
 const hideInfo=col=>G.fields.some(f=>f.owner===col&&active(f)&&(f.type==='smoke'||f.type==='cloud'));
 const MOVE_BUFFS=['haste','leg','rewind','rib'];
+const WEAPON_OF={blade:'blade',operator:'op',arrow:'arrow',xbow:'xbow',snake:'snake',neon:'neon',marshal:'marshal',breach:'breach',molotov:'molotov',outlaw:'outlaw'};
+const WEAPON_B=Object.values(WEAPON_OF);
+const invis=p=>!!(p&&p.b&&p.b.asn&&p.b.asn.hide>G.T);
+const asnExtra=p=>invis(p)&&!p.b.asn.ambush&&G.T>=p.b.asn.from&&p.b.asn.extraT!==G.T&&G.turn===p.c&&!isLocked(p);
+function enhOk(key,p){
+  if(key==='priest')return !p.b.priest&&!WEAPON_B.some(k=>p.b[k]);
+  if(p.b.priest&&WEAPON_OF[key])return false;
+  if(key==='assassin')return !p.b.asn&&!WEAPON_B.some(k=>p.b[k])&&!MOVE_BUFFS.some(k=>p.b[k])&&!p.b.atomic;
+  if(p.b.asn&&(WEAPON_OF[key]||MOVE_BUFFS.includes(key)||key==='atomic'))return false;
+  return true;
+}
+const canBreach=p=>p.b.breach&&G.T>=p.b.breach.ready&&!isStunned(p)&&!isLocked(p)&&G.turn===p.c&&(G.main||p.b.breach.movedT===G.T);
+const canMolotov=p=>p.b.molotov&&G.T>=p.b.molotov.ready&&G.main&&!isStunned(p)&&!isLocked(p)&&G.turn===p.c;
+const canOutlaw=p=>p.b.outlaw&&G.T>=p.b.outlaw.ready&&G.main&&!isStunned(p)&&!isLocked(p)&&G.turn===p.c;
+const shotLocked=p=>!!(p.b.tdfLock||p.b.huntLock);
+const BREACH_SHAPES=[[[3,0],[4,0],[5,0]],[[3,-1],[4,-1],[5,-1]],[[3,1],[4,1],[5,1]],[[3,-2],[4,-2]],[[3,2],[4,2]],[[2,-2],[3,-3]],[[2,2],[3,3]]];
 const aiming=p=>p.b.op&&G.T>=p.b.op.ready;
 const isoOn=p=>p.b.iso&&p.b.iso.until>G.T&&p.b.iso.charge>0;
 const canShoot=p=>p.b.op&&G.T>=p.b.op.ready&&G.main&&!isLocked(p)&&!isStunned(p)&&G.players[p.c].energy>=1;
@@ -454,6 +478,7 @@ function isProtected(caster,r,c,ignoreBarrier){
 }
 function inOwnPit(p,r,c){return G.fields.some(f=>f.type==='pit'&&f.owner===p.c&&G.T>=(f.from||0)&&has(f.cells,r,c));}
 function isHidden(p,r,c){
+  if(invis(p))return true;
   if(inOwnPit(p,r,c))return true;
   return G.fields.some(f=>f.owner===p.c&&active(f)&&(
     (f.type==='smoke'&&has(f.cells,r,c))||
@@ -571,6 +596,14 @@ function startTurn(){
     else{fx(r,c,'雷 空振り','mag');log(`雷が${nota(r,c)}に着弾したが空振り`,me);}
   }
   G.fields=G.fields.filter(f=>!(f.type==='neon'&&f.done));
+  for(const f of G.fields.filter(f=>f.type==='breach'&&f.owner===me&&f.at<=G.T&&!f.done)){
+    f.done=true;let n=0;
+    for(const[r,c]of f.cells){const q=G.board[r][c];if(q&&q.c!==me&&!ward(q)){stunFor(q,2);fx(r,c,'スタン2','mag');n++;}}
+    log(`${who(me)}のブリーチが着弾。${n}体をスタン2ターン`,me);
+  }
+  G.fields=G.fields.filter(f=>!(f.type==='breach'&&f.done));
+  for(const f of G.fields.filter(f=>(f.type==='tdf'||f.type==='hunter')&&f.owner===me&&f.at<=G.T&&!f.done)){f.done=true;if(f.type==='tdf')fireTdf(f);else fireHunter(f);if(G.over)return;}
+  G.fields=G.fields.filter(f=>!((f.type==='tdf'||f.type==='hunter')&&f.done));
   // run it back: forced return
   for(const[r,c,p]of piecesOf(me)){ if(p.b.rib&&p.b.rib.until<=G.T){ log(`${pname(p)}（${nota(r,c)}）がアンカーへ強制帰還`,me); G.board[r][c]=null; ribReturn(p); if(G.over)return; } }
   // atomics
@@ -598,7 +631,9 @@ function startTurn(){
   if(pl.magician&&!findById(pl.magician.pid))magicianEnd(me);
   if(pl.magician&&G.T>=pl.magician.next){pl.magician.ready=true;if(SIM||(G.mode!=='online'&&me!==ME)){if(magicianOutside(me))magicianCast(me);}else log(`魔術師の「${CARDS[pl.magician.card.key].name}」がこの番に使える${magicianOutside(me)?'':'（魔術師の駒を自分の魔法防御の外に出すと使える）'}`,me);}
   if(G.T>=11){const q=G.board[CENTER[0]][CENTER[1]];if(q&&q.c===me&&(G.T>=25||G.T>=(pl.centerNext||0))){pl.energy=Math.min(10,pl.energy+1);pl.centerNext=G.T+4;fx(CENTER[0],CENTER[1],'中央+1','res');log(`中央（${nota(...CENTER)}）を押さえているので${who(me)}はエネルギー+1${G.T>=25?'':'（次は2ターン後から）'}`,me);}}
-  G.main=true;G.sel=null;G.pending=null;G.shootMode=false;G.forceEnd=false;G.neonFrom=null;
+  G.main=true;G.sel=null;G.pending=null;G.shootMode=false;G.forceEnd=false;G.neonFrom=null;G.breachAim=null;
+  asnCheck(true);
+  priestStart(me);
   render();
   if(me==='g'&&!SIM&&G.mode!=='online')setTimeout(botTurn,700);
 }
@@ -633,7 +668,9 @@ function finishEnd(keepUid){
   if(out.length){out.forEach(c=>{if(c.zero)return;if(pl.awake&&CARDS[c.key].cat!=='awk')pl.exhaust.push(c);else pl.discard.push(c);});log(`使わなかった${out.length}枚を捨て札へ`,me);}
   const kept=pl.hand.find(c=>c.uid===keepUid);
   if(kept)log(me===ME&&!isOnline()?`「${CARDS[kept.key].name}」を次のターンへ持ち越した`:`${who(me)}は1枚を次のターンへ持ち越した`,me);
-  G.sel=null;G.pending=null;G.shootMode=false;G.turn=opp(G.turn);startTurn();
+  asnCheck();
+  if(pl.hunter2){if(pl.hunter2.t===G.T)log('ハンターズフューリーの2発目は予告されず不発',me);pl.hunter2=null;}
+  G.sel=null;G.pending=null;G.shootMode=false;G.molAim=null;G.turn=opp(G.turn);startTurn();
 }
 function openBeastHold(cands){
   G.modal=true;
@@ -665,8 +702,8 @@ function rawMoves(r,c){
 }
 function genMoves(r,c,f){
   const b=G.board,p=b[r][c],out=[];
-  const step=(dr,dc)=>{const rr=r+dr,cc=c+dc;if(!inB(rr,cc))return;const t=b[rr][cc];if(t&&t.c===p.c)return;out.push({r:rr,c:cc,cap:!!t,path:[[rr,cc]]});};
-  const slide=(dr,dc)=>{let rr=r+dr,cc=c+dc;const path=[];while(inB(rr,cc)){const t=b[rr][cc];if(t&&t.c===p.c)break;path.push([rr,cc]);out.push({r:rr,c:cc,cap:!!t,path:[...path]});if(t)break;rr+=dr;cc+=dc;}};
+  const step=(dr,dc)=>{const rr=r+dr,cc=c+dc;if(!inB(rr,cc))return;const t=b[rr][cc];if(t&&t.c===p.c)return;const iv=!!t&&invis(t);out.push({r:rr,c:cc,cap:!!t&&!iv,path:[[rr,cc]],bump:iv?[rr,cc]:null});};
+  const slide=(dr,dc)=>{let rr=r+dr,cc=c+dc;const path=[];let bump=null;while(inB(rr,cc)){const t=b[rr][cc];if(t&&t.c===p.c)break;const iv=!!t&&invis(t);path.push([rr,cc]);out.push({r:rr,c:cc,cap:!!t&&!iv,path:[...path],bump:bump||(iv?[rr,cc]:null)});if(iv&&!bump)bump=[rr,cc];if(t&&!iv)break;rr+=dr;cc+=dc;}};
   const GOLD=[[f,0],[f,-1],[f,1],[0,-1],[0,1],[-f,0]];
   const t=p.t;
   if(t==='K')[...ORTH,...DIAG].forEach(([a,d])=>step(a,d));
@@ -682,15 +719,16 @@ function genMoves(r,c,f){
 }
 function movesFor(r,c){
   const p=G.board[r][c];
-  if(!p||p.c!==G.turn||isLocked(p)||(isStunned(p)&&aiming(p)))return [];
+  if(!p||p.c!==G.turn||isLocked(p)||shotLocked(p)||(isStunned(p)&&aiming(p)))return [];
   const mv=rawMoves(r,c);
   const noCap=list=>list.filter(m=>!m.cap||isHidden(G.board[m.r][m.c],m.r,m.c)).map(m=>m.cap?Object.assign({},m,{cap:false,bounce:true}):m);
+  if(p.b.asn&&(invis(p)||p.b.asn.noCap===G.T)){const nc=noCap(mv);return (G.main||asnExtra(p))?nc:[];}
   if(G.main||ribExtra(p))return isStunned(p)?noCap(mv):mv;
   return (hasteReady(p)||kingExtra(p))?noCap(mv):[];
 }
 function shootTargets(r,c){
   const p=G.board[r][c],out=[];
-  for(const[dr,dc]of[...ORTH,...DIAG]){let rr=r+dr,cc=c+dc;while(inB(rr,cc)){const q=G.board[rr][cc];if(q){if(q.c!==p.c)out.push([rr,cc]);break;}rr+=dr;cc+=dc;}}
+  for(const[dr,dc]of[...ORTH,...DIAG]){let rr=r+dr,cc=c+dc;while(inB(rr,cc)){const q=G.board[rr][cc];if(q&&!(invis(q)&&q.c!==p.c)){if(q.c!==p.c)out.push([rr,cc]);break;}rr+=dr;cc+=dc;}}
   return out;
 }
 function attackedBy(r,c,by){
@@ -704,7 +742,7 @@ function attackedBy(r,c,by){
 function died(p,r,c,cause,killer,by){
   if(p.b.rib&&cause!=='rib'){ribReturn(p);return false;}
   if(p.b.magician&&G.players[p.c].magician&&G.players[p.c].magician.pid===p.id)magicianEnd(p.c);
-  if(cause!=='capture')fx(r,c,{poop:'うんち',sleep:'熟睡',poison:'毒で倒れた',atomic:'消滅',bomb:'爆発',thunder:'爆撃',shot:'狙撃',burn:'爆撃跡',rib:'帰還失敗',fire:'延焼',bolt:'弩'}[cause]||'消滅','kill');
+  if(cause!=='capture')fx(r,c,{poop:'うんち',sleep:'熟睡',poison:'毒で倒れた',atomic:'消滅',bomb:'爆発',thunder:'爆撃',shot:'狙撃',burn:'爆撃跡',rib:'帰還失敗',fire:'延焼',bolt:'弩',lethal:'致死毒',tdf:'狙撃'}[cause]||'消滅','kill');
   if(cause==='bomb'&&killer===p.c&&by&&by!==p&&p.t==='P'&&p.b.insure&&p.b.insure.until>=G.T){const pl=G.players[p.c];pl.energy=Math.min(10,pl.energy+3);fx(r,c,'保険+3','res');log(`自爆に巻き込まれた歩の保険：${who(p.c)}はエネルギー+3`,p.c);}
   if(p.b.insure&&p.b.insure.until>G.T&&killer&&killer!==p.c){const pl=G.players[p.c];pl.energy=Math.min(10,pl.energy+3);log(`保険が発動。${who(p.c)}はエネルギー+3`,p.c);}
   if(killer&&killer!==p.c&&p.t!=='K'){const kg=G.players[killer].golden;const bonus=(p.t==='P'&&!p.pro?0:(p.pro||'BR'.includes(p.t))?2:1)+(kg&&kg.until>G.T?1:0);if(bonus){const kp=G.players[killer];kp.energy=Math.min(10,kp.energy+bonus);log(`撃破ボーナス：${who(killer)}はエネルギー+${bonus}`,killer);}}
@@ -717,7 +755,7 @@ function died(p,r,c,cause,killer,by){
   return true;
 }
 function killPiece(r,c,cause,killer,by){const p=G.board[r][c];if(!p)return false;
-  if(isoOn(p)){p.b.iso.charge=0;p.poison=null;delete p.burn;delete p.poop;fx(r,c,'アーマー','enh');log(`${pname(p)}（${nota(r,c)}）がアイソアーマーで耐えた`,p.c);return false;}
+  if(isoOn(p)){p.b.iso.charge=0;p.poison=null;delete p.lethal;delete p.burn;delete p.poop;fx(r,c,'アーマー','enh');log(`${pname(p)}（${nota(r,c)}）がアイソアーマーで耐えた`,p.c);return false;}
   if(p.t==='K'&&G.players[p.c].lives>0){G.players[p.c].lives--;p.poison=null;delete p.burn;delete p.poop;fx(r,c,'残機-1','res');log(`${pname(p)}は残機で耐えた（残り${G.players[p.c].lives}）`,p.c);return false;}
  G.board[r][c]=null;return died(p,r,c,cause,killer,by);}
 function ribReturn(p){
@@ -731,6 +769,7 @@ function checkBurn(r,c,path){
   if(cells.some(([rr,cc])=>fieldsAt('burn',rr,cc).length)){log(`${pname(p)}（${nota(r,c)}）が爆撃跡に入って倒れた`,opp(p.c));killPiece(r,c,'burn',opp(p.c));}
 }
 function doMove(fr,fc,tr,tc,face){
+  {const bm=rawMoves(fr,fc).find(m=>m.r===tr&&m.c===tc);if(bm&&bm.bump){asnBump(fr,fc,bm.bump);return;}}
   const b=G.board,p=b[fr][fc],t=b[tr][tc];
   if(t&&t.c!==p.c&&(isStunned(p)||(!G.main&&!ribExtra(p)))){
     G.main=false;G.forceEnd=true;G.sel=null;G.shootMode=false;
@@ -738,6 +777,7 @@ function doMove(fr,fc,tr,tc,face){
     render();return;
   }
   if(t&&t.c!==p.c&&isoOn(t)){t.b.iso.charge=0;G.main=false;G.sel=null;G.shootMode=false;fx(tr,tc,'アーマー','enh');log(`${pname(t)}（${nota(tr,tc)}）がアイソアーマーで攻撃を耐え、${pname(p)}は元のマスに戻った`,t.c);render();return;}
+  if(t&&t.c!==p.c&&t.t==='K'&&p.b.asn&&p.b.asn.strike===G.T){p.b.asn.strike=-1;G.main=false;G.sel=null;G.shootMode=false;p.b.asn.movedT=G.T;fx(tr,tc,'暗殺','poi');log(`${mark(p.c)}潜伏していたアサシンが${pname(t)}を刺した`,p.c);applyLethal(tr,tc,p,p.c);render();return;}
   if(t&&t.c!==p.c&&t.t==='K'&&G.players[t.c].lives>0){G.players[t.c].lives--;G.main=false;G.sel=null;G.shootMode=false;fx(tr,tc,'残機-1','res');log(`${pname(t)}は残機で攻撃を耐え、${pname(p)}は元のマスに戻った（残り${G.players[t.c].lives}）`,t.c);render();return;}
   const mv=rawMoves(fr,fc).find(m=>m.r===tr&&m.c===tc);
   const hid=isHidden(p,fr,fc);
@@ -745,9 +785,12 @@ function doMove(fr,fc,tr,tc,face){
   if(ribExtra(p)){p.b.rib.used=true;tag='〔アンカー移動〕';}
   else if(!t&&hasteReady(p)){delete p.b.haste;tag='〔疾風〕';}
   else if(!t&&!G.main&&kingExtra(p)){G.players[p.c].awakeUsed=true;tag='〔子守唄〕';}
+  else if(!t&&asnExtra(p)){p.b.asn.extraT=G.T;tag='〔影〕';}
   else G.main=false;
+  if(p.b.asn){p.b.asn.movedT=G.T;if(p.b.asn.ambush){p.b.asn.ambush=false;p.b.asn.hide=0;}}
+  if(p.b.breach)p.b.breach.movedT=G.T;
   G.sel=null;G.shootMode=false;
-  if(p.burn){delete p.burn;fx(fr,fc,'延焼回避','enh');}
+  if(p.burn){delete p.burn;if(!invis(p))fx(fr,fc,'延焼回避','enh');}
   if(p.petri)delete p.petri;
   if(p.b.xbow&&p.b.xbow.ch!=null){p.b.xbow.ch=null;log(`${pname(p)}が動いたので弩の溜めが消えた`,p.c);}
   if(p.b.op)p.b.op.ready=Math.max(p.b.op.ready,G.T+4);
@@ -755,15 +798,15 @@ function doMove(fr,fc,tr,tc,face){
   b[fr][fc]=null;b[tr][tc]=p;
   if(t){ died(t,tr,tc,'capture',p.c,p); }
   let promo=false;if(canPromote(p)&&(zone(p.c,fr)||zone(p.c,tr))){p.pro=true;promo=true;}
-  G.last={fr,fc,tr,tc};
-  log(`${mark(p.c)}${nota(tr,tc)}${pn}${promo&&!hid?'成':''}${t?`（${tn}を取る）`:''}${tag}`,p.c);
+  G.last=invis(p)?null:{fr,fc,tr,tc};
+  if(invis(p))log(`${mark(p.c)}見えない駒が動いた`,p.c);else log(`${mark(p.c)}${nota(tr,tc)}${pn}${promo&&!hid?'成':''}${t?`（${tn}を取る）`:''}${tag}`,p.c);
   if(promo&&!isHidden(p,tr,tc))fx(tr,tc,'成り','res');
   if(G.over){render();return;}
   if(hasFacing(p)){const nf=face||(p.c==='g'?bestFace(p,tr,tc):null);if(nf)p.face=nf;}
   G.faceSel=null;
   if(armed(p.b.blade)){
     if(p.b.blade.empty){p.b.blade.empty=false;fx(tr,tc,'刃 装填','enh');}
-    else{for(const[rr,cc]of faceCells(p.c,p.face||'f',tr,tc,2)){const q=b[rr][cc];if(q){if(q.c!==p.c){poisonPiece(rr,cc,'毒刃',p);p.b.blade.empty=true;}break;}}}
+    else{for(const[rr,cc]of faceCells(p.c,p.face||'f',tr,tc,2)){const q=b[rr][cc];if(q&&!(invis(q)&&q.c!==p.c)){if(q.c!==p.c){poisonPiece(rr,cc,'毒刃',p);p.b.blade.empty=true;}break;}}}
   }
   if(b[tr][tc]===p&&neonLoaded(p)&&neonCell(p,tr,tc)){
     if(p.c!==ME||SIM||(G.mode!=='online'&&p.c!==ME)){const nc=neonCell(p,tr,tc);const q=b[nc[0]][nc[1]];if(q&&q.c!==p.c)throwNeon(p.id);}
@@ -771,7 +814,10 @@ function doMove(fr,fc,tr,tc,face){
   }
   if(mv&&b[tr][tc]===p&&mv.path.some(([r,c])=>fieldsAt('swamp',r,c).some(f=>f.owner!==p.c)))poisonPiece(tr,tc,'毒沼');
   if(mv&&b[tr][tc]===p)checkBurn(tr,tc,mv.path);
+  if(b[tr][tc]===p&&p.lethal&&fieldsAt('seize',tr,tc).length&&!ward(p))lethalTrigger(p,'シーズ');
+  if(b[tr][tc]===p&&p.b.priest)p.b.priest.movedT=G.T;
   if(b[tr][tc]===p)snakeCheck(tr,tc);
+  asnCheck();
   render();
 }
 function shoot(fr,fc,tr,tc){
@@ -782,9 +828,168 @@ function shoot(fr,fc,tr,tc){
   killPiece(tr,tc,'shot',p.c,p);
   render();
 }
+function hasDebuff(q,r,c){return !!((q.poison&&q.poison.until>G.T)||q.lethal||q.burn||q.petri||(isLocked(q)&&!q.b.lock.warp)||isStunned(q)||q.poop||(r!=null&&fieldsAt('seize',r,c).length));}
+function lethalTrigger(q,what){
+  const f=findById(q.id);if(!f)return false;
+  log(`致死毒の${isHidden(q,f[0],f[1])?'？':pname(q)}（${nota(f[0],f[1])}）は${what}を受けて倒れた`,opp(q.c));
+  killPiece(f[0],f[1],'lethal',G.turn!==q.c?G.turn:opp(q.c));return true;
+}
+function applyLethal(r,c,by,killer){
+  const q=G.board[r][c];if(!q||ward(q))return;
+  if(hasDebuff(q,r,c)){log(`${isHidden(q,r,c)?'？':pname(q)}（${nota(r,c)}）はデバフを受けていたため致死毒で即死した`,killer);killPiece(r,c,'lethal',killer,by);return;}
+  q.lethal={by:killer};fx(r,c,'致死毒','poi');log(`${isHidden(q,r,c)?'？':pname(q)}（${nota(r,c)}）が致死毒を受けた（次に何かデバフを受けると倒れる）`,killer);
+}
+function cleanseAll(q){q.poison=null;delete q.lethal;delete q.burn;delete q.petri;if(q.b.lock&&!q.b.lock.warp)delete q.b.lock;delete q.stun;delete q.poop;delete q.bounty;}
+const DEBUF_NAMES=q=>[q.lethal&&'致死毒',q.poison&&q.poison.until>G.T&&'毒',q.burn&&'延焼',q.petri&&'石化',isLocked(q)&&!q.b.lock.warp&&'熟睡・石',isStunned(q)&&'スタン',q.poop&&'うんち',q.bounty&&'懸賞'].filter(Boolean);
+function priestCands(me){
+  const pr=piecesOf(me).filter(([r,c,p])=>p.b.priest&&p.b.priest.movedT!==G.T-2);if(!pr.length)return [];
+  return piecesOf(me).filter(([r,c,q])=>DEBUF_NAMES(q).length&&pr.some(([r2,c2])=>cheb(r,c,r2,c2)<=1));
+}
+function priestScore(q){return (q.lethal?(q.t==='K'?100:20+val(q)):0)+(q.burn?(q.t==='K'?80:10+val(q)):0)+(q.poop?(q.t==='K'?90:8+val(q)):0)+(q.poison&&q.poison.until>G.T?(q.t==='K'?40:4+val(q)*0.5):0)+(q.petri||isLocked(q)?3+val(q)*0.2:0)+(isStunned(q)?2:0)+(q.bounty?1:0);}
+function priestDo(me,r,c){const q=G.board[r][c];if(!q)return;const nm=DEBUF_NAMES(q).join('・');cleanseAll(q);fx(r,c,'浄化','enh');log(`プリーストが${pname(q)}（${nota(r,c)}）の${nm}を解除した`,me);}
+function priestStart(me){
+  const cs=priestCands(me);if(!cs.length)return;
+  if(cs.length===1||SIM||isBotC(me)){const[r,c]=cs.sort((a,b)=>priestScore(b[2])-priestScore(a[2]))[0];priestDo(me,r,c);return;}
+  if(me!==ME){G.players[me].priestPick=G.T;return;}
+  G.modal=true;
+  openModal(`<h3>プリースト：デバフを解除する駒を選ぶ</h3><p>1ターンに1体まで解除できます。</p><div class="modal-actions" style="flex-wrap:wrap">${cs.map(([r,c,q],i)=>`<button class="btn" type="button" data-pr="${i}">${pname(q)}（${nota(r,c)}）：${DEBUF_NAMES(q).join('・')}</button>`).join('')}</div>`,root=>{
+    root.querySelectorAll('[data-pr]').forEach(el=>el.addEventListener('click',()=>{const[r,c]=cs[+el.dataset.pr];G.modal=false;closeModal();priestDo(me,r,c);render();}));
+  });
+}
+/* molotov */
+function molotovOpts(r,c){
+  const p=G.board[r][c];if(!p)return [];const f=fw(p.c),out=[];
+  for(const[k,dd]of[[3,0],[2,-1],[2,1]]){const cr=r+f*k,cc=c+dd;if(!inB(cr,cc))continue;
+    for(const[a,b2]of[[-1,0],[1,0],[0,-1],[0,1]]){const cells=[[cr,cc]];if(inB(cr+a,cc+b2))cells.push([cr+a,cc+b2]);out.push({center:[cr,cc],cells});}}
+  return out;
+}
+function fireMolotov(r,c,cells){
+  const p=G.board[r][c];if(!p||!canMolotov(p))return;
+  G.main=false;p.b.molotov.ready=G.T+8;G.sel=null;G.shootMode=false;G.molAim=null;G.last={fr:r,fc:c,tr:cells[0][0],tc:cells[0][1]};
+  log(`${mark(p.c)}${pname(p)}（${nota(r,c)}）が火炎瓶を投げた（${cells.map(x=>nota(...x)).join('・')}）`,p.c);
+  for(const[rr,cc]of cells){fx(rr,cc,'炎上','kill');if(G.board[rr][cc])burnPiece(rr,cc,'火炎瓶',p);if(G.over)break;}
+  render();
+}
+function molotovValue(me,cells){let v=0,n=0;for(const[r,c]of cells){const q=G.board[r][c];if(!q||ward(q))continue;if(q.c!==me){n++;v+=q.t==='K'?(hasDebuff(q,r,c)&&q.lethal?60:10):(q.lethal?val(q)+4:val(q)*0.5+1);}else v-=q.t==='K'?40:val(q)*0.8+1;}return v+(n>=2?3:0);}
+function bestMolotov(me){let best=null;for(const[r,c,p]of piecesOf(me)){if(!canMolotov(p))continue;molotovOpts(r,c).forEach((o,i)=>{const v=molotovValue(me,o.cells);if(!best||v>best.v)best={r,c,i,v,cells:o.cells};});}return best;}
+/* outlaw */
+function outlawPath(r,c,dd){const p=G.board[r][c];const f=fw(p.c),out=[];for(let k=1;k<=6;k++){const rr=r+f*k,cc=c+(k>=4?dd:0);if(!inB(rr,cc))break;out.push([rr,cc]);}return out;}
+function outlawTargets(r,c){
+  const p=G.board[r][c],out=[];
+  for(const dd of[0,-1,1]){for(const[rr,cc]of outlawPath(r,c,dd)){const q=G.board[rr][cc];if(!q)continue;if(invis(q)&&q.c!==p.c)continue;if(q.c!==p.c&&!has(out,rr,cc))out.push([rr,cc]);break;}}
+  return out;
+}
+function fireOutlaw(fr,fc,tr,tc){
+  const p=G.board[fr][fc];if(!p||!canOutlaw(p))return;
+  G.main=false;p.b.outlaw.ready=G.T+6;G.sel=null;G.shootMode=false;G.last={fr,fc,tr,tc};
+  log(`${mark(p.c)}${pname(p)}（${nota(fr,fc)}）がアウトローで撃った`,p.c);
+  applyLethal(tr,tc,p,p.c);render();
+}
+function outlawValue(q,r,c){if(ward(q))return 0;const db=hasDebuff(q,r,c);return q.t==='K'?(db?1000:14):(db?val(q)+3:val(q)*0.5+2);}
+function bestOutlaw(me){let best=null;for(const[r,c,p]of piecesOf(me)){if(!canOutlaw(p))continue;for(const[tr,tc]of outlawTargets(r,c)){const v=outlawValue(G.board[tr][tc],tr,tc);if(!best||v>best.v)best={fr:r,fc:c,tr,tc,v};}}return best;}
+/* tour de force */
+const DIR8=[[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]];
+function rayCells(r,c,dr,dc){const o=[];let rr=r+dr,cc=c+dc;while(inB(rr,cc)){o.push([rr,cc]);rr+=dr;cc+=dc;}return o;}
+function fireTdf(f){
+  const me=f.owner;const fp=findById(f.pid);
+  if(fp)delete fp[2].b.tdfLock;
+  if(!fp||fp[0]!==f.origin[0]||fp[1]!==f.origin[1]){log(`${who(me)}のツールドフォースは撃つ駒がいなくなり不発`,me);return;}
+  for(const[r,c]of f.cells){const q=G.board[r][c];if(!q)continue;
+    if(isProtected(me,r,c)){fx(r,c,'不発','mag');log(`ツールドフォースは魔法防御に防がれた（${nota(r,c)}）`,me);return;}
+    fx(r,c,'撃破','kill');log(`${who(me)}のツールドフォースが${isHidden(q,r,c)?'？':pname(q)}（${nota(r,c)}）に命中`,me);
+    const dead=killPiece(r,c,'tdf',me,fp[2]);
+    if(dead&&!G.over){const cells=[];for(let rr=r-1;rr<=r+1;rr++)for(let cc=c-1;cc<=c+1;cc++)if(inB(rr,cc))cells.push([rr,cc]);G.fields.push({type:'seize',owner:me,cells,until:G.T+4});log(`${nota(r,c)}を中心にシーズが発動`,me);seizeLethal(cells);}
+    return;}
+  log(`${who(me)}のツールドフォースは何にも当たらなかった`,me);
+}
+function seizeLethal(cells){for(const[r,c]of cells){const q=G.board[r][c];if(q&&q.lethal&&!ward(q)){lethalTrigger(q,'シーズ');if(G.over)return;}}}
+/* hunter's fury */
+function hunterPath(r,c,col,dd){const f=fw(col),out=[];for(let k=1;k<=6;k++){const rr=r+f*k,cc=c+(k>=4?dd:0);if(!inB(rr,cc))break;out.push([rr,cc]);}return out;}
+function hunterBranchCells(r,c,col){const out=[];for(const dd of[0,-1,1])for(const[k,x]of hunterPath(r,c,col,dd).entries())if(k>=3&&!has(out,x[0],x[1]))out.push(x);return out;}
+function hunterBranchAt(r,c,col,tr,tc){for(const dd of[0,-1,1]){const pth=hunterPath(r,c,col,dd);if(pth.slice(3).some(x=>x[0]===tr&&x[1]===tc))return dd;}return null;}
+function hunterValue(me,cells){let v=0;for(const[r,c]of cells){const q=G.board[r][c];if(!q||ward(q)||isProtected(me,r,c))continue;const sign=q.c!==me?1:-0.7;const kill=q.lethal||(q.poison&&q.poison.until>G.T);v+=sign*(q.t==='K'?(kill?60:8):(kill?val(q)+2:val(q)*0.4+0.5));}return v;}
+function hunterBest(me,r,c){let best=null;for(const dd of[0,-1,1]){const pth=hunterPath(r,c,me,dd);if(pth.length<4)continue;const v=hunterValue(me,pth);if(!best||v>best.v)best={dd,v,cells:pth};}return best;}
+function fireHunter(f){
+  const me=f.owner;const fp=findById(f.pid);
+  if(fp)delete fp[2].b.huntLock;
+  if(!fp||fp[0]!==f.origin[0]||fp[1]!==f.origin[1]){log(`${who(me)}のハンターズフューリーは撃つ駒がいなくなり不発`,me);return;}
+  let n=0;for(const[r,c]of f.cells){if(isProtected(me,r,c))continue;fx(r,c,'毒矢','poi');const q=G.board[r][c];if(q){poisonPiece(r,c,'ハンターズフューリー',fp[2]);n++;}if(G.over)return;}
+  log(`${who(me)}のハンターズフューリー${f.shot===1?'1発目':'2発目'}が${n}体を貫いた`,me);
+  if(f.shot===1)G.players[me].hunter2={pid:f.pid,t:G.T};
+}
+function aimHunter2(me,dd){
+  const pl=G.players[me];const h=pl.hunter2;if(!h||h.t!==G.T)return false;const fp=findById(h.pid);if(!fp)return false;
+  const[r,c,p]=fp;const cells=hunterPath(r,c,me,dd);if(cells.length<4)return false;
+  G.fields.push({type:'hunter',owner:me,pid:p.id,origin:[r,c],cells,at:G.T+2,until:G.T+3,shot:2});p.b.huntLock=true;pl.hunter2=null;
+  G.sel=null;G.shootMode=false;fx(r,c,'2発目予告','poi');log(`${who(me)}がハンターズフューリーの2発目を予告した`,me);render();return true;
+}
+const hunterPending=me=>{const h=G.players[me].hunter2;return !!(h&&h.t===G.T&&findById(h.pid));};
+function asnReveal(r,c,p,why){
+  const a=p.b.asn;if(!a)return;a.hide=0;a.ambush=false;
+  fx(r,c,'発見','mag');log(`${who(p.c)}のアサシン（${pname(p)}・${nota(r,c)}）が${why||'姿を現した'}`,p.c);
+}
+function asnCheck(noLock){
+  for(const[r,c,p]of piecesOf('s').concat(piecesOf('g'))){
+    if(!invis(p))continue;
+    if(rawMoves(r,c).some(m=>m.cap)){const amb=p.b.asn.ambush;asnReveal(r,c,p);if(amb&&G.turn!==p.c)p.b.asn.strike=G.T+1;if(!noLock&&G.turn===p.c)p.b.asn.noCap=G.T;}
+  }
+}
+function asnBump(fr,fc,at){
+  const p=G.board[fr][fc];const q=G.board[at[0]][at[1]];
+  G.main=false;G.forceEnd=true;G.sel=null;G.shootMode=false;
+  fx(fr,fc,'移動無効','mag');log(`${mark(p.c)}${isHidden(p,fr,fc)?'？':pname(p)}は見えない駒にぶつかり移動できなかった。ターン終了`,p.c);
+  if(q&&invis(q)){const amb=q.b.asn.ambush;asnReveal(at[0],at[1],q,'ぶつかられて姿を現した');if(amb&&G.turn!==q.c)q.b.asn.strike=G.T+1;}
+  render();
+}
+function canAmbush(p,r,c){const a=p.b.asn;return !!a&&!a.ambushUsed&&!a.ambush&&a.movedT!==G.T&&G.turn===p.c&&!rawMoves(r,c).some(m=>m.cap);}
+function doAmbush(r,c){
+  const p=G.board[r][c];if(!p||!canAmbush(p,r,c))return;
+  const a=p.b.asn;a.ambush=true;a.ambushUsed=true;a.hide=G.T+8;
+  G.sel=null;G.shootMode=false;fx(r,c,'潜伏','mag');log(`${who(p.c)}のアサシンが潜伏した（動かすまで最大4ターン見えない）`,p.c);render();
+}
+function botAmbush(me){
+  for(const[r,c,p]of piecesOf(me)){if(p.b.asn&&canAmbush(p,r,c)&&(!invis(p)||p.b.asn.hide<=G.T+2)){p.b.asn.ambush=true;p.b.asn.ambushUsed=true;p.b.asn.hide=G.T+8;log(`${who(me)}のアサシンが潜伏した`,me);}}
+}
+function breachAreas(r,c){
+  const p=G.board[r][c];if(!p)return [];const f=fw(p.c);
+  return BREACH_SHAPES.map(sh=>({cells:sh.map(([k,d])=>[r+f*k,c+d]).filter(([a,b])=>inB(a,b))})).filter(x=>x.cells.length);
+}
+function fireBreach(r,c,i){
+  const p=G.board[r][c];if(!p||!canBreach(p))return;const ar=breachAreas(r,c)[i];if(!ar)return;
+  if(p.b.breach.movedT!==G.T)G.main=false;
+  p.b.breach.ready=G.T+6;G.sel=null;G.shootMode=false;G.breachAim=null;
+  G.fields.push({type:'breach',owner:p.c,cells:ar.cells,at:G.T+2,until:G.T+3});
+  fx(ar.cells[0][0],ar.cells[0][1],'ブリーチ予告','mag');
+  log(`${mark(p.c)}${pname(p)}（${nota(r,c)}）がブリーチを撃った（${ar.cells.map(x=>nota(...x)).join('・')}に1ターン後着弾）`,p.c);
+  render();
+}
+function breachValue(me,cells){
+  let v=0;for(const[r,c]of cells){const q=G.board[r][c];if(!q||q.c===me||ward(q))continue;
+    if(q.t==='K')v+=5;else if(q.b.op)v+=aiming(q)?14:6;else if(WEAPON_B.some(k=>q.b[k]))v+=3+val(q)*0.2;else v+=1+val(q)*0.3;}
+  return v;
+}
+function bestBreach(me,needFree){
+  let best=null;
+  for(const[r,c,p]of piecesOf(me)){if(!canBreach(p))continue;if(needFree&&p.b.breach.movedT!==G.T)continue;
+    breachAreas(r,c).forEach((ar,i)=>{const v=breachValue(me,ar.cells);if(!best||v>best.v)best={r,c,i,v};});}
+  return best;
+}
+function greedyHunter(me,rec){if(!hunterPending(me))return;const h=G.players[me].hunter2;const fp=findById(h.pid);if(!fp)return;const b=hunterBest(me,fp[0],fp[1]);if(b&&b.v>0){const a={type:'hunter2',dd:b.dd};if(simApply(a)&&rec)rec.push(a);}}
+function greedyBreach(me,rec){const b=bestBreach(me,true);if(b&&b.v>=3){const a={type:'breach',r:b.r,c:b.c,ai:b.i};if(simApply(a)&&rec)rec.push(a);}}
+const AMAZON_EX=['magician'];
+function amazonKeys(col){const pl=G.players[col];const have=new Set([...pl.draw,...pl.hand,...pl.discard,...(pl.opener?[pl.opener]:[])].filter(c=>!c.fetched).map(c=>c.key));return Object.keys(CARDS).filter(k=>CARDS[k].cat==='enh'&&CARDS[k].cost<=3&&!have.has(k)&&!AMAZON_EX.includes(k));}
+function amazonGive(col,key){const pl=G.players[col];pl.hand.push({uid:uid++,key,held:true,fetched:true});log(`アマゾン：${who(col)}は「${CARDS[key].name}」を取り寄せた（保留）`,col);}
+function amazonBotPick(opts,col){const ok=opts.filter(k=>validTargets(k,null,col).length);const l=ok.length?ok:opts;return [...l].sort((a,b)=>CARDS[b].cost-CARDS[a].cost||Math.random()-0.5)[0];}
+function openAmazon(opts){
+  G.modal=true;
+  openModal(`<h3>アマゾン：取り寄せるカードを1枚選ぶ</h3><p>自分のデッキにない3コスト以下の駒強化から届いた候補です。選んだ1枚は保留で手札に入り、使うと消えます。</p>
+    <div class="grid-cards">${opts.map((k,i)=>cardHTML(k,-(i+1),'',ME)).join('')}</div>`,root=>{
+    root.querySelectorAll('.grid-cards .card').forEach(el=>el.addEventListener('click',()=>{const k=opts[-(+el.dataset.uid)-1];G.modal=false;closeModal();amazonGive(ME,k);render();}));
+  });
+}
 function lineFirst(r,c,dirs,len){
-  const out=[];
-  for(const[dr,dc]of dirs){let rr=r+dr,cc=c+dc,n=0;while(inB(rr,cc)&&n<len){const q=G.board[rr][cc];if(q){out.push([rr,cc,q]);break;}rr+=dr;cc+=dc;n++;}}
+  const out=[];const sh=G.board[r][c];
+  for(const[dr,dc]of dirs){let rr=r+dr,cc=c+dc,n=0;while(inB(rr,cc)&&n<len){const q=G.board[rr][cc];if(q&&!(invis(q)&&sh&&q.c!==sh.c)){out.push([rr,cc,q]);break;}rr+=dr;cc+=dc;n++;}}
   return out;
 }
 function arrowTargets(r,c){const p=G.board[r][c];return lineFirst(r,c,[[fw(p.c),0]],2).filter(x=>x[2].c!==p.c).map(x=>[x[0],x[1]]);}
@@ -800,7 +1005,7 @@ function bestFace(p,r,c){
   return best;
 }
 function marshalTargets(r,c){const p=G.board[r][c];return lineFirst(r,c,DIAG,7).filter(x=>x[2].c!==p.c).map(x=>[x[0],x[1]]);}
-function modeTargets(mode,r,c){return mode==='op'?shootTargets(r,c):mode==='arrow'?arrowTargets(r,c):mode==='xbow'?xbowTargets(r,c):mode==='marshal'?marshalTargets(r,c):[];}
+function modeTargets(mode,r,c){return mode==='molotov'?molotovOpts(r,c).map(o=>o.center).filter((x,i,a)=>a.findIndex(y=>y[0]===x[0]&&y[1]===x[1])===i):mode==='outlaw'?outlawTargets(r,c):mode==='hunter2'?hunterBranchCells(r,c,ME):mode==='breach'?breachAreas(r,c).flatMap(x=>x.cells):mode==='op'?shootTargets(r,c):mode==='arrow'?arrowTargets(r,c):mode==='xbow'?xbowTargets(r,c):mode==='marshal'?marshalTargets(r,c):[];}
 function fireMarshal(fr,fc,tr,tc){
   const p=G.board[fr][fc];G.main=false;p.b.marshal.ready=G.T+4;G.sel=null;G.shootMode=false;
   log(`${mark(p.c)}${isHidden(p,fr,fc)?'？':pname(p)}（${nota(fr,fc)}）がマーシャルで撃った`,p.c);G.last={fr,fc,tr,tc};
@@ -814,17 +1019,19 @@ function throwNeon(id){
 }
 function burnPiece(r,c,src,by){
   const p=G.board[r][c];if(!p||ward(p))return;
+  if(p.lethal){lethalTrigger(p,'延焼');return;}
   p.burn={dl:G.T+1,by};fx(r,c,'延焼','kill');
   log(`${isHidden(p,r,c)?'？':pname(p)}（${nota(r,c)}）が${src}で延焼。次の番に動かないと倒れる`,opp(p.c));
 }
 function petrify(r,c,src){
   const p=G.board[r][c];if(!p||ward(p)||p.petri||isLocked(p)||(p.petImm&&p.petImm>G.T))return false;
+  if(p.lethal){lethalTrigger(p,'石化');return true;}
   p.petri={dl:G.T+1};fx(r,c,'石化','mag');
   log(`${isHidden(p,r,c)?'？':pname(p)}（${nota(r,c)}）が${src}で石化。次の番に動かないと、その次の番は動けない`,opp(p.c));
   return true;
 }
 function snakeCheck(r,c){
-  const q=G.board[r][c];if(!q)return;
+  const q=G.board[r][c];if(!q||invis(q))return;
   for(const[sr,sc,s]of piecesOf(opp(q.c))){if(armed(s.b.snake)&&has(faceCells(s.c,s.face||'f',sr,sc,2),r,c))petrify(r,c,'蛇の目');}
 }
 function fireArrow(fr,fc,tr,tc){
@@ -843,6 +1050,7 @@ function fireXbow(fr,fc,tr,tc){
 }
 function poisonPiece(r,c,src,by){
   const p=G.board[r][c];if(!p||ward(p))return;
+  if(p.lethal&&!inOwnPit(p,r,c)){lethalTrigger(p,'毒');return;}
   if(inOwnPit(p,r,c)){p.poison={at:(p.poison&&p.poison.until>G.T)?p.poison.at:G.T,until:G.T+6};return;}
   if(p.poison&&p.poison.until>G.T){
     if(p.poison.at!==G.T){log(`${isHidden(p,r,c)?'？':pname(p)}（${nota(r,c)}）は${src}で2度目の毒を受けて倒れた`,opp(p.c));killPiece(r,c,'poison',opp(p.c),by);}
@@ -864,20 +1072,26 @@ function validTargets(key,first,col){
   const xy=a=>a.map(([r,c])=>[r,c]);
   switch(d.target){
     case 'none':return [];
-    case 'own':return xy(mine.filter(x=>!(MOVE_BUFFS.includes(key)&&x[2].b.atomic)));
-    case 'ownNoKing':return xy(mine.filter(x=>x[2].t!=='K'&&!(MOVE_BUFFS.includes(key)&&x[2].b.atomic)));
-    case 'ownPawn':return xy(mine.filter(x=>x[2].t==='P'&&!x[2].pro&&!(key==='atomic'&&MOVE_BUFFS.some(k=>x[2].b[k]))));
+    case 'own':return xy(mine.filter(x=>!(MOVE_BUFFS.includes(key)&&x[2].b.atomic)&&enhOk(key,x[2])));
+    case 'ownNoKing':return xy(mine.filter(x=>x[2].t!=='K'&&!(MOVE_BUFFS.includes(key)&&x[2].b.atomic)&&enhOk(key,x[2])));
+    case 'ownPawn':return xy(mine.filter(x=>x[2].t==='P'&&!x[2].pro&&!(key==='atomic'&&MOVE_BUFFS.some(k=>x[2].b[k]))&&enhOk(key,x[2])));
     case 'ownRoll':return xy(mine.filter(([r,c])=>areaCells('roll',me,r,c).length>0));
-    case 'enemyNear3':return xy(piecesOf(op).filter(([r,c,p])=>!isProtected(me,r,c)&&mine.some(([r2,c2])=>cheb(r,c,r2,c2)<=3)&&!ward(p)&&!p.petri&&!isLocked(p)&&!(p.petImm&&p.petImm>G.T)));
+    case 'enemyNear3':return xy(piecesOf(op).filter(([r,c,p])=>!isProtected(me,r,c)&&mine.some(([r2,c2])=>cheb(r,c,r2,c2)<=3)&&!invis(p)&&!ward(p)&&!p.petri&&!isLocked(p)&&!(p.petImm&&p.petImm>G.T)));
     case 'poopLine':return poopTargets(me);
-    case 'enemyBounty':return xy(piecesOf(op).filter(([r,c,p])=>p.t!=='K'&&!p.bounty&&!ward(p)&&!isProtected(me,r,c)));
-    case 'enemyPoisoned':return xy(piecesOf(op).filter(([r,c,p])=>p.poison&&p.poison.until>G.T&&!isProtected(me,r,c)&&!ward(p)));
+    case 'enemyBounty':return xy(piecesOf(op).filter(([r,c,p])=>p.t!=='K'&&!invis(p)&&!p.bounty&&!ward(p)&&!isProtected(me,r,c)));
+    case 'enemyPoisoned':return xy(piecesOf(op).filter(([r,c,p])=>!invis(p)&&p.poison&&p.poison.until>G.T&&!isProtected(me,r,c)&&!ward(p)));
     case 'summonSq':{const o=[];for(let r=0;r<N;r++)for(let c=0;c<N;c++){if(G.board[r][c])continue;if(campRowProtected(me,r)||mine.some(([r2,c2,p])=>p.b.barrier&&cheb(r,c,r2,c2)<=1))o.push([r,c]);}return o;}
     case 'thunder':{
       if(!first){const o=[];for(let r=0;r<N;r++)for(let c=0;c<N;c++)if(!isProtected(me,r,c))o.push([r,c]);return o;}
       const o=[];for(let r=0;r<N;r++)for(let c=0;c<N;c++)if(rectOk(first,[r,c])&&thunderCells(me,first,[r,c]).length)o.push([r,c]);return o;}
     case 'area':{const o=[];for(let r=0;r<N;r++)for(let c=0;c<N;c++)if(!isProtected(me,r,c))o.push([r,c]);return o;}
     case 'enemyBuffed':return xy(piecesOf(op).filter(([r,c,p])=>Object.keys(p.b).length&&!ward(p)&&!isHidden(p,r,c)&&!isProtected(me,r,c,true)));
+    case 'dirShot':{
+      if(!first)return xy(mine.filter(x=>!shotLocked(x[2])));
+      return DIR8.map(([a,b2])=>[first[0]+a,first[1]+b2]).filter(([r,c])=>inB(r,c));}
+    case 'hunterPath':{
+      if(!first)return xy(mine.filter(x=>!shotLocked(x[2])&&hunterBranchCells(x[0],x[1],me).length));
+      return hunterBranchCells(first[0],first[1],me);}
     case 'warp':{
       if(!first)return xy(mine);
       const o=[];for(let r=0;r<N;r++)for(let c=0;c<N;c++)if(!G.board[r][c]&&cheb(r,c,first[0],first[1])<=1&&!isProtected(me,r,c))o.push([r,c]);return o;
@@ -890,6 +1104,7 @@ function canPlay(card,col){
   if(pl.energy<(card.zero?0:costOf(card.key,col)))return false;
   if(card.key==='fixate')return !pl.fixate&&fixateKeys(col,card).length>0;
   if(card.key==='search')return pl.draw.length>0;
+  if(card.key==='amazon')return amazonKeys(col).length>0;
   if(card.key==='keeper')return !pl.keeper;
   if(card.key==='awaken')return !pl.awake&&!!findKing(col);
   if(card.key==='swarm')return swarmKeys(col,card).length>0;
@@ -903,14 +1118,15 @@ function playCard(card,t,opts){
   const me=G.turn,pl=G.players[me],d=CARDS[card.key],b=G.board,cost=opts.free||card.zero?0:costOf(card.key,me);
   pl.energy-=cost;if(card.key!=='combo'&&!opts.free&&!card.zero)pl.discount=0;
   if(!opts.auto&&!opts.virtual){pl.used=pl.used||{};pl.used[card.key]=true;}
-  if(opts.auto){}else if(opts.virtual){pl.barracks.next=G.T+6;}else{pl.hand=pl.hand.filter(x=>x.uid!==card.uid);card.held=false;if(card.zero){}else if(d.exhaust||(pl.awake&&d.cat!=='awk'))pl.exhaust.push(card);else pl.discard.push(card);}
+  if(opts.auto){}else if(opts.virtual){pl.barracks.next=G.T+6;}else{pl.hand=pl.hand.filter(x=>x.uid!==card.uid);card.held=false;if(card.zero){}else if(d.exhaust||card.fetched||(pl.awake&&d.cat!=='awk'))pl.exhaust.push(card);else pl.discard.push(card);}
   G.pending=null;G.sel=null;G.shootMode=false;
   const P=t&&!Array.isArray(t[0])?b[t[0]][t[1]]:null;
   let note='';
+  if(P&&WEAPON_OF[card.key]){const nb=WEAPON_OF[card.key];const old=WEAPON_B.filter(k=>k!==nb&&P.b[k]);if(old.length){old.forEach(k=>delete P.b[k]);const nm=old.map(k=>CARDS[Object.keys(WEAPON_OF).find(x=>WEAPON_OF[x]===k)].name).join('・');log(`${pname(P)}の武器（${nm}）は「${d.name}」で上書きされた`,me);}}
   const at=()=>`${pname(P)}（${nota(t[0],t[1])}）`;
   switch(card.key){
     case 'haste':P.b.haste={ready:G.T+2};fx(t[0],t[1],'疾風','enh');note=at();break;
-    case 'ward':P.b.ward={until:G.T+6};P.poison=null;delete P.burn;delete P.petri;delete P.poop;fx(t[0],t[1],'加護','enh');note=at();break;
+    case 'ward':P.b.ward={until:G.T+6};P.poison=null;delete P.lethal;delete P.burn;delete P.petri;delete P.poop;fx(t[0],t[1],'加護','enh');note=at();break;
     case 'blade':P.b.blade={at:G.T+2};P.face=P.face||'f';fx(t[0],t[1],'毒刃','enh');note=at();break;
     case 'operator':P.b.op={ready:G.T+4};fx(t[0],t[1],'狙撃銃','enh');note=at();break;
     case 'rib':P.b.rib={anchor:[t[0],t[1]],extraAt:G.T+2,used:false,until:G.T+6};fx(t[0],t[1],'アンカー','enh');note=at();break;
@@ -934,6 +1150,14 @@ function playCard(card,t,opts){
     case 'offering':{note=at();const pw=b[t[0]][t[1]];const ins=pw&&pw.b.insure&&pw.b.insure.until>=G.T;b[t[0]][t[1]]=null;fx(t[0],t[1],ins?'供物+3':'供物','res');pl.energy=Math.min(10,pl.energy+(ins?3:1));if(ins)note+='（保険+2）';}break;
     case 'bomb':P.b.bomb={at:G.T+4};fx(t[0],t[1],'自爆まで2','kill');note=at();break;
     case 'iso':P.b.iso={until:G.T+2,win:G.T+4,charge:1};fx(t[0],t[1],'アーマー','enh');note=at();break;
+    case 'assassin':P.b.asn={hide:G.T+6,from:G.T+2,extraT:-1,movedT:-1,ambush:false,ambushUsed:false};note=at();break;
+    case 'breach':P.b.breach={ready:G.T+2,movedT:-1};fx(t[0],t[1],'ブリーチ','enh');note=at();break;
+    case 'amazon':break;
+    case 'molotov':P.b.molotov={ready:G.T+2};fx(t[0],t[1],'遠投兵','enh');note=at();break;
+    case 'outlaw':P.b.outlaw={ready:G.T+2};fx(t[0],t[1],'アウトロー','enh');note=at();break;
+    case 'priest':P.b.priest={movedT:-1};fx(t[0],t[1],'プリースト','enh');note=at();break;
+    case 'tdf':{if(!Array.isArray(t[0]))break;const[a,z]=t;const q=b[a[0]][a[1]];if(!q)break;const dr=z[0]-a[0],dc=z[1]-a[1];const cells=rayCells(a[0],a[1],dr,dc);q.b.tdfLock=true;G.fields.push({type:'tdf',owner:me,pid:q.id,origin:[a[0],a[1]],cells,at:G.T+2,until:G.T+3});fx(a[0],a[1],'照準','kill');note=`${pname(q)}（${nota(...a)}）から射線を予告。1ターン後に発射`;break;}
+    case 'hunter':{if(!Array.isArray(t[0]))break;const[a,z]=t;const q=b[a[0]][a[1]];if(!q)break;const dd=hunterBranchAt(a[0],a[1],me,z[0],z[1]);if(dd==null)break;const cells=hunterPath(a[0],a[1],me,dd);q.b.huntLock=true;G.fields.push({type:'hunter',owner:me,pid:q.id,origin:[a[0],a[1]],cells,at:G.T+2,until:G.T+3,shot:1});fx(a[0],a[1],'狩り','poi');note=`${pname(q)}（${nota(...a)}）から軌道を予告。1ターン後に1発目`;break;}
     case 'plunder':P.b.plunder=true;fx(t[0],t[1],'略奪','res');note=at();break;
     case 'summon':{const sq=Array.isArray(t[0])?t:[t];const done=[];for(const[r0,c0]of sq.slice(0,2)){if(!b[r0][c0]&&!has(done,r0,c0)){b[r0][c0]=mkPiece('P',me);fx(r0,c0,'徴兵','mag');done.push([r0,c0]);}}note=done.map(x=>nota(...x)).join('・');break;}
     case 'search':break;
@@ -941,10 +1165,10 @@ function playCard(card,t,opts){
     case 'golden':pl.golden={until:G.T+6};note='3ターンの間、撃破ボーナス+1';break;
     case 'catalyst':{let n=0;for(const[r,c,q]of piecesOf(opp(me))){if(q.poison&&q.poison.until>G.T&&!isProtected(me,r,c)){q.poison.until+=4;n++;fx(r,c,'毒延長','poi');}}note=`${n}体の毒を2ターン延長`;break;}
     case 'awaken':{pl.awake={next:G.T+4};pl.lives=1;pl.draw=shuffle(AWAKE_DECK.map(k=>({uid:uid++,key:k})));pl.discard=[];const k=findKing(me);if(k)fx(k[0],k[1],'覚醒','kill');note='王が覚醒した。デッキが専用デッキに変わった';try{localStorage.setItem('shogi7_awake','1');}catch(e){}break;}
-    case 'poop':{P.poop={by:me,at:G.T+2};fx(t[0],t[1],'うんち','kill');note=at();break;}
+    case 'poop':{if(P.lethal){lethalTrigger(P,'うんち');break;}P.poop={by:me,at:G.T+2};fx(t[0],t[1],'うんち','kill');note=at();break;}
     case 'peek':{pl.peek={until:G.T+1};const nx=pl.draw[pl.draw.length-1];note=nx?`次に引くのは「${CARDS[nx.key].name}」`:'山札が空（次はシャッフル）';break;}
     case 'roar':{const k=findKing(me);let n=0;if(k)for(let rr=k[0]-2;rr<=k[0]+2;rr++)for(let cc=k[1]-2;cc<=k[1]+2;cc++){if(!inB(rr,cc))continue;const q=b[rr][cc];if(q&&q!==k[2]){stunFor(q,2);fx(rr,cc,'スタン2','mag');n++;}}G.main=false;G.forceEnd=true;note=`${n}体をスタン。ターン終了`;if(!SIM&&!isBotC(me))setTimeout(()=>{if(G.forceEnd&&G.turn===me&&!G.over)endTurn();},800);break;}
-    case 'mist':{const cells=areaCells('mist',me,t[0],t[1]);let n=0;for(const[rr,cc]of cells){const q=b[rr][cc];if(q&&q.c!==me&&!ward(q)){q.b.lock={until:G.T+2};fx(rr,cc,'熟睡','mag');n++;}}note=`${n}体を熟睡させた`;break;}
+    case 'mist':{const cells=areaCells('mist',me,t[0],t[1]);let n=0;for(const[rr,cc]of cells){const q=b[rr][cc];if(q&&q.c!==me&&!ward(q)){if(q.lethal){lethalTrigger(q,'熟睡');n++;continue;}q.b.lock={until:G.T+2};fx(rr,cc,'熟睡','mag');n++;}}note=`${n}体を熟睡させた`;break;}
     case 'lifeup':pl.lives=(pl.lives||0)+1;note=`残機${pl.lives}`;break;
     case 'here':P.bounty={by:me,from:G.T+2,until:G.T+3,here:true};fx(t[0],t[1],'ここだよ','res');note=at();break;
     case 'bounty':P.bounty={by:me,from:G.T+2,until:G.T+3};fx(t[0],t[1],'懸賞','res');note=at();break;
@@ -957,17 +1181,17 @@ function playCard(card,t,opts){
     case 'roll':{const cells=areaCells('roll',me,t[0],t[1]);G.fields.push({type:'roll',owner:me,cells,at:G.T+2,until:G.T+3});note=`${nota(t[0],t[1])}の前方を予告`;break;}
     case 'breaker':{const o=opp(me);G.campManual[o]=Math.max(0,Math.min(G.campManual[o],campLevel(o))-1);note=`${who(o)}の敵陣の魔法防御が残り${campLevel(o)}段`;break;}
     case 'seize':case 'swamp':case 'smoke':{
-      const cells=areaCells(card.key,me,t[0],t[1]);G.fields.push({type:card.key,owner:me,cells,until:G.T+(card.key==='smoke'?8:4)});note=`${nota(t[0],t[1])}を中心に`;break;}
+      const cells=areaCells(card.key,me,t[0],t[1]);G.fields.push({type:card.key,owner:me,cells,until:G.T+(card.key==='smoke'?8:4)});note=`${nota(t[0],t[1])}を中心に`;if(card.key==='seize')seizeLethal(cells);break;}
     case 'thunder':{
       const[a,z]=t;const lines=rectLines(a,z).map(l=>l.filter(([r,c])=>!isProtected(me,r,c)));
       const cells=lines.flat();
       const stages=[{at:G.T+4,cells:[...lines[0],...lines[1]]},{at:G.T+6,cells:[...lines[2]]},{at:G.T+8,cells:[...lines[3],...lines[4]]}];
       G.fields.push({type:'thunder',owner:me,cells,stages,until:G.T+9});note=`${nota(...a)}側から、2ターン後に着弾開始`;break;}
     case 'dispel':{const cells=areaCells('dispel',me,t[0],t[1]);let n=0;
-      for(const[r,c]of cells){const q=b[r][c];if(q&&q.c===me&&(q.poison||q.b.lock||q.burn||q.petri||q.bounty||q.poop)){q.poison=null;delete q.b.lock;delete q.burn;delete q.petri;delete q.bounty;delete q.poop;fx(r,c,'解呪','mag');n++;}}
+      for(const[r,c]of cells){const q=b[r][c];if(q&&q.c===me&&(q.poison||q.lethal||q.b.lock||q.burn||q.petri||q.bounty||q.poop)){q.poison=null;delete q.lethal;delete q.b.lock;delete q.burn;delete q.petri;delete q.bounty;delete q.poop;fx(r,c,'解呪','mag');n++;}}
       for(const f of G.fields)if((f.type==='seize'||f.type==='swamp')&&f.owner!==me){const before=f.cells.length;f.cells=f.cells.filter(x=>!has(cells,x[0],x[1]));n+=before-f.cells.length;}
       note=`${nota(t[0],t[1])}周辺（${n}件を解除）`;break;}
-    case 'warp':{const[a,z]=t;const q=b[a[0]][a[1]];b[z[0]][z[1]]=q;b[a[0]][a[1]]=null;if(canPromote(q)&&zone(q.c,z[0]))q.pro=true;q.b.lock={until:G.T+2};if(q.b.xbow)q.b.xbow.ch=null;if(q.b.op)q.b.op.ready=Math.max(q.b.op.ready,G.T+4);fx(z[0],z[1],'転移','mag');
+    case 'warp':{const[a,z]=t;const q=b[a[0]][a[1]];b[z[0]][z[1]]=q;b[a[0]][a[1]]=null;if(canPromote(q)&&zone(q.c,z[0]))q.pro=true;q.b.lock={until:G.T+2,warp:true};if(q.b.xbow)q.b.xbow.ch=null;if(q.b.op)q.b.op.ready=Math.max(q.b.op.ready,G.T+4);fx(z[0],z[1],'転移','mag');
       note=`${isHidden(q,z[0],z[1])?'？':pname(q)} ${nota(...a)}→${nota(...z)}`;checkBurn(z[0],z[1]);snakeCheck(z[0],z[1]);break;}
   }
   const hiddenNote=P&&d.cat!=='mag'&&G.board[t[0]]&&G.board[t[0]][t[1]]&&isHidden(P,t[0],t[1]);
@@ -975,6 +1199,8 @@ function playCard(card,t,opts){
   if(card.key==='swarm'){if(me===ME&&!SIM)openSwarm(card);else swarmAuto(me);}
   if(card.key==='fixate'){if(me===ME&&!SIM)openFixate(card);else{const ks=fixateKeys(me,card);const pref=['combo','insight','bounty','plunder','insure','ward','erode','leg','rewind','bomb'];ks.sort((a,b)=>pref.indexOf(a)-pref.indexOf(b));setFixate(me,ks[0]);}}
   if(card.key==='magician'&&P){if(me===ME&&!SIM)openMagician(card,P.id);else{const c=magicianCands(me,card);if(c.length)setMagician(me,c.sort((x,y)=>MAGIC_PREF.indexOf(x.key)-MAGIC_PREF.indexOf(y.key))[0],P.id);}}
+  if(card.key==='amazon'){const opts=shuffle(amazonKeys(me)).slice(0,3);if(opts.length){if(!SIM&&!isBotC(me))openAmazon(opts);else amazonGive(me,amazonBotPick(opts,me));}}
+  asnCheck();
   if(card.key==='search'){
     if(me!==ME){const best=[...pl.draw].sort((a,b)=>CARDS[b.key].cost-CARDS[a.key].cost)[0];if(best){pl.draw=pl.draw.filter(x=>x!==best);best.held=true;pl.hand.push(best);log('botは山札からカードを1枚保留で手札に加えた','g');}}
     else if(!SIM)openSearch();
@@ -985,8 +1211,8 @@ function playCard(card,t,opts){
 
 /* ---------- input ---------- */
 const SWARM_KEYS=['ward','rewind','leg','bomb','plunder','insure'];
-function swarmKeys(col,except){const pl=G.players[col];const ks=new Set([...pl.draw,...pl.hand,...pl.discard,...(pl.opener?[pl.opener]:[])].filter(c=>!except||c.uid!==except.uid).map(c=>c.key));return SWARM_KEYS.filter(k=>ks.has(k)&&validTargets(k,null,col).length);}
-function fixateKeys(col,except){const pl=G.players[col];const ks=new Set([...pl.draw,...pl.hand,...pl.discard,...(pl.opener?[pl.opener]:[])].filter(c=>!c.zero&&(!except||c.uid!==except.uid)).map(c=>c.key));return [...ks].filter(k=>CARDS[k].cost===1);}
+function swarmKeys(col,except){const pl=G.players[col];const ks=new Set([...pl.draw,...pl.hand,...pl.discard,...(pl.opener?[pl.opener]:[])].filter(c=>!c.fetched&&(!except||c.uid!==except.uid)).map(c=>c.key));return SWARM_KEYS.filter(k=>ks.has(k)&&validTargets(k,null,col).length);}
+function fixateKeys(col,except){const pl=G.players[col];const ks=new Set([...pl.draw,...pl.hand,...pl.discard,...(pl.opener?[pl.opener]:[])].filter(c=>!c.zero&&!c.fetched&&(!except||c.uid!==except.uid)).map(c=>c.key));return [...ks].filter(k=>CARDS[k].cost===1);}
 function setFixate(col,key){G.players[col].fixate={key,next:G.T+2};log(`固定化：${who(col)}は2ターンに1回「${CARDS[key].name}」（コスト0）を手札に加える`,col);}
 function openFixate(card){
   const keys=fixateKeys(ME,card);G.modal=true;
@@ -1078,7 +1304,7 @@ function magicianUse(){
   if(m.card.key==='summon'){G.pending={uid:m.card.uid,key:'summon',multi:true,summon:true,magic:true,max:Math.min(2,validTargets('summon',null,ME).length),picked:[],card:m.card};G.sel=null;G.shootMode=false;render();return;}
   G.pending={uid:m.card.uid,key:m.card.key,first:null,aim:null,magic:true,vcard:m.card};G.sel=null;G.shootMode=false;render();
 }
-function barracksCards(col){const pl=G.players[col];const keys=[...new Set([...pl.draw,...pl.hand,...pl.discard,...(pl.opener?[pl.opener]:[])].map(c=>c.key))];let v=-1;return keys.filter(k=>CARDS[k].cat==='enh'&&k!=='magician'&&CARDS[k].cost<=3&&validTargets(k,null,col).length).map(k=>({uid:v--,key:k,virtual:true}));}
+function barracksCards(col){const pl=G.players[col];const keys=[...new Set([...pl.draw,...pl.hand,...pl.discard,...(pl.opener?[pl.opener]:[])].filter(c=>!c.fetched).map(c=>c.key))];let v=-1;return keys.filter(k=>CARDS[k].cat==='enh'&&k!=='magician'&&CARDS[k].cost<=3&&validTargets(k,null,col).length).map(k=>({uid:v--,key:k,virtual:true}));}
 function barracksReady(col){const pl=G.players[col];return pl.barracks&&G.T>=pl.barracks.next&&barracksCards(col).length>0;}
 function openBarracks(){
   const list=barracksCards(ME);if(!list.length)return;
@@ -1092,7 +1318,7 @@ function openBarracks(){
 }
 function mustMove(){
   if(!G||G.turn!==ME||!G.main)return false;
-  for(const[r,c,p]of piecesOf(ME)){if(movesFor(r,c).length)return true;if(canShoot(p)&&shootTargets(r,c).length)return true;if(canArrow(p)&&arrowTargets(r,c).length)return true;if(canMarshal(p)&&marshalTargets(r,c).length)return true;if(canCharge(p))return true;}
+  for(const[r,c,p]of piecesOf(ME)){if(movesFor(r,c).length)return true;if(canShoot(p)&&shootTargets(r,c).length)return true;if(canArrow(p)&&arrowTargets(r,c).length)return true;if(canMarshal(p)&&marshalTargets(r,c).length)return true;if(canCharge(p))return true;if(canMolotov(p))return true;if(canOutlaw(p)&&outlawTargets(r,c).length)return true;}
   return false;
 }
 function locked(){return !G||G.preview||G.over||G.busy||G.modal||G.waiting||G.turn!==ME;}
@@ -1107,16 +1333,23 @@ function onSquare(r,c){
     const card=G.pending.vcard?G.pending.vcard:G.players[ME].hand.find(x=>x.uid===G.pending.uid);const tg=CARDS[card.key].target;
     const v=validTargets(G.pending.key,G.pending.first);
     if(!v.some(t=>t[0]===r&&t[1]===c))return;
-    if((tg==='warp'||tg==='thunder')&&!G.pending.first){G.pending.first=[r,c];render();return;}
+    if((tg==='warp'||tg==='thunder'||tg==='dirShot'||tg==='hunterPath')&&!G.pending.first){G.pending.first=[r,c];render();return;}
     if(tg==='area'){
       if(!G.pending.aim||G.pending.aim[0]!==r||G.pending.aim[1]!==c){G.pending.aim=[r,c];render();return;}
     }
     const wasMagic=!!G.pending.magic;
-    playCard(card,(tg==='warp'||tg==='thunder')?[G.pending.first,[r,c]]:[r,c],G.pending.barracks?{free:true,virtual:true}:wasMagic?{free:true,auto:true}:undefined);if(wasMagic)magicianFinish(ME);render();return;
+    playCard(card,(tg==='warp'||tg==='thunder'||tg==='dirShot'||tg==='hunterPath')?[G.pending.first,[r,c]]:[r,c],G.pending.barracks?{free:true,virtual:true}:wasMagic?{free:true,auto:true}:undefined);if(wasMagic)magicianFinish(ME);render();return;
   }
   const p=G.board[r][c];
   if(G.sel){
-    if(G.shootMode){const st=modeTargets(G.shootMode,G.sel[0],G.sel[1]);if(st.some(t=>t[0]===r&&t[1]===c)){const[a,z]=G.sel;if(G.shootMode==='op')shoot(a,z,r,c);else if(G.shootMode==='arrow')fireArrow(a,z,r,c);else if(G.shootMode==='marshal')fireMarshal(a,z,r,c);else fireXbow(a,z,r,c);return;}}
+    if(G.shootMode==='molotov'){const os=molotovOpts(G.sel[0],G.sel[1]);
+      if(G.molAim){const o=os.find(o=>o.center[0]===G.molAim[0]&&o.center[1]===G.molAim[1]&&o.cells[1]&&o.cells[1][0]===r&&o.cells[1][1]===c);if(o){fireMolotov(G.sel[0],G.sel[1],o.cells);return;}
+        if(G.molAim[0]===r&&G.molAim[1]===c){const o1=os.find(o=>o.center[0]===r&&o.center[1]===c&&o.cells.length===1);if(o1){fireMolotov(G.sel[0],G.sel[1],o1.cells);return;}}}
+      if(os.some(o=>o.center[0]===r&&o.center[1]===c)){G.molAim=[r,c];render();return;}}
+    if(G.shootMode==='hunter2'){const dd=hunterBranchAt(G.sel[0],G.sel[1],ME,r,c);if(dd!=null){aimHunter2(ME,dd);return;}}
+    if(G.shootMode==='outlaw'){if(has(outlawTargets(G.sel[0],G.sel[1]),r,c)){fireOutlaw(G.sel[0],G.sel[1],r,c);return;}}
+    else if(G.shootMode==='breach'){const ar=breachAreas(G.sel[0],G.sel[1]);const i=ar.findIndex(x=>has(x.cells,r,c));if(i>=0){if(G.breachAim===i)fireBreach(G.sel[0],G.sel[1],i);else{G.breachAim=i;render();}return;}}
+    else if(G.shootMode){const st=modeTargets(G.shootMode,G.sel[0],G.sel[1]);if(st.some(t=>t[0]===r&&t[1]===c)){const[a,z]=G.sel;if(G.shootMode==='op')shoot(a,z,r,c);else if(G.shootMode==='arrow')fireArrow(a,z,r,c);else if(G.shootMode==='marshal')fireMarshal(a,z,r,c);else fireXbow(a,z,r,c);return;}}
     else{const mv=movesFor(G.sel[0],G.sel[1]).find(m=>m.r===r&&m.c===c);if(mv){doMove(G.sel[0],G.sel[1],r,c,G.faceSel);if(G.forceEnd&&!G.over)setTimeout(()=>{if(G.forceEnd&&G.turn===ME&&!G.over)endTurn();},700);return;}}
   }
   if(p&&p.c===ME){G.sel=(G.sel&&G.sel[0]===r&&G.sel[1]===c)?null:[r,c];G.shootMode=false;G.faceSel=null;render();return;}
@@ -1139,6 +1372,7 @@ function danger(r,c,me){
   for(const f of G.fields){
     if(!active(f)||!f.cells)continue;
     if(f.type==='thunder'&&f.stages.some(s=>!s.done&&has(s.cells,r,c)))d+=1;
+    if((f.type==='tdf'||f.type==='hunter')&&f.owner!==me&&has(f.cells,r,c))d+=f.type==='tdf'?2:1;
     if(f.type==='roll'&&f.owner!==me&&has(f.cells,r,c))d+=0.3;
     if(f.type==='burn'&&has(f.cells,r,c))d+=3;
       if(f.type==='pit'&&f.owner!==me&&has(f.cells,r,c))d+=0.7;
@@ -1148,7 +1382,7 @@ function danger(r,c,me){
   return d;
 }
 function scoreMove(fr,fc,m,me){
-  const b=G.board,p=b[fr][fc],t=b[m.r][m.c],op=opp(me);
+  const b=G.board,p=b[fr][fc],t0=b[m.r][m.c],t=m.bump?null:t0,op=opp(me);
   let s=0;
   if(t){if(t.t==='K'&&!t.b.rib)return 1000;s+=t.b.rib?1:seenVal(t,m.r,m.c);}
   const wasAtt=attackedBy(fr,fc,op);
@@ -1157,7 +1391,8 @@ function scoreMove(fr,fc,m,me){
   const att=attackedBy(m.r,m.c,op);
   const k=findKing(me);const kAtt=k&&attackedBy(k[0],k[1],op);
   const v1=val(p);
-  p.pro=pro;b[fr][fc]=p;b[m.r][m.c]=t;
+  p.pro=pro;b[fr][fc]=p;b[m.r][m.c]=t0;
+  if(m.bump)s-=3;
   if(att)s-=Math.min(v1,40)*(p.b.rib?0.2:0.85);
   if(wasAtt&&!att)s+=Math.min(v0,20)*0.6;
   if(kAtt)s-=60;
@@ -1178,7 +1413,7 @@ function bestMove(me,extraOnly){
   for(const[r,c,p]of piecesOf(me)){
     if(isLocked(p))continue;
     const rx=ribExtra(p),hx=hasteReady(p);
-    if(extraOnly&&!rx&&!hx&&!kingExtra(p))continue;
+    if(extraOnly&&!rx&&!hx&&!kingExtra(p)&&!asnExtra(p))continue;
     for(const m of rawMoves(r,c)){
       if(extraOnly&&!rx&&m.cap)continue;
       if(m.cap&&isStunned(p))continue;
@@ -1210,7 +1445,7 @@ function botCard(late,only){
       case 'rib':{const list=threatened.filter(x=>!x[2].b.rib);const[x,v]=pickMax(list,x=>val(x[2]));if(x&&v>=4)t=[x[0],x[1]];break;}
       case 'atomic':{const pw=own.filter(x=>x[2].t==='P'&&!x[2].pro&&!x[2].b.atomic);const[x,v]=pickMax(pw,([r,c])=>{const cells=[];for(let rr=r-1;rr<=r+3;rr++)for(let cc=c-2;cc<=c+2;cc++)if(inB(rr,cc))cells.push([rr,cc]);return sumIn(cells,op)-sumIn(cells,me)*0.6;});if(x&&v>=4)t=[x[0],x[1]];break;}
       case 'pit':{const[x,v]=pickMax(own.filter(x=>!x[2].b.pit),([r,c])=>sumIn(pitCells(me,r,c),op));if(x&&v>=4)t=[x[0],x[1]];break;}
-      case 'ward':case 'insure':{const list=threatened.filter(x=>!x[2].b[k]);const[x]=pickMax(list,x=>val(x[2]));if(x)t=[x[0],x[1]];break;}
+      case 'ward':case 'insure':{const list=(k==='ward'?[...threatened,...own.filter(x=>x[2].lethal&&!threatened.includes(x))]:threatened).filter(x=>!x[2].b[k]);const[x]=pickMax(list,x=>val(x[2]));if(x)t=[x[0],x[1]];break;}
       case 'barrier':{const kk=findKing(me);if(kk&&!kk[2].b.barrier)t=[kk[0],kk[1]];break;}
       case 'command':{if(own.some(x=>x[2].b.command))break;const list=own.filter(([r,c,p])=>r>=3);const[x]=pickMax(list,x=>x[0]);if(x)t=[x[0],x[1]];break;}
       case 'search':case 'insight':if(pl.hand.length<=3)t='none';break;
@@ -1230,12 +1465,18 @@ function botCard(late,only){
           if(k==='smoke')return sumIn(cells,me);
           return cells.filter(([rr,cc])=>!G.board[rr][cc]&&piecesOf(op).some(([r2,c2])=>cheb(rr,cc,r2,c2)<=1)).length;});
         if(x&&v>=4)t=x;break;}
-      case 'dispel':{const[x,v]=pickMax(validTargets('dispel',null,me),([r,c])=>{const cells=areaCells('dispel',me,r,c);let s=0;for(const[rr,cc]of cells){const q=G.board[rr][cc];if(q&&q.c===me&&q.poison)s+=val(q)>50?6:val(q);if(q&&q.c===me&&fieldsAt('seize',rr,cc).some(f=>f.owner!==me))s+=2;}return s;});if(x&&v>=3)t=x;break;}
+      case 'dispel':{const[x,v]=pickMax(validTargets('dispel',null,me),([r,c])=>{const cells=areaCells('dispel',me,r,c);let s=0;for(const[rr,cc]of cells){const q=G.board[rr][cc];if(q&&q.c===me&&q.poison)s+=val(q)>50?6:val(q);if(q&&q.c===me&&q.lethal)s+=q.t==='K'?30:val(q)+3;if(q&&q.c===me&&fieldsAt('seize',rr,cc).some(f=>f.owner!==me))s+=2;}return s;});if(x&&v>=3)t=x;break;}
       case 'summon':{const v=validTargets('summon',null,me);if(v.length&&pl.energy>=3&&Math.random()<0.5)t=autoTarget('summon',me);break;}
       case 'neon':case 'marshal':{const list=nonKing.filter(x=>!x[2].b[k]&&!x[2].b.op);const[x]=pickMax(list,x=>x[0]+val(x[2])*0.2+Math.random());if(x)t=[x[0],x[1]];break;}
       case 'infect':{const[x,v]=pickMax(validTargets('infect',null,me),([r,c])=>{let s=0;for(let rr=r-1;rr<=r+1;rr++)for(let cc=c-1;cc<=c+1;cc++){if(!inB(rr,cc)||(rr===r&&cc===c))continue;const q=G.board[rr][cc];if(q&&q.c===op&&!isProtected(me,rr,cc))s+=(q.poison&&q.poison.until>G.T?2:0.6)*(q.t==='K'?10:val(q));}return s;});if(x&&v>=3)t=x;break;}
       case 'erode':{const[x,v]=pickMax(validTargets('erode',null,me),([r,c])=>{const q=G.board[r][c];return q.t==='K'?8:val(q);});if(x&&v>=3)t=x;break;}
       case 'swarm':if(swarmKeys(me,card).length)t='none';break;
+      case 'amazon':if(pl.hand.length<=4)t='none';break;
+      case 'molotov':case 'outlaw':{const list=nonKing.filter(x=>enhOk(k,x[2])&&!WEAPON_B.some(w=>x[2].b[w]));const[x]=pickMax(list,x=>(me==='g'?x[0]:6-x[0])+val(x[2])*0.2+Math.random());if(x)t=[x[0],x[1]];break;}
+      case 'priest':{const kk=findKing(me);if(!kk)break;const list=own.filter(x=>enhOk('priest',x[2])&&cheb(x[0],x[1],kk[0],kk[1])<=1);const[x]=pickMax(list,x=>(x[2].t==='K'?0.5:1)+Math.random());if(x)t=[x[0],x[1]];break;}
+      case 'tdf':case 'hunter':{const o=optTargets(k,me);if(o.length)t=o[0];break;}
+      case 'assassin':{const[x]=pickMax(validTargets('assassin',null,me).map(([r,c])=>[r,c,G.board[r][c]]),x=>val(x[2])*0.5+(me==='g'?x[0]:6-x[0])*0.5+Math.random());if(x)t=[x[0],x[1]];break;}
+      case 'breach':{const[x]=pickMax(validTargets('breach',null,me).map(([r,c])=>[r,c,G.board[r][c]]).filter(x=>!WEAPON_B.some(k=>x[2].b[k])),x=>(me==='g'?x[0]:6-x[0])+Math.random());if(x)t=[x[0],x[1]];break;}
       case 'awaken':break;
       case 'poop':{const[x]=pickMax(validTargets('poop',null,me),([r,c])=>{const q=G.board[r][c];return q.t==='K'?50:val(q);});if(x)t=x;break;}
       case 'peek':if(Math.random()<0.3)t='none';break;
@@ -1279,7 +1520,7 @@ async function botTurn(){
       }
       const mvS=mv?mv.s:-99;
       const gm=greedyMain('g');
-      if(gm&&gm.type==='marshal'){simApply(gm);}
+      if(gm&&['marshal','molotov','outlaw'].includes(gm.type)){simApply(gm);}
       else if(sh&&sh.v>=3&&sh.v>=mvS){shoot(sh.fr,sh.fc,sh.tr,sh.tc);}
       else if(ar&&ar.v>=2&&ar.v>=mvS){fireArrow(ar.fr,ar.fc,ar.tr,ar.tc);}
       else if(cg&&mvS<1.5&&Math.random()<0.8){chargeXbow(cg.r,cg.c,cg.f);}
@@ -1291,6 +1532,7 @@ async function botTurn(){
   }
   await wait(450);if(stale())return;
   const a=botCard(true);if(a){a();await wait(500);if(stale())return;}
+  if(!G.over){greedyBreach(G.turn,null);greedyHunter(G.turn,null);botAmbush(G.turn);}
   G.busy=false;endTurn();
 }
 
@@ -1300,7 +1542,7 @@ function targetOk(key,t,col){
   if(d.target==='none')return t==null;
   if(!t)return false;
   if(key==='summon'&&Array.isArray(t[0])){const v=validTargets(key,null,col);return t.length>=1&&t.length<=2&&t.every(x=>has(v,x[0],x[1]));}
-  if(d.target==='warp'||d.target==='thunder'){if(!has(validTargets(key,null,col),t[0][0],t[0][1]))return false;return has(validTargets(key,t[0],col),t[1][0],t[1][1]);}
+  if(d.target==='warp'||d.target==='thunder'||d.target==='dirShot'||d.target==='hunterPath'){if(!has(validTargets(key,null,col),t[0][0],t[0][1]))return false;return has(validTargets(key,t[0],col),t[1][0],t[1][1]);}
   return has(validTargets(key,null,col),t[0],t[1]);
 }
 function simApply(a){
@@ -1313,6 +1555,10 @@ function simApply(a){
     case 'marshal':{const p=G.board[a.fr][a.fc];if(!p||p.c!==me||!canMarshal(p)||!has(marshalTargets(a.fr,a.fc),a.tr,a.tc))return false;fireMarshal(a.fr,a.fc,a.tr,a.tc);return true;}
     case 'arrow':{const p=G.board[a.fr][a.fc];if(!p||p.c!==me||!canArrow(p)||!has(arrowTargets(a.fr,a.fc),a.tr,a.tc))return false;fireArrow(a.fr,a.fc,a.tr,a.tc);return true;}
     case 'charge':{const p=G.board[a.r][a.c];if(!p||p.c!==me||!canCharge(p))return false;chargeXbow(a.r,a.c,a.face);return true;}
+    case 'molotov':{const p=G.board[a.r][a.c];if(!p||p.c!==me||!canMolotov(p))return false;const o=molotovOpts(a.r,a.c)[a.oi];if(!o)return false;fireMolotov(a.r,a.c,o.cells);return true;}
+    case 'outlaw':{const p=G.board[a.fr][a.fc];if(!p||p.c!==me||!canOutlaw(p)||!has(outlawTargets(a.fr,a.fc),a.tr,a.tc))return false;fireOutlaw(a.fr,a.fc,a.tr,a.tc);return true;}
+    case 'hunter2':{return aimHunter2(me,a.dd);}
+    case 'breach':{const p=G.board[a.r][a.c];if(!p||p.c!==me||!canBreach(p)||!breachAreas(a.r,a.c)[a.ai])return false;fireBreach(a.r,a.c,a.ai);return true;}
     case 'xbow':{const p=G.board[a.fr][a.fc];if(!p||p.c!==me||!canXbow(p)||!has(xbowTargets(a.fr,a.fc),a.tr,a.tc))return false;fireXbow(a.fr,a.fc,a.tr,a.tc);return true;}
   }
   return false;
@@ -1323,12 +1569,16 @@ function greedyFree(me,rec){
 }
 function greedyExtras(me,rec){
   for(let i=0;i<3&&!G.over;i++){const h=bestMove(me,true);if(!h||h.s<0.2)break;const a={type:'move',fr:h.fr,fc:h.fc,tr:h.m.r,tc:h.m.c};if(!simApply(a))break;if(rec)rec.push(a);}
+  if(!G.over)greedyBreach(me,rec);
+  if(!G.over)greedyHunter(me,rec);
 }
 function greedyMain(me){
   const mv=bestMove(me,false),sh=bestShot(me);let ar=null;
   for(const[r,c,p]of piecesOf(me))if(canArrow(p))for(const[tr,tc]of arrowTargets(r,c)){const q=G.board[tr][tc];if(ward(q))continue;const v=q.t==='K'?8:val(q)*0.6;if(!ar||v>ar.v)ar={fr:r,fc:c,tr,tc,v};}
   let ms=null;for(const[r,c,p]of piecesOf(me))if(canMarshal(p))for(const[tr,tc]of marshalTargets(r,c)){const q=G.board[tr][tc];if(ward(q))continue;const v=(q.t==='K'?12:val(q))*(q.poison&&q.poison.until>G.T?1:0.5);if(!ms||v>ms.v)ms={fr:r,fc:c,tr,tc,v};}
   const mvS=mv?mv.s:-99;
+  const ol=bestOutlaw(me);if(ol&&ol.v>=4&&ol.v>=mvS)return {type:'outlaw',fr:ol.fr,fc:ol.fc,tr:ol.tr,tc:ol.tc};
+  const mo=bestMolotov(me);if(mo&&mo.v>=4&&mo.v>=mvS)return {type:'molotov',r:mo.r,c:mo.c,oi:mo.i};
   if(ms&&ms.v>=2.5&&ms.v>=mvS)return {type:'marshal',fr:ms.fr,fc:ms.fc,tr:ms.tr,tc:ms.tc};
   if(sh&&sh.v>=3&&sh.v>=mvS)return {type:'shoot',fr:sh.fr,fc:sh.fc,tr:sh.tr,tc:sh.tc};
   if(ar&&ar.v>=2&&ar.v>=mvS)return {type:'arrow',fr:ar.fr,fc:ar.fc,tr:ar.tr,tc:ar.tc};
@@ -1340,6 +1590,7 @@ function oppGreedyTurn(){
   greedyFree(me,null);if(G.over)return;
   const a=greedyMain(me);if(a)simApply(a);if(G.over)return;
   greedyExtras(me,null);if(G.over)return;
+  botAmbush(me);
   endTurn();
 }
 function genMains(me){
@@ -1349,6 +1600,9 @@ function genMains(me){
     if(canShoot(p))for(const[tr,tc]of shootTargets(r,c)){const q=G.board[tr][tc];out.push({a:{type:'shoot',fr:r,fc:c,tr,tc},q:(q.t==='K'?100:val(q))*1.2});}
     if(canMarshal(p))for(const[tr,tc]of marshalTargets(r,c)){const q=G.board[tr][tc];out.push({a:{type:'marshal',fr:r,fc:c,tr,tc},q:(q.t==='K'?30:val(q))*(q.poison&&q.poison.until>G.T?1:0.5)});}
     if(canArrow(p))for(const[tr,tc]of arrowTargets(r,c)){const q=G.board[tr][tc];out.push({a:{type:'arrow',fr:r,fc:c,tr,tc},q:(q.t==='K'?20:val(q))*0.6});}
+    if(canMolotov(p))molotovOpts(r,c).forEach((o,i)=>{const v=molotovValue(me,o.cells);if(v>=3)out.push({a:{type:'molotov',r,c,oi:i},q:v});});
+    if(canOutlaw(p))for(const[tr,tc]of outlawTargets(r,c)){const v=outlawValue(G.board[tr][tc],tr,tc);if(v>=2)out.push({a:{type:'outlaw',fr:r,fc:c,tr,tc},q:v});}
+    if(canBreach(p)&&G.main)breachAreas(r,c).forEach((ar,i)=>{const v=breachValue(me,ar.cells);if(v>=3)out.push({a:{type:'breach',r,c,ai:i},q:v});});
     if(canCharge(p))for(const f of['f','l','r']){const ts=xbowTargets(r,c,f);if(ts.length){const q=G.board[ts[0][0]][ts[0][1]];out.push({a:{type:'charge',r,c,face:f},q:(q.t==='K'?20:val(q))*0.5});}}
   }
   return out.sort((x,y)=>y.q-x.q).map(x=>x.a);
@@ -1357,6 +1611,8 @@ function optTargets(key,me){
   const d=CARDS[key],op=opp(me);
   const pv=t=>{const q=G.board[t[0]][t[1]];return q?(q.t==='K'?30:val(q)):0;};
   if(d.target==='none')return [null];
+  if(d.target==='dirShot'){const out=[];for(const[r,c,p]of piecesOf(me)){if(shotLocked(p))continue;for(const[a,b2]of DIR8){const ray=rayCells(r,c,a,b2);for(const[rr,cc]of ray){const q=G.board[rr][cc];if(!q)continue;if(isProtected(me,rr,cc))break;const v=q.c!==me?(q.t==='K'?20:val(q)):-(q.t==='K'?100:val(q));if(v>=4&&inB(r+a,c+b2))out.push([[[r,c],[r+a,c+b2]],v]);break;}}}return out.sort((x,y)=>y[1]-x[1]).slice(0,4).map(x=>x[0]);}
+  if(d.target==='hunterPath'){const out=[];for(const[r,c,p]of piecesOf(me)){if(shotLocked(p))continue;const b=hunterBest(me,r,c);if(b&&b.v>=4){const z=b.cells[3];out.push([[[r,c],z],b.v]);}}return out.sort((x,y)=>y[1]-x[1]).slice(0,4).map(x=>x[0]);}
   if(d.target==='warp'){const out=[];for(const f of validTargets(key,null,me).sort((a,b)=>pv(b)-pv(a)).slice(0,5))for(const z of validTargets(key,f,me))out.push([f,z]);return out.slice(0,12);}
   if(d.target==='thunder'){const out=[];for(const a of validTargets(key,null,me))for(const z of validTargets(key,a,me)){const cells=thunderCells(me,a,z);let v=0;for(const[r,c]of cells){const q=G.board[r][c];if(q&&q.t!=='K')v+=(q.c===op?1:-0.8)*val(q);}if(v>0)out.push([[a,z],v]);}return out.sort((x,y)=>y[1]-x[1]).slice(0,5).map(x=>x[0]);}
   if(d.target==='ownRoll'){return validTargets(key,null,me).map(t=>{let v=0;for(const[r,c]of areaCells('roll',me,t[0],t[1])){const q=G.board[r][c];if(q)v+=q.c===op?1:-0.5;}return [t,v];}).filter(x=>x[1]>=1).sort((a,b)=>b[1]-a[1]).slice(0,4).map(x=>x[0]);}
@@ -1364,7 +1620,7 @@ function optTargets(key,me){
     const sc=t=>{const cells=areaCells(key,me,t[0],t[1]);let v=0;for(const[r,c]of cells){const q=G.board[r][c];
       if(key==='smoke'){if(q&&q.c===me)v+=val(q)>50?4:val(q);}
       else if(key==='swamp'){if(!q&&piecesOf(op).some(([r2,c2])=>cheb(r,c,r2,c2)<=1))v+=1;}
-      else if(key==='dispel'){if(q&&q.c===me&&(q.poison||q.burn||q.petri||q.b.lock))v+=val(q)>50?8:val(q)+1;}
+      else if(key==='dispel'){if(q&&q.c===me&&(q.poison||q.lethal||q.burn||q.petri||q.b.lock))v+=val(q)>50?(q.lethal?30:8):val(q)+1+(q.lethal?3:0);}
       else if(q)v+=(q.c===op?1:-1)*(q.t==='K'?6:val(q));}return v;};
     return validTargets(key,null,me).map(t=>[t,sc(t)]).sort((a,b)=>b[1]-a[1]).slice(0,5).filter(x=>x[1]>0).map(x=>x[0]);
   }
@@ -1390,6 +1646,7 @@ function evalState(me){
         let m=1;
         if(p.poison&&p.poison.until>G.T)m-=0.35;
         if(p.burn)m-=0.55;
+        if(p.lethal)m-=0.45;
         if(p.petri)m-=0.15;
         if(isLocked(p))m-=0.1;
         if(G.fields.some(f=>f.type==='thunder'&&f.owner!==col&&active(f)&&f.stages.some(st=>!st.done&&has(st.cells,r,c))))m-=0.5;
@@ -1398,7 +1655,7 @@ function evalState(me){
         s+=val(p)*Math.max(0.05,m);
       }
       const b=p.b;
-      s+=(p.b.iso&&p.b.iso.until>G.T&&p.b.iso.charge>0?2:0)+(b.marshal?2:0)+(b.neon?1.2:0)+(b.op?3:0)+(b.xbow?1.5+(b.xbow.ch!=null?1:0):0)+(b.arrow?1.5:0)+(b.blade?1:0)+(b.snake?1:0)+(b.rib?1.5:0)+(b.pit?2:0)+(b.plunder?0.5:0)+(b.haste?0.8:0)+(ward(p)?0.5:0)+(b.barrier?0.5:0)+(b.command?0.8:0)+(b.leg?0.3:0)+(b.rewind?0.2:0)+(b.insure?0.3:0);
+      s+=(p.b.iso&&p.b.iso.until>G.T&&p.b.iso.charge>0?2:0)+(b.marshal?2:0)+(b.neon?1.2:0)+(b.op?3:0)+(b.xbow?1.5+(b.xbow.ch!=null?1:0):0)+(b.arrow?1.5:0)+(b.blade?1:0)+(b.snake?1:0)+(b.rib?1.5:0)+(b.pit?2:0)+(b.plunder?0.5:0)+(b.haste?0.8:0)+(ward(p)?0.5:0)+(b.barrier?0.5:0)+(b.command?0.8:0)+(b.leg?0.3:0)+(b.rewind?0.2:0)+(b.insure?0.3:0)+(b.asn?1.5:0)+(b.breach?1.5:0)+(b.molotov?1.5:0)+(b.outlaw?2.5:0)+(b.priest?1.5:0);
       if(G.T>=9&&r===CENTER[0]&&c===CENTER[1])s+=0.6;
       if(p.t!=='K')s+=(col==='g'?r:6-r)*0.05;
       for(const[k,rad]of[['atomic',2],['bomb',1]])if(b[k]){let net=0;for(const[r2,c2,q]of piecesOf(oc))if(cheb(r,c,r2,c2)<=rad)net+=q.t==='K'?25:val(q);for(const[r2,c2,q]of piecesOf(col))if(q!==p&&cheb(r,c,r2,c2)<=rad)net-=q.t==='K'?50:val(q);s+=net*0.45;}
@@ -1407,6 +1664,7 @@ function evalState(me){
     const k=findKing(col);if(!k)return s-1e5;
     if(attackedBy(k[0],k[1],oc))s-=k[2].b.rib?2:9;
     if(k[2].burn)s-=6;
+    if(k[2].lethal)s-=12;
     if(k[2].poison&&k[2].poison.until>G.T)s-=4;
     for(const[r2,c2]of piecesOf(oc))if(cheb(k[0],k[1],r2,c2)<=1)s-=0.6;
     return s;
@@ -1417,6 +1675,7 @@ function maskedClone(g){
   const c=structuredClone(g);c.log=[];c.modal=false;c.busy=false;c.thinkLeft=null;
   const save=G;G=c;
   eachPiece((p,r,cc)=>{if(p.c==='s'&&isHidden(p,r,cc)){p.t='G';p.pro=false;p.b={};}});
+  eachPiece((p,r,cc)=>{if(p.c!==c.turn&&invis(p))c.board[r][cc]=null;});
   G=save;return c;
 }
 function runPlan(base,plan,real){
@@ -1433,7 +1692,7 @@ function runPlan(base,plan,real){
     }
     if(!G.over)greedyExtras('g',rec);
     for(const a of plan.post||[]){if(G.over)break;if(simApply(a))rec.push(a);}
-    if(!G.over)endTurn();
+    if(!G.over){botAmbush(G.turn);endTurn();}
     if(!G.over)oppGreedyTurn();
     score=evalState('g');
   }finally{G=real;SIM=false;}
@@ -1496,6 +1755,7 @@ async function botTurnSearch(){
   if(best)for(const a of best.rec){await wait(550);if(stale())return;simApply(a);if(stale())return;if(G.forceEnd)break;}
   if(G.main&&!G.forceEnd){const g2=greedyMain('g');if(g2){await wait(500);if(stale())return;simApply(g2);if(stale())return;}}
   await wait(450);if(stale())return;
+  if(!G.over){greedyBreach(G.turn,null);greedyHunter(G.turn,null);botAmbush(G.turn);}
   G.busy=false;endTurn();
 }
 
@@ -1554,6 +1814,13 @@ function badgesFor(p){
   if(p.b.pit)out.push('<span class="bd poi">蛇</span>');
   if(p.b.bomb)out.push(`<span class="bd dng">爆${turnsLeft(p.b.bomb.at)}</span>`);
   if(p.b.plunder)out.push('<span class="bd res">奪</span>');
+  if(p.b.asn){const a=p.b.asn;out.push(`<span class="bd" style="background:#3b3f4f">${invis(p)?(a.ambush?'潜':'影')+turnsLeft(a.hide):'影'}</span>`);}
+  if(p.lethal)out.push('<span class="bd" style="background:#1d1b22;color:#b6f07a">死</span>');
+  if(p.b.molotov)out.push(`<span class="bd dng">${G.T>=p.b.molotov.ready?'瓶':'瓶'+turnsLeft(p.b.molotov.ready)}</span>`);
+  if(p.b.outlaw)out.push(`<span class="bd poi">${G.T>=p.b.outlaw.ready?'無':'無'+turnsLeft(p.b.outlaw.ready)}</span>`);
+  if(p.b.priest)out.push(`<span class="bd" style="background:#e9e2c8;color:#4a3d10">${p.b.priest.movedT===G.T-2||p.b.priest.movedT===G.T?'聖…':'聖'}</span>`);
+  if(shotLocked(p))out.push('<span class="bd dng">照</span>');
+  if(p.b.breach)out.push(`<span class="bd mag">${G.T>=p.b.breach.ready?'破':'破'+turnsLeft(p.b.breach.ready)}</span>`);
   if(p.b.iso&&p.b.iso.win>T)out.push(`<span class="bd" style="background:#5f7d98">${isoOn(p)?'甲':'甲'+turnsLeft(p.b.iso.win)+'↻'}</span>`);
   if(p.b.magician)out.push('<span class="bd mag">術</span>');
   if(isLocked(p))out.push(`<span class="bd mag">${G.players[opp(p.c)].awake?'眠':'固'}</span>`);
@@ -1582,6 +1849,7 @@ function badgesFor(p){
 function renderPieces(){
   const layer=$('#pieces'),alive=new Set();
   eachPiece((p,r,c)=>{
+    if(invis(p)&&p.c!==ME&&!G.over&&!peeking(ME))return;
     alive.add(p.id);let el=pieceEls.get(p.id);
     if(!el){el=document.createElement('div');el.innerHTML='<div class="kw"><div class="k"></div></div><div class="badges"></div>';layer.appendChild(el);pieceEls.set(p.id,el);}
     el.style.left=`calc(${c}*100%/7)`;el.style.top=`calc(${r}*100%/7)`;
@@ -1609,8 +1877,8 @@ function renderSquares(){
       else for(const[r,c]of validTargets(G.pending.key,G.pending.first))add(r,c,'tgt');
       if(G.pending.key==='pit'){}}
     else if(G.sel){add(G.sel[0],G.sel[1],'sel');const p=G.board[G.sel[0]][G.sel[1]];
-      if(G.shootMode){for(const[r,c]of modeTargets(G.shootMode,G.sel[0],G.sel[1]))add(r,c,'shot');}
-      else for(const m of movesFor(G.sel[0],G.sel[1]))add(m.r,m.c,m.cap?'cap':(!G.main||hasteReady(p)||ribExtra(p))?'hmv':'mv');}
+      if(G.shootMode){for(const[r,c]of modeTargets(G.shootMode,G.sel[0],G.sel[1]))add(r,c,'shot');if(G.shootMode==='molotov'&&G.molAim){add(G.molAim[0],G.molAim[1],'area');for(const o of molotovOpts(G.sel[0],G.sel[1]))if(o.cells[1]&&o.center[0]===G.molAim[0]&&o.center[1]===G.molAim[1])add(o.cells[1][0],o.cells[1][1],'tgt');}if(G.shootMode==='breach'&&G.breachAim!=null){const ar=breachAreas(G.sel[0],G.sel[1])[G.breachAim];if(ar)for(const[r,c]of ar.cells)add(r,c,'area');}}
+      else for(const m of movesFor(G.sel[0],G.sel[1]))add(m.r,m.c,m.cap?'cap':(!G.main||hasteReady(p)||ribExtra(p)||asnExtra(p))?'hmv':'mv');}
   }
   const anchors=[];eachPiece((p,r,c)=>{if(p.b.rib&&!(p.c!==ME&&isHidden(p,r,c)))anchors.push(p.b.rib.anchor);});
   const xlines=[];eachPiece((p,r,c)=>{if(p.b.xbow&&p.b.xbow.ch!=null)xlines.push(...xbowLineCells(r,c));});
@@ -1619,6 +1887,8 @@ function renderSquares(){
   document.querySelectorAll('#squares .sq').forEach(el=>{
     const r=+el.dataset.r,c=+el.dataset.c,layers=[];let cd='';
     if(fieldsAt('burn',r,c).length)layers.push('radial-gradient(circle,rgba(255,170,60,.9),rgba(232,96,60,.75))');
+    for(const f of G.fields)if((f.type==='tdf'||f.type==='hunter')&&active(f)&&has(f.cells,r,c)&&!(f.owner!==ME&&false)){layers.push(f.type==='tdf'?'repeating-linear-gradient(90deg,rgba(200,40,20,.5) 0 3px,transparent 3px 7px)':'repeating-linear-gradient(90deg,rgba(90,160,60,.55) 0 3px,transparent 3px 7px)');cd=Math.max(1,turnsLeft(f.at));}
+    for(const f of G.fields)if(f.type==='breach'&&active(f)&&has(f.cells,r,c)){layers.push('repeating-linear-gradient(45deg,rgba(240,220,60,.6) 0 4px,transparent 4px 9px)');cd=Math.max(1,turnsLeft(f.at));}
     for(const f of G.fields)if(f.type==='neon'&&active(f)&&has(f.cells,r,c)){layers.push('radial-gradient(circle,rgba(240,220,60,.85) 0 25%,rgba(240,220,60,.25) 27%,transparent 60%)');cd=Math.max(1,turnsLeft(f.at));}
     for(const f of G.fields)if(f.type==='roll'&&active(f)&&has(f.cells,r,c)){layers.push('repeating-linear-gradient(90deg,rgba(110,98,201,.45) 0 3px,transparent 3px 8px)');cd=Math.max(1,turnsLeft(f.at));}
     for(const f of G.fields)if(f.type==='thunder'&&active(f)&&has(f.cells,r,c)){const st=f.stages.find(s=>!s.done&&has(s.cells,r,c));if(st){layers.push('repeating-linear-gradient(0deg,rgba(232,96,60,.5) 0 4px,transparent 4px 9px)');cd=turnsLeft(st.at);}}
@@ -1666,8 +1936,8 @@ function render(){
   if(opPeek)$('#oppHand').innerHTML+=opPeek;
   const pl=G.players[ME],myTurn=G.turn===ME&&!G.over&&!G.preview&&!G.waiting;
   const orb=$('#orb');orb.textContent=pl.energy;orb.classList.toggle('off',!myTurn);
-  const extraN=piecesOf(ME).filter(([r,c,p])=>hasteReady(p)||ribExtra(p)).length;
-  const shootN=piecesOf(ME).filter(([r,c,p])=>(canShoot(p)&&shootTargets(r,c).length)||(canArrow(p)&&arrowTargets(r,c).length)||(canXbow(p)&&xbowTargets(r,c).length)||(canMarshal(p)&&marshalTargets(r,c).length)).length;
+  const extraN=piecesOf(ME).filter(([r,c,p])=>hasteReady(p)||ribExtra(p)||asnExtra(p)).length;
+  const shootN=piecesOf(ME).filter(([r,c,p])=>(canShoot(p)&&shootTargets(r,c).length)||(canArrow(p)&&arrowTargets(r,c).length)||(canXbow(p)&&xbowTargets(r,c).length)||(canMarshal(p)&&marshalTargets(r,c).length)||canMolotov(p)||(canOutlaw(p)&&outlawTargets(r,c).length)).length;
   $('#chips').innerHTML=myTurn?`<span class="chip ${G.main?'on':'off'}">${G.main?'メインの手：残り1':'メインの手：使用済み'}</span>${extraN?`<span class="chip">別に動ける駒 ×${extraN}</span>`:''}${shootN?`<span class="chip" style="border-color:var(--danger)">撃てる駒 ×${shootN}</span>`:''}${hasCommand(ME)?'<span class="chip off" style="color:#7fd05a;border-color:#7fd05a">魔法コスト-1</span>':''}${pl.discount?`<span class="chip on" style="background:var(--gold);border-color:var(--gold);color:#241a06">次のカード -${pl.discount}</span>`:''}${G.neonFrom&&findById(G.neonFrom)?`<button type="button" class="chip on" data-neon style="cursor:pointer;background:#e6d24a;border-color:#e6d24a;color:#241a06">雷を投げる（${nota(...neonCell(findById(G.neonFrom)[2],findById(G.neonFrom)[0],findById(G.neonFrom)[1]))}）</button>`:''}${pl.venomgift&&pl.venomgift.until>G.T?`<span class="chip off" style="color:var(--poison);border-color:var(--poison)">瘴気の恵み：あと${turnsLeft(pl.venomgift.until)}ターン</span>`:''}${pl.keeper?'<span class="chip off" style="color:var(--gold);border-color:var(--gold)">保持化：1枚持ち越し</span>':''}${pl.awake&&anyAsleep(ME)&&!pl.awakeUsed?'<span class="chip on" style="background:var(--danger);border-color:var(--danger)">子守唄：王がもう1回動ける</span>':''}${peeking(ME)?`<span class="chip off">次に引く：${pl.draw.length?CARDS[pl.draw[pl.draw.length-1].key].name:'（シャッフル後）'}</span>`:''}${pl.fixate?`<span class="chip off" style="color:var(--gold);border-color:var(--gold)">固定化：${CARDS[pl.fixate.key].name}・${G.T>=pl.fixate.next?'次の番':'あと'+turnsLeft(pl.fixate.next)+'ターン'}</span>`:''}${pl.golden&&pl.golden.until>G.T?`<span class="chip off" style="color:var(--gold);border-color:var(--gold)">黄金期：あと${turnsLeft(pl.golden.until)}ターン</span>`:''}${pl.magician?(pl.magician.ready&&magicianOutside(ME)?`<button type="button" class="chip on" data-magic style="cursor:pointer;background:var(--mag);border-color:var(--mag);color:#fff">魔術師：${CARDS[pl.magician.card.key].name}を発動</button>`:`<span class="chip off" style="color:#c8bdff;border-color:var(--mag)">魔術師：${CARDS[pl.magician.card.key].name}・${pl.magician.ready?'駒を魔法防御の外へ出すと使える':'あと'+turnsLeft(pl.magician.next)+'ターン'}</span>`):''}${pl.barracks?(barracksReady(ME)?'<button type="button" class="chip on" data-barracks style="cursor:pointer;background:var(--gold);border-color:var(--gold);color:#241a06">兵舎：駒強化を付ける</button>':`<span class="chip off">兵舎：${G.T>=pl.barracks.next?'付けられるカードなし':'あと'+turnsLeft(pl.barracks.next)+'ターン'}</span>`):''}`:'<span class="chip off">相手の番</span>';
   const hand=$('#hand');
   if(!pl.hand.length)hand.innerHTML=`<span class="empty-hand">${G.preview?'デッキを組むと対局が始まります':'手札なし'}</span>`;
@@ -1705,7 +1975,7 @@ function hintText(){
     if(G.pending.multi)return `<b>多勢に無勢：${d.name}</b>：付ける駒を選んでください（${G.pending.picked.length}/3）。もう一度押すと外します。<button type="button" class="hb on" data-swarmdone>${G.pending.picked.length?G.pending.picked.length+'つに付けて決定':'付けずに終わる'}</button>`;
     if(G.pending.magic)return G.pending.aim?`<b>魔術師：${d.name}</b>：白枠の範囲に使います。同じマスをもう一度押すと確定。`:`<b>魔術師：${d.name}</b>：${TGT_HINT[d.target]}（コストなし）。Escで取り消し、あとでボタンから使えます。`;
     if(G.pending.aim)return `<b>${d.name}</b>：白枠の範囲に使います。<b>同じマスをもう一度押すと確定</b>、別のマスで位置を変更。`;
-    const t=G.pending.first?(G.pending.key==='thunder'?'範囲の反対の角を選んでください（横5×縦2か縦5×横2）':'移す先の空きマス（隣）を選んでください'):TGT_HINT[d.target];
+    const t=G.pending.first?(G.pending.key==='thunder'?'範囲の反対の角を選んでください（横5×縦2か縦5×横2）':G.pending.key==='tdf'?'撃つ方向（隣のマス）を選んでください。その方向へ盤の端まで射線が伸びます':G.pending.key==='hunter'?'軌道の後半（4〜6マス先）を、直進・左・右の列から選んでください':'移す先の空きマス（隣）を選んでください'):TGT_HINT[d.target];
     return `<b>${d.name}</b>：${t}。カードをもう一度押すと取り消し。`;}
   if(G.sel){const p=G.board[G.sel[0]][G.sel[1]];
     const[sr,sc]=G.sel;const acts=[];
@@ -1714,20 +1984,31 @@ function hintText(){
     if(canMarshal(p)&&marshalTargets(sr,sc).length)acts.push(['marshal','マーシャルで撃つ']);
     if(canXbow(p)&&xbowTargets(sr,sc).length)acts.push(['xbow','弩を撃つ（手を使わない）']);
     if(canCharge(p))acts.push(['charge','弩を溜める（メインの手）']);
+    if(canBreach(p))acts.push(['breach',p.b.breach.movedT===G.T?'ブリーチを撃つ（手を使わない）':'ブリーチを撃つ（メインの手）']);
+    if(p.b.asn&&canAmbush(p,sr,sc))acts.push(['ambush','潜伏する（手を使わない）']);
+    if(canMolotov(p))acts.push(['molotov','火炎瓶を投げる（メインの手）']);
+    if(canOutlaw(p)&&outlawTargets(sr,sc).length)acts.push(['outlaw','アウトローで撃つ（メインの手）']);
+    if(hunterPending(ME)&&G.players[ME].hunter2.pid===p.id)acts.push(['hunter2','ハンターズフューリー2発目を予告（手を使わない）']);
     if(G.shootMode)acts.unshift(['move','移動に戻す']);
     let btn=acts.map(([a,l])=>`<button type="button" class="hb${G.shootMode===a?' on':''}" data-act="${a}">${l}</button>`).join('');
     if(hasFacing(p)&&!G.shootMode){const cur=G.faceSel||p.face||'f';btn+=`<span class="facepick">向き：${[['f','前'],['l','左'],['r','右']].map(([f,l])=>`<button type="button" class="hb face${cur===f?' on':''}" data-face="${f}">${l} ${ARROW_GLYPH(faceVec(ME,f))}</button>`).join('')}</span>`;}
     if(hasFacing(p)&&!G.shootMode&&G.main){}
+    if(G.shootMode==='molotov')return G.molAim?`<b>火炎瓶</b>：倒す向き（中心の上下左右の印）を選ぶと投げます。別の中心を押すと変更。${btn}`:`<b>火炎瓶</b>：落とす中心のマス（照準）を選んでください。${btn}`;
+    if(G.shootMode==='outlaw')return `<b>アウトロー</b>（メインの手）：照準の敵駒を選ぶと致死毒を撃ちます。${btn}`;
+    if(G.shootMode==='hunter2')return `<b>ハンターズフューリー2発目</b>：軌道の後半（4〜6マス先）を直進・左・右から選んでください。予告後この駒は発射まで動けません。${btn}`;
+    if(G.shootMode==='breach')return `<b>ブリーチ</b>：黄色の照準のマスを押すとエリアを選び、<b>同じエリアをもう一度押すと発射</b>。1ターン後に着弾し中の敵駒をスタン2ターン。${btn}`;
     if(G.shootMode){const nm={marshal:'マーシャル（メインの手を使い、当たった敵に毒）',op:'狙撃（メインの手とエネルギー1を使う）',arrow:'火矢（メインの手を使う）',xbow:'弩（手を使わない）'}[G.shootMode];return `<b>${nm}</b>：赤い照準の敵駒を選んでください。${btn}`;}
     if(xbowReady(p)&&!xbowTargets(sr,sc).length&&!G.shootMode){}
     if(p.b.op&&!canShoot(p)&&G.main&&!G.shootMode){const why=isStunned(p)?'スタン中で撃てません':G.T<p.b.op.ready?`${turnsLeft(p.b.op.ready)}ターン後から撃てます`:G.players[ME].energy<1?'発砲にはエネルギー1が必要です':'';if(why&&!btn)return `この駒は${why}。移動先を選んでください。`;}
     const mv=movesFor(G.sel[0],G.sel[1]);
     if(!mv.length&&fieldsAt('seize',G.sel[0],G.sel[1]).length)return `この${pname(p)}はシーズの外に出られず、中に動ける空きもありません。${btn}`;
     if(isStunned(p)&&aiming(p))return `この${pname(p)}は覗き中にスタンを受けたので、スタン中は動けず撃てません。`;
+    if(shotLocked(p))return `この${pname(p)}は射線の予告中なので、発射まで動けません。${btn}`;
     if(isLocked(p))return `この${pname(p)}は転移か石化で固まっていて、この番は動けません。`;
-    if(!G.main&&!hasteReady(p)&&!ribExtra(p))return `メインの手は使用済みです。疾風かアンカー移動を持つ駒なら動かせます。${btn}`;
-    const extra=(isStunned(p)?'<b>スタン中：駒を取れず、撃てません。</b>':'')+(hasFacing(p)?'向きを選んでから移動先を選んでください（溜める時も選んだ向きになります）。':'')+(p.burn?'<b>延焼中：この番に動かさないと倒れます。</b>':p.petri?'<b>石化中：この番に動かさないと次の番は動けません。</b>':'')+(p.b.xbow&&p.b.xbow.ch!=null?'動くと弩の溜めが消えます。':'')+(ribExtra(p)?'この手はアンカー移動（取ってもよい）として使います。':hasteReady(p)?'駒を取らない移動は疾風を使います。':'');
+    if(!G.main&&!hasteReady(p)&&!ribExtra(p)&&!asnExtra(p))return `メインの手は使用済みです。疾風・アンカー移動・アサシンの駒なら動かせます。${btn}`;
+    const extra=(invis(p)?'<b>見えない間は駒を取れません。</b>'+(asnExtra(p)?'取らない移動はアサシンの追加の移動を使います。':''):'')+(isStunned(p)?'<b>スタン中：駒を取れず、撃てません。</b>':'')+(hasFacing(p)?'向きを選んでから移動先を選んでください（溜める時も選んだ向きになります）。':'')+(p.burn?'<b>延焼中：この番に動かさないと倒れます。</b>':p.petri?'<b>石化中：この番に動かさないと次の番は動けません。</b>':'')+(p.b.xbow&&p.b.xbow.ch!=null?'動くと弩の溜めが消えます。':'')+(ribExtra(p)?'この手はアンカー移動（取ってもよい）として使います。':hasteReady(p)?'駒を取らない移動は疾風を使います。':'');
     return `${pname(p)}の移動先を選んでください。${extra}${btn}`;}
+  if(hunterPending(ME)&&!G.pending&&!G.sel)return `<b>ハンターズフューリー：2発目を予告できます</b>。撃つ駒を選んで「2発目を予告」を押してください（手は使いません）。この番に予告しないと不発です。`+(G.main?'駒も1手動かしてください。':'');
   if(G.neonFrom&&findById(G.neonFrom)&&!G.pending&&!G.sel)return `<b>雷を投げられます</b>（エネルギー表示の下のボタン）。投げると1ターン後、2マス前に着弾し敵駒をスタン2ターン。`+(G.main?'駒も1手動かしてください。':'');
   if(G.players[ME].magician&&G.players[ME].magician.ready&&!G.pending&&!G.sel)return (magicianOutside(ME)?`<b>魔術師の「${CARDS[G.players[ME].magician.card.key].name}」が使えます</b>（エネルギー表示の下のボタン）。`:`<b>魔術師の「${CARDS[G.players[ME].magician.card.key].name}」</b>は、魔術師の駒を自分の魔法防御の外に出すと使えます。`)+'この番に使わないと、次は2ターン後です。'+(G.main?'駒も1手動かしてください。':'');
   if(G.main&&!mustMove())return '動かせる駒がありません。カードを使うか、ターンを終了しましょう。';
@@ -1796,7 +2077,7 @@ function showLibrary(){
 const GLOSSARY_HTML=`      <div class="glossary">
         <div><b>毒</b>3ターンで消える。毒の間に別の手番でもう一度毒を受けると倒れる。</div>
         <div><b>向き</b>毒刃・弩・蛇の目を持つ駒は、前・左・右のどれかを向く。向きは駒を動かす前（弩は溜める前）に選ぶ。駒の矢印バッジが今の向き。</div>
-        <div><b>スタン</b>移動はできるが、駒を取れず、狙撃・火矢・弩も撃てない。見えない駒にぶつかると移動は無効になり、ターンが終わる。ローリングサンダーで付く。</div>
+        <div><b>スタン</b>移動はできるが、駒を取れず、狙撃・火矢・弩などの武器も撃てない。見えない駒にぶつかると移動は無効になり、ターンが終わる。ローリングサンダー・ネオン・ブリーチ・蝕みなどで付く。</div>
         <div><b>武器の準備</b>毒刃・火矢・弩・蛇の目・バイパーズピットは、付けた番は働かず、次の自分の番から有効。オペレーターは付けた番と次の番は撃てず、動いた・押された・移された時もその番と次の番は撃てない。</div>
         <div><b>覗き中（オペレーター）</b>撃てる状態のオペレーターの駒（バッジ「覗」）。この状態でスタンを受けると、スタン中は動くこともできない。</div>
         <div><b>情報の秘匿</b>自分の煙幕・暗雲が出ている間、相手からはあなたのエネルギーと手札が見えない。</div>
@@ -1804,6 +2085,16 @@ const GLOSSARY_HTML=`      <div class="glossary">
         <div><b>毒刃の装填</b>毒刃は毒を与えると空になり（刃↻）、次の1回の移動で装填し直す。毒は最初に当たった駒にだけかかる。</div>
         <div><b>懸賞（バウンティー）</b>かけた側が次の自分の番の間にその駒を倒すとエネルギー+3。駒のバッジ「賞!」が有効中。解呪で外せる。</div>
         <div><b>アイソアーマー</b>付けた番から次の相手の番が終わるまで、どんな攻撃でも1回だけ耐える（バッジ「甲」）。付けてから2ターン以内にその駒が敵を倒すと、アーマーが1ターン分復活する（バッジ「甲N↻」は復活できる残りターン）。</div>
+        <div><b>武器は1つまで</b>毒刃・オペレーター・火矢・弩・蛇の目・ネオン・マーシャル・ブリーチは武器。1つの駒には武器を1つしか持てず、別の武器を付けると前の武器は消えて上書きされる。</div>
+        <div><b>アサシン</b>見えない駒は相手の盤から消える（バッジ「影N」、潜伏中は「潜N」）。見えない間は取れず、敵駒を取れる位置関係になると姿を現す。見えない駒のマスに入ろうとした駒はぶつかって移動が無効になりターン終了、アサシンも姿を現す。単体を狙う魔法・武器は届かないが、範囲攻撃（アルマゲドン・自爆・ローリングサンダー・ブリーチ・雷など）は当たる。</div>
+        <div><b>ブリーチ</b>前方の7つのエリアから1つを選んで撃つ。黄色の斜線と数字で着弾が予告される。動いた後なら手を使わずに撃てる。</div>
+        <div><b>致死毒</b>アウトローなどで付く（バッジ「死」）。時間では消えない。致死毒の駒に懸賞以外のデバフ（毒・延焼・石化・熟睡・スタン・うんち・シーズ）が付くと倒れる。デバフを受けている駒に致死毒が当たるとその場で倒れる。致死毒に致死毒でも倒れる。解呪・加護・プリーストで消せる。</div>
+        <div><b>プリースト</b>番の開始時に、周囲1マス（自分を含む）の味方1体のデバフを自動で解除。前の自分の番に動いたプリーストは使えない（バッジ「聖…」）。予告中のスタンや爆撃は消せない。</div>
+        <div><b>遠投兵（火炎瓶）</b>照準の中心を選び、上下左右のどちら側に倒すか選ぶと1×2に即着弾。敵味方・王すべてに延焼。</div>
+        <div><b>ツールドフォース</b>射線は赤の縞で予告。撃つ駒（バッジ「照」）は発射まで動けない。壊した駒のマスを中心にシーズ（魔法防御の中にも広がる）。</div>
+        <div><b>ハンターズフューリー</b>軌道は緑の縞で予告。1発目の番に手を使わず2発目を予告でき、さらに1ターン後に発射。毒は通常の毒と同じ（別の番に2回受けると倒れる）。</div>
+        <div><b>アサシンの暗殺</b>潜伏中に敵が近づいてバレた次の番、そのアサシンで王を取る手は、取る代わりに王へ致死毒を刺す（すでに致死毒やデバフがあれば倒れる）。</div>
+        <div><b>アマゾン</b>取り寄せたカードは保留で手札に入り、使うと消える（デッキには残らない）。</div>
         <div><b>延焼</b>次の自分の番に動かさないと倒れる。火矢で付く。</div>
         <div><b>石化</b>次の自分の番に動かさないと、その次の番は動けない。石化の眼・蛇の目で付く。</div>
         <div><b>弩の溜め</b>溜めた次か次の次の番に撃てる。射線は赤い斜線で表示。動くと消える。</div>
@@ -1889,6 +2180,7 @@ function applyRemote(d){
   if(!wasOver||!st.over){G.modal=false;closeModal();}
   ONLINE.v=d.v;ONLINE.lastJson=d.json;
   ONLINE.applying=true;try{render();}finally{ONLINE.applying=false;}
+  if(G.turn===ME&&G.players[ME].priestPick===G.T&&!G.over){G.players[ME].priestPick=null;priestStart(ME);}
   if(!wasOver&&G.over)setTimeout(()=>showOver(G.over),400);
   if(wasTurn!==G.turn&&G.turn===ME){try{document.title='▲ あなたの番｜七路将棋';setTimeout(()=>document.title='七路将棋カードバトル',4000);}catch(e){}}
 }
@@ -2081,7 +2373,7 @@ $('#oppHand').addEventListener('click',e=>{const b=e.target.closest('[data-key]'
 $('#endBtn').addEventListener('click',()=>{if(!locked()&&!mustMove())endTurn();});
 $('#pDraw').addEventListener('click',()=>showPile('draw'));
 $('#pDisc').addEventListener('click',()=>showPile('discard'));
-$('#hint').addEventListener('click',e=>{if(e.target.closest('[data-swarmdone]')&&!locked()){finishSwarm();return;}const fb=e.target.closest('[data-face]');if(fb&&!locked()&&G.sel){G.faceSel=fb.dataset.face;render();return;}const b=e.target.closest('[data-act]');if(!b||locked()||!G.sel)return;const a=b.dataset.act;if(a==='charge'){chargeXbow(G.sel[0],G.sel[1],G.faceSel);return;}if(a==='move'){G.shootMode=false;render();return;}G.shootMode=G.shootMode===a?false:a;render();});
+$('#hint').addEventListener('click',e=>{if(e.target.closest('[data-swarmdone]')&&!locked()){finishSwarm();return;}const fb=e.target.closest('[data-face]');if(fb&&!locked()&&G.sel){G.faceSel=fb.dataset.face;render();return;}const b=e.target.closest('[data-act]');if(!b||locked()||!G.sel)return;const a=b.dataset.act;G.breachAim=null;G.molAim=null;if(a==='ambush'){doAmbush(G.sel[0],G.sel[1]);return;}if(a==='charge'){chargeXbow(G.sel[0],G.sel[1],G.faceSel);return;}if(a==='move'){G.shootMode=false;render();return;}G.shootMode=G.shootMode===a?false:a;render();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&G&&!G.modal&&G.pending&&G.pending.multi){finishSwarm();return;}if(e.key==='Escape'&&G&&!G.modal&&(G.pending||G.sel)){G.pending=null;G.sel=null;G.shootMode=false;render();}});
 window.addEventListener('resize',()=>{if(G)layoutHand();});
 
