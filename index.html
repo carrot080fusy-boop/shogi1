@@ -324,7 +324,7 @@ const CARDS={
   rib:{name:'ランイットバック',cost:4,cat:'enh',art:'戻',target:'own',text:'今のマスにアンカーを置く。次の番はメインと別に1回動ける（取れる）。倒されるか3ターン後にアンカーへ戻る。そこに駒がいると倒れる。'},
   atomic:{name:'アトミック',cost:4,cat:'enh',art:'核',target:'ownPawn',text:'歩にだけ付けられる。4ターン後、この駒を中心に5×5マスの駒を、王も含め敵味方関係なくすべて破壊。疾風・桂脚・逆行・ランイットバックとは重ねられない。'},
   bomb:{name:'自爆',cost:1,cat:'enh',art:'爆',target:'ownNoKing',text:'2ターン後、この駒を中心に3×3マスの駒を、王も含め敵味方関係なくすべて破壊。巻き込まれた保険付きの自分の歩からはエネルギーが入る（自爆した駒自身の保険は出ない）。'},
-  iso:{name:'アイソアーマー',cost:3,cat:'enh',art:'甲',target:'own',text:'次の相手の番が終わるまで（1ターン）、どんな攻撃でも1回だけ耐える（取られても取られず、攻めた駒は元のマスに戻る）。付けてから2ターン以内にこの駒が敵駒を倒すと、アーマーが1ターン分復活する（倒すたびに2ターンの猶予も延びる）。'},
+  iso:{name:'アイソアーマー',cost:3,cat:'enh',art:'甲',target:'own',text:'次の相手の番が終わるまで（1ターン）、どんな攻撃でも1回だけ耐える（取られても取られず、攻めた駒は元のマスに戻る）。自分で起動したアトミック・自爆では耐えられない。付けてから2ターン以内にこの駒が敵駒を倒すと、アーマーが1ターン分復活する（倒すたびに2ターンの猶予も延びる）。'},
   plunder:{name:'略奪',cost:1,cat:'enh',art:'奪',target:'own',text:'この駒が敵駒を倒すたびにエネルギー+1。取った時だけでなく、狙撃・弩・毒・延焼・爆発などこの駒の能力で倒した時も入る。'},
   pit:{name:'バイパーズピット',cost:5,cat:'enh',art:'蛇',target:'own',text:'駒を中心に横5×縦2の毒領域を展開（付けた次の番から有効・駒が倒れるまで続く）。中の敵は2ターンで倒れる。中の味方は毒でも倒れず、相手から見えない。'},
   arrow:{name:'火矢',cost:3,cat:'enh',art:'火',target:'ownNoKing',text:'武器（付けた次の番から有効）。メインの手の代わりに、真っすぐ前2マスで最初に当たる敵駒（王も可）に延焼を付ける。撃つと1ターン撃てない。'},
@@ -852,6 +852,7 @@ function atomicBlast(r,c,rad){
   const me=G.board[r][c];
   log(`${mark(me.c)}${rad===2?'アトミック起動':'自爆'}（${nota(r,c)}中心の${rad*2+1}×${rad*2+1}）`,me.c);
   G.blast=[];
+  delete me.b.iso;
   for(let rr=r-rad;rr<=r+rad;rr++)for(let cc=c-rad;cc<=c+rad;cc++){if(!inB(rr,cc))continue;const q=G.board[rr][cc];if(q)killPiece(rr,cc,rad===1?'bomb':'atomic',me.c,me);}
   const lost=G.blast;G.blast=null;
   if(lost.length>=2)gameOver('draw');else if(lost.length===1)gameOver(opp(lost[0]));
