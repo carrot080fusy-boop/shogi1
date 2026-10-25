@@ -333,6 +333,23 @@ details.guide .glossary{margin-top:10px}
 .dbi.flash{animation:dbflash 1.4s ease}
 @keyframes dbflash{0%,40%{background:rgba(232,186,76,.28)}100%{background:rgba(255,255,255,.03)}}
 .wlegend .winfo em.wd{font-size:10px}
+
+.bhelp{font-size:12px}
+.bhelp>summary{cursor:pointer;color:var(--muted);font-size:12px;padding:2px 0}
+.bhelp>summary:hover{color:var(--fg)}
+.bhelp[open]>summary{margin-bottom:6px}
+.mbar{display:none}
+@media (max-width:700px){
+  .modal{padding:12px}
+  .deckbar{position:static;top:auto}
+  .deckbar .jump{display:none}
+  .mbar{display:block;position:sticky;bottom:-12px;z-index:4;margin:12px -12px -12px;padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:var(--panel);border-top:1px solid var(--line);box-shadow:0 -8px 20px rgba(0,0,0,.35)}
+  .mbar .mrow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+  .mbar .count{font-size:13px}
+  .mbar .btn{padding:6px 12px;font-size:13px}
+  .mbar .jump{margin:0;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:4px 6px}
+  .mbar .jump>*{flex:none}
+}
 </style>
 
 <header class="top">
@@ -2604,17 +2621,18 @@ function openBuilder(tab){
       <div class="lvrow" id="lvrow"><span class="lvlabel">botの強さ</span>
         <button type="button" class="btn lv" data-lv="1">やさしい</button><button type="button" class="btn lv" data-lv="2">ふつう</button><button type="button" class="btn lv" data-lv="3">つよい</button>
         <span class="lvnote" id="lvnote"></span></div>
-      <p style="margin:0;font-size:12px">カードを押すと追加、枠のカード名を押すと外します。<b style="color:var(--gold)">一番左の「初手」枠のカードは必ず最初の手札に入ります</b>（「初手へ」で入れ替え）。同じカードは2枚まで。botのデッキはランダムに組まれます。</p>
-      <p class="wlegend"><span class="winfo"><em class="wf main">手番</em></span>メインの手を使う <span class="winfo"><em class="wf both">移動後OK</em></span>動いた後なら手を使わない <span class="winfo"><em class="wr">リロード2</em></span>撃った後2回の自分の番は撃てない <span class="winfo"><em class="wd poison" data-db="poison">毒</em><em class="wd stun" data-db="stun">スタン</em><em class="wd lethal" data-db="lethal">致死毒</em><em class="wd burn" data-db="burn">延焼</em><em class="wd petri" data-db="petri">石化</em></span>与えるデバフ（押すと説明へ） <span class="winfo"><em class="wl d">予告1</em></span>1ターン後に着弾　カードにカーソル（スマホは長押し）で全文と範囲図</p>
+      <details class="bhelp"><summary>使い方・アイコンの説明</summary><p style="margin:0;font-size:12px">カードを押すと追加、枠のカード名を押すと外します。<b style="color:var(--gold)">一番左の「初手」枠のカードは必ず最初の手札に入ります</b>（「初手へ」で入れ替え）。同じカードは2枚まで。botのデッキはランダムに組まれます。</p>
+      <p class="wlegend"><span class="winfo"><em class="wf main">手番</em></span>メインの手を使う <span class="winfo"><em class="wf both">移動後OK</em></span>動いた後なら手を使わない <span class="winfo"><em class="wr">リロード2</em></span>撃った後2回の自分の番は撃てない <span class="winfo"><em class="wd poison" data-db="poison">毒</em><em class="wd stun" data-db="stun">スタン</em><em class="wd lethal" data-db="lethal">致死毒</em><em class="wd burn" data-db="burn">延焼</em><em class="wd petri" data-db="petri">石化</em></span>与えるデバフ（押すと説明へ） <span class="winfo"><em class="wl d">予告1</em></span>1ターン後に着弾　カードにカーソル（スマホは長押し）で全文と範囲図</p></details>
       ${jumpNav(cats)}
     </div>
     ${cats.map(c=>`<div class="cat"><h4><i style="background:${color[c]}"></i>${CAT[c]}</h4><p>${desc[c]}</p>
       ${groupedPool(c,k=>`<div class="pick" data-key="${k}"><span class="n" hidden>0</span>${cardHTML(k,null,'')}</div>`)}
     </div>`).join('')}
     <details class="guide"><summary>基本ルール</summary>${RULES_HTML}${awakeSeen()?'<div class="rules" style="margin-top:12px">'+AWAKE_RULES+'</div>':''}</details>
-    <details class="guide"><summary>状態・デバフの説明</summary>${GLOSSARY_HTML}</details>`,root=>{
+    <details class="guide"><summary>状態・デバフの説明</summary>${GLOSSARY_HTML}</details>
+    <div class="mbar"><div class="mrow"><span class="count">選択中 <b class="mdc">0</b> / 8</span><button class="btn on" id="dbGo2" type="button">この8枚で対局開始</button></div>${jumpNav(cats)}</div>`,root=>{
     const upd=()=>{
-      root.querySelector('#dc').textContent=draft.length;
+      root.querySelector('#dc').textContent=draft.length;root.querySelectorAll('.mdc').forEach(e=>e.textContent=draft.length);
       const sorted=draft;
       root.querySelector('#slots').innerHTML=[...Array(8)].map((_,i)=>{const k=sorted[i];const op=i===0?' opener':'';
         if(!k)return `<div class="slot${op}">${i===0?'<span class="olabel">初手</span>':''}空き</div>`;
@@ -2626,6 +2644,7 @@ function openBuilder(tab){
       root.querySelectorAll('[data-need8]').forEach(b=>b.disabled=draft.length!==8||busyOn||!savedConfig());
     };
     bindJump(root);
+    {const g2=root.querySelector('#dbGo2');if(g2)g2.addEventListener('click',()=>{const g=root.querySelector('#dbGo');if(g)g.click();});}
     root.querySelectorAll('.pick .card').forEach(el=>el.addEventListener('click',()=>{const k=el.parentElement.dataset.key;if(draft.length<8&&draft.filter(x=>x===k).length<2){draft.push(k);upd();}}));
     root.querySelector('#dbRand').addEventListener('click',()=>{draft=botDeck();upd();});
     root.querySelector('#dbClear').addEventListener('click',()=>{draft=[];upd();});
