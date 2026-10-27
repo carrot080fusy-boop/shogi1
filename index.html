@@ -607,11 +607,11 @@ const isOnline=()=>G&&G.mode==='online';
 const BUDGET_SCALE=1;
 const LV_NAME=['','やさしい','ふつう','つよい'];
 const HARD_DECKS=[
-  {name:'狙撃部隊',keys:['combo','operator','operator','xbow','plunder','insure','search','petri','xbow','golden','bounty','haste']},
-  {name:'毒と石',keys:['blade','blade','swamp','petri','petri','snake','insure','dispel','snake','marshal','marshal','insight']},
-  {name:'焦土作戦',keys:['combo','thunder','seize','seize','atomic','bomb','command','insure','thunder','bomb','breaker','insight']},
-  {name:'火矢の前線',keys:['arrow','arrow','petri','snake','plunder','haste','combo','insure','molotov','neon','haste','insight']},
-  {name:'兵站部隊',keys:['barracks','blade','arrow','plunder','haste','insure','search','rib','blade','arrow','plunder','rib']},
+  {name:'物資争奪',keys:['airdrop','airdrop','haste','haste','rib','rib','operator','marshal','combo','insight','insure','seize']},
+  {name:'補給ドロー',keys:['supply','keeper','reserve','search','insight','insight','operator','thunder','tdf','combo','combo','seize']},
+  {name:'守り反撃',keys:['priest','ward','ward','dispel','iso','barrier','outlaw','operator','marshal','insight','keeper','combo']},
+  {name:'致死毒シーズ',keys:['outlaw','outlaw','iso','seize','seize','command','insight','combo','venom','interro','search','dispel']},
+  {name:'保留大技',keys:['reserve','reserve','thunder','thunder','tdf','grand','command','breaker','combo','combo','insight','seize']},
 ];
 const pieceEls=new Map();
 const opp=c=>c==='s'?'g':'s';
@@ -882,16 +882,16 @@ function pitCells(col,r,c){
 /* ---------- game flow ---------- */
 function mkPlayer(keys){return {draw:shuffle(keys.map(k=>({uid:uid++,key:k}))),hand:[],discard:[],exhaust:[],energy:0,started:false};}
 const TOP_DECKS=[
- {name:'毒・尋問官型',wr:72,keys:['blade','marshal','interro','interro','swamp','hunter','insight','search','blade','marshal','venom','taser']},
- {name:'致死毒・シーズ型',wr:61,keys:['outlaw','outlaw','tdf','seize','seize','command','insight','combo','venom','interro','taser','dispel']},
- {name:'歩燃料',wr:61,keys:['summon','bomb','bomb','insure','swarm','fixate','combo','thunder','summon','insure','offering','atomic']},
- {name:'狙撃部隊',wr:56,keys:['combo','operator','operator','xbow','plunder','insure','search','petri','xbow','golden','bounty','haste']},
- {name:'魔法大技',wr:56,keys:['command','command','thunder','tdf','hunter','roll','golden','insight','breaker','thunder','seize','combo']},
- {name:'前回チャンピオン',wr:50,keys:['haste','haste','operator','keeper','insight','seize','cloud','dispel','operator','xbow','combo','insure']},
- {name:'毒・触媒型',wr:50,keys:['blade','blade','marshal','swamp','catalyst','catalyst','infect','venomgift','marshal','swamp','infect','insight']},
- {name:'毒・ハンター型',wr:39,keys:['marshal','blade','hunter','hunter','infect','venomgift','insight','combo','marshal','blade','swamp','venom']},
- {name:'雷撃',wr:33,keys:['neon','neon','roll','petri','snake','arrow','combo','bounty','arrow','petri','snake','insight']},
- {name:'プリースト守り',wr:22,keys:['priest','priest','iso','ward','dispel','outlaw','marshal','insight','outlaw','marshal','ward','keeper']},
+ {name:'物資争奪',wr:75,keys:['airdrop','airdrop','haste','haste','rib','rib','operator','marshal','combo','insight','insure','seize']},
+ {name:'補給ドロー',wr:73,keys:['supply','keeper','reserve','search','insight','insight','operator','thunder','tdf','combo','combo','seize']},
+ {name:'守り反撃',wr:71,keys:['priest','ward','ward','dispel','iso','barrier','outlaw','operator','marshal','insight','keeper','combo']},
+ {name:'致死毒シーズ',wr:68,keys:['outlaw','outlaw','iso','seize','seize','command','insight','combo','venom','interro','search','dispel']},
+ {name:'保留大技',wr:67,keys:['reserve','reserve','thunder','thunder','tdf','grand','command','breaker','combo','combo','insight','seize']},
+ {name:'前回チャンピオン',wr:67,keys:['haste','haste','operator','keeper','insight','seize','cloud','dispel','operator','xbow','combo','insure']},
+ {name:'プリースト守り',wr:62,keys:['priest','priest','iso','ward','dispel','outlaw','marshal','insight','outlaw','marshal','ward','keeper']},
+ {name:'魔法大技',wr:62,keys:['command','command','thunder','tdf','hunter','roll','golden','insight','breaker','thunder','seize','combo']},
+ {name:'衰弱ピット',wr:61,keys:['pit','seize','seize','neon','neon','curse','knife','blade','taser','insight','combo','dispel']},
+ {name:'グランドスラム突撃',wr:61,keys:['grand','grand','rewind','rewind','haste','haste','ward','combo','insight','insure','seize','petri']},
 ];
 function botDeck(){
   const by=c=>Object.keys(CARDS).filter(k=>CARDS[k].cat===c&&k!=='awaken');
@@ -2861,36 +2861,42 @@ document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest
  const _pc=playCard;playCard=function(card,t,opts){const d=card&&CARDS[card.key];if(d&&(d.cat==='mag'||d.cat==='awk'))return withSrc('msrc',G.turn,()=>_pc(card,t,opts));return _pc(card,t,opts);};}
 /* ---------- synergy axes ---------- */
 const AXES=[
- {id:'lethal',name:'毒→致死毒',core:['marshal','blade','venom','interro','taser'],also:['outlaw','swamp','hunter','erode','infect','catalyst','chain','neon','breach'],
-  desc:'マーシャル・毒刃で毒を当て、猛毒化や尋問官で消えない致死毒に変える。致死毒の駒は次に何かデバフを受けると倒れるので、テーザーのスタンや2回目の毒で仕留める。'},
- {id:'outlaw',name:'致死毒＋スタン',core:['outlaw','taser','neon','breach'],also:['interro','venom','chain','roll','erode'],
-  desc:'アウトローの致死毒は、すでにデバフのある駒なら即死。先にテーザー・ネオン・ブリーチでスタンを当ててから撃ち抜く。'},
+ {id:'outlaw',name:'致死毒シーズ',core:['outlaw','seize','venom','interro','iso','dispel'],also:['command','combo','search','taser','neon','tdf'],
+  desc:'大会の優勝デッキ。シーズで敵を閉じ込め、アウトローや猛毒化・尋問官で致死毒にして、次のデバフで仕留める。アイソアーマーと解呪で守りも固い。'},
+ {id:'draw',name:'ドロー回転',core:['supply','keeper','reserve','search','insight','combo'],also:['amazon','fixate','swarm','airdrop','thunder','tdf'],
+  desc:'大会の優勝デッキ。補給線・閃き・探索で手札を増やし、保留・保持化で重いカードを残して、連撃の構えで一気に使う。'},
+ {id:'airdrop',name:'物資争奪',core:['airdrop','haste','rib','operator','marshal','seize'],also:['magician','combo','insure','insight','leader'],
+  desc:'救援物資を真ん中に呼び、疾風やランイットバックの速い駒で先に取る。取った強化カード（0コスト）とエネルギーで狙撃を続ける。'},
+ {id:'lethal',name:'毒→致死毒',core:['marshal','blade','venom','interro','taser'],also:['swamp','hunter','erode','infect','catalyst','chain','neon','breach','knife'],
+  desc:'マーシャル・毒刃で毒を当て、猛毒化や尋問官で消えない致死毒に変える。致死毒の駒は次に何かデバフを受けると倒れる。'},
  {id:'spread',name:'毒の増殖',core:['swamp','blade','infect','catalyst','venomgift'],also:['hunter','marshal','erode'],
-  desc:'毒沼や毒刃で毒を広げ、感染でまわりにまとめて2回目の毒（倒れる）。触媒で毒を長引かせ、瘴気の恵みでエネルギーと手札を回収する。'},
- {id:'burn',name:'延焼で追い立て',core:['arrow','molotov','fireb','snake','swamp'],also:['outlaw','venom','pit'],
-  desc:'延焼の駒は次の番までに動かないと倒れる。逃げた先を蛇の目や毒沼で待ち構える。致死毒や衰弱の駒に延焼を当てればその場で倒れる。'},
- {id:'weak',name:'衰弱の領域',core:['pit','seize','neon','arrow','blade'],also:['taser','breach','molotov','marshal','petri','swamp'],
-  desc:'バイパーズピットの中の敵は毎ターン衰弱し、次のデバフ1つで倒れる。シーズで領域に閉じ込め、ネオン・火矢・毒刃で何か1つ当てる。中の敵には王の動きで反撃もできる。'},
- {id:'sniper',name:'狙撃',core:['operator','xbow','combo','plunder','insure','petri'],also:['golden','bounty','search'],
-  desc:'オペレーターと弩で遠くから駒を壊す。連撃の構えで重いカードを早く出し、略奪・保険でエネルギーを回す（bot戦の上位デッキ）。'},
- {id:'bomb',name:'爆破',core:['bomb','atomic','insure','offering','leader'],also:['haste','seize','swarm','summon'],
-  desc:'自爆・アトミックで敵味方まとめて吹き飛ばす。巻き込まれた保険付きの歩からはエネルギーが入る。徴兵で歩を増やすのも手。リーダーで爆弾の歩を敵陣へ運ぶ。'},
- {id:'cheap',name:'1コスト量産',core:['swarm','fixate','rewind','ward','barracks'],also:['rewind','bomb','plunder','insure','combo'],
-  desc:'多勢に無勢・固定化・兵舎で、1コストや3コスト以下の駒強化をただで何度も使う。'},
- {id:'energy',name:'エネルギー稼ぎ',core:['plunder','golden','bounty','operator','combo'],also:['venomgift','insure','offering','exploit'],
-  desc:'略奪・黄金期・バウンティーで、敵を倒すたびにエネルギーを増やし、重いカードを続けて使う。'},
- {id:'magic',name:'魔法押し',core:['breaker','command','thunder','seize','roll'],also:['magician','barrier','tdf','hunter','petri','swamp','cloud'],
-  desc:'結界崩しで相手の魔法防御をはがし、前線指揮で魔法のコストを下げて大きな魔法を通す。'},
- {id:'lock',name:'足止め',core:['seize','roll','breach','tdf','xbow'],also:['chain','warp','dispel','petri'],
+  desc:'毒沼や毒刃で毒を広げ、感染でまわりにまとめて2回目の毒（倒れる）。触媒で長引かせ、瘴気の恵みで回収する。'},
+ {id:'weak',name:'衰弱',core:['pit','seize','curse','knife','neon'],also:['blade','taser','breach','arrow','molotov','marshal','petri'],
+  desc:'バイパーズピット・呪い壺・投げナイフで敵を衰弱させ、ネオン・テーザーなど何か1つデバフを当てて倒す。'},
+ {id:'burn',name:'延焼で追い立て',core:['arrow','molotov','fireb','snake','swamp'],also:['outlaw','venom','pit','akimbo'],
+  desc:'延焼の駒は次の番までに動かないと倒れる。逃げた先を蛇の目や毒沼で待ち構える。'},
+ {id:'light',name:'ライト連射',core:['akimbo','arrow','breach','blade','neon','knife','haste'],also:['autold','taser'],
+  desc:'動いた後に撃てる軽い武器をそろえ、アキンボ化で2回撃ち、疾風で動いた後にも撃つ。'},
+ {id:'sniper',name:'狙撃',core:['operator','xbow','autold','combo','plunder','insure'],also:['golden','bounty','search','petri','exploit','airdrop','marshal','outlaw'],
+  desc:'オペレーターと弩で遠くから駒を壊す。自動再装填で2発目を手番なしで撃ち、略奪・保険でエネルギーを回す。'},
+ {id:'energy',name:'エネルギー稼ぎ',core:['plunder','golden','bounty','exploit','operator'],also:['venomgift','insure','offering','combo','airdrop'],
+  desc:'略奪・黄金期・バウンティーで倒すたびにエネルギーを増やし、搾取で相手のエネルギーを削る。'},
+ {id:'magic',name:'魔法押し',core:['breaker','command','thunder','seize','roll','reserve'],also:['magician','barrier','tdf','hunter','petri','swamp','cloud'],
+  desc:'結界崩しで魔法防御をはがし、前線指揮で安くして大きな魔法を通す。保留で重い魔法を残しておける。'},
+ {id:'lock',name:'足止め',core:['seize','roll','breach','tdf','xbow'],also:['chain','warp','dispel','petri','grand','curse'],
   desc:'シーズ・ローリングサンダー・ブリーチで敵を動けなくし、ツールドフォースや弩で確実に壊す。'},
+ {id:'move',name:'機動',core:['haste','rib','leader','grand','arrow','neon'],also:['rewind','warp','taser','breach','interro','knife','akimbo'],
+  desc:'疾風・ランイットバック・グランドスラムで1手より多く動く。リーダーで歩をまとめて前へ。疾風で動いた後も軽い武器は撃てる。'},
+ {id:'guard',name:'守り',core:['priest','ward','dispel','iso','barrier','mercy'],also:['keeper','insure','adapt','inherit'],
+  desc:'プリースト・加護・解呪でデバフを消し、アイソアーマーと魔法障壁で耐える。マーシーは守りながら蘇生もできる。'},
+ {id:'undying',name:'不死・継承',core:['mercy','sacrifice','adapt','inherit','ward'],also:['priest','insure','operator','marshal'],
+  desc:'倒されても蘇生（マーシー・犠牲）し、武器は受け継がれる意志で引き継ぎ、適応者は同じ倒れ方に耐性を持つ。'},
+ {id:'bomb',name:'爆破',core:['bomb','atomic','insure','offering','leader'],also:['haste','seize','swarm','summon','sacrifice'],
+  desc:'自爆・アトミックで敵味方まとめて吹き飛ばす。保険付きの歩からはエネルギーが入る。リーダーで爆弾の歩を運ぶ。'},
+ {id:'cheap',name:'1コスト量産',core:['swarm','fixate','rewind','ward','barracks'],also:['bomb','plunder','insure','combo'],
+  desc:'多勢に無勢・固定化・兵舎で、1コストや3コスト以下の駒強化をただで何度も使う。'},
  {id:'stealth',name:'隠密',core:['assassin','smoke','cloud','haste','rib'],also:[],
   desc:'アサシン・煙幕・暗雲で駒の正体を隠して奇襲する。疾風やランイットバックで一気に詰める。'},
- {id:'move',name:'機動',core:['haste','rib','leader','arrow','neon'],also:['grand','rewind','warp','taser','breach','interro'],
-  desc:'疾風・ランイットバック・リーダーで、1手より多く駒を動かす。疾風で動いた後も、火矢・テーザー・ネオンなどを撃てる。'},
- {id:'guard',name:'守り',core:['priest','ward','dispel','iso','barrier'],also:['keeper','insure'],
-  desc:'プリースト・加護・解呪でデバフを消し、アイソアーマーと魔法障壁で攻撃を耐える。毒・致死毒のデッキに強い。'},
- {id:'draw',name:'サーチ',core:['search','amazon','insight','keeper'],also:['fixate','reserve','supply'],
-  desc:'探索・アマゾン・閃きで欲しいカードを集め、保持化で手札を持ち越す。'},
 ];
 const axesOf=k=>AXES.filter(a=>a.core.includes(k)||a.also.includes(k));
 let builderUpd=null;
@@ -3075,6 +3081,8 @@ function showLibrary(){
 /* ---------- patch notes (newest first; add an entry for every rule/card change) ---------- */
 const PATCH_NOTES=[
  {date:'2026-10-28',items:[
+  ['おまかせ・bot','「おまかせ」の10デッキと、botの「つよい」が使う5デッキを、最新の大会（342局）の上位に入れ替えた。'],
+  ['合わせると強い軸','新しいカード（アキンボ化・自動再装填・グランドスラム・呪い壺・投げナイフ・マーシー・犠牲・受け継がれる意志・適応者・救援物資など）を入れて作り直した。'],
   ['オンライン対戦','部屋主がロビーで1手の持ち時間（秒）を決められるようになった。0でなし。時間が切れると、botが代わりに1手指して番を終える（カードは使わない）。'],
   ['盤の駒','駒にカーソルを合わせる（スマホは長押し）と、その駒に付いている強化（残りターン・リロード）とデバフが見られるようになった。敵の駒も見られる（隠れている駒は除く）。'],
   ['オンライン対戦','部屋に4人まで入れるロビーを追加。名前を入力（🎲で食べ物の名前）し、先手・後手・観戦を選んで、部屋主が対局開始。対局中に入った人は観戦。対局後はロビーに戻れる。部屋主が抜けると部屋は解散。'],
@@ -3159,7 +3167,7 @@ const RULES_HTML=`<div class="rules">
     <div><h4>スタンと武器の準備</h4><p>スタンした駒は移動はできますが、駒を取ることも、狙撃・火矢・弩を撃つこともできません。取れない状態で、煙幕・暗雲に隠れた駒のマスへ動こうとすると、移動は無効になりターンが終わります。武器（毒刃・火矢・弩・蛇の目・バイパーズピット）は付けた番は働かず、次の自分の番から有効です。オペレーターは付けた番と次の番は撃てず、動いた・押された・移された時もその番と次の番は撃てません。撃つと4ターン撃てません。撃てる状態（覗き中）でスタンを受けると、スタン中は動けません。発砲にはエネルギー1が必要です。</p></div>
     <div><h4>弩の溜め</h4><p>弩はメインの手を使って溜めます。溜めた次の番か次の次の番に、手を使わず撃てます。撃たずに過ぎるか、その駒が動くと溜めは消えます。溜めている間は射線が赤く表示されます。</p></div>
     <div><h4>撃破ボーナスと中央</h4><p>相手の駒を倒すとエネルギーが入ります（歩0、香・桂・銀・金+1、飛・角・成った駒+2）。11手目からは、盤の中央（4四）に自分の駒を置いて番を迎えるとエネルギー+1。受け取ったら次に受け取れるのは2ターン後です。25手目からは、中央にいれば毎ターン受け取れます。</p></div>
-    <div><h4>botの強さ</h4><p>デッキを組む画面で3段階から選べます。やさしいはすぐに指します。ふつうは約6秒、つよいは約10秒考え、カードと駒の動かし方の組み合わせを先読みして選びます。つよいは5種類の最強デッキ（狙撃部隊・毒と石・焦土作戦・火矢の前線・兵站部隊）のどれかで挑んできます。</p></div>
+    <div><h4>botの強さ</h4><p>デッキを組む画面で3段階から選べます。やさしいはすぐに指します。ふつうは約6秒、つよいは約10秒考え、カードと駒の動かし方の組み合わせを先読みして選びます。つよいは大会の上位5デッキ（物資争奪・補給ドロー・守り反撃・致死毒シーズ・保留大技）のどれかで挑んできます。</p></div>
     <div><h4>王について</h4><p>王は取られるほか、毒・延焼・アトミック・自爆・狙撃・弩でも倒れます。アルマゲドンの爆撃と爆撃跡だけは耐えます。爆発で両方の王が同時に倒れたら引き分けです。</p></div>
     <div><h4>保留と消えるカード</h4><p>アマゾンで取り寄せたカードや、「保留」のカードで選んだカードは「保留」になり、使うまでターンをまたいで手札に残ります。保留のカードは持ち越しの枚数に数えません。「保持化」を使うと、以降ターン終了時に持ち越せる手札が2枚になります。供物は使っても消えず、捨て札に戻ります。保険を付けた歩を供物にすると、保険の+2も入ります（合計+3）。</p></div>
     <div><h4>ターンの数え方</h4><p>カードの「2ターン」は、使った人の手番が2回来るまで続きます。駒のバッジや盤上の数字は残りターン数です。</p></div>
@@ -3417,7 +3425,7 @@ function openBuilder(tab){
     {const g2=root.querySelector('#dbGo2');if(g2)g2.addEventListener('click',()=>{const g=root.querySelector('#dbGo');if(g)g.click();});}
     root.querySelectorAll('.pick .card').forEach(el=>el.addEventListener('click',()=>{const k=el.parentElement.dataset.key;if(draft.length<DECK_N&&draft.filter(x=>x===k).length<maxCopies(k)){draft.push(k);upd();}}));
     const dpick=root.querySelector('#dpick');const showPick=t=>{dpick.hidden=!t;dpick.innerHTML=t||'';};
-    root.querySelector('#dbRand').addEventListener('click',()=>{const pool=TOP_DECKS.filter(x=>x.keys.join()!==draft.join());const t=pool[Math.floor(Math.random()*pool.length)];draft=[...t.keys];upd();showPick(`おまかせ：<b>${t.name}</b>（新ルールのbot同士の総当たりで勝率${t.wr}%・各9局）`);});
+    root.querySelector('#dbRand').addEventListener('click',()=>{const pool=TOP_DECKS.filter(x=>x.keys.join()!==draft.join());const t=pool[Math.floor(Math.random()*pool.length)];draft=[...t.keys];upd();showPick(`おまかせ：<b>${t.name}</b>（bot同士の大会での通算勝率${t.wr}%）`);});
     root.querySelector('#dbRand2').addEventListener('click',()=>{draft=botDeck();upd();showPick('ランダム：完全ランダムに組みました');});
     root.querySelector('#dbClear').addEventListener('click',()=>{draft=[];upd();showPick('');});
     root.querySelector('#dbGo').addEventListener('click',()=>{if(draft.length!==DECK_N)return;myDeck=[...draft];newGame(myDeck);});
