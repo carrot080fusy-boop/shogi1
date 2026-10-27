@@ -389,7 +389,7 @@ details.guide .glossary{margin-top:10px}
 @media (max-width:480px){.ctip .tb.hasdg{flex-direction:column}.ctip .dgw{width:100%;max-width:220px}}
 .lobby{margin-top:8px}.lobbyhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.lcount{color:var(--muted);font-size:13px}
 .lmem{list-style:none;margin:8px 0;padding:0}.lmem li{display:flex;align-items:center;gap:8px;padding:5px 8px;border:1px solid var(--line);border-radius:8px;margin:4px 0}
-.lmem li small{color:var(--muted)}.lmem .seat{margin-left:auto;font-size:12px;padding:2px 8px;border-radius:999px;border:1px solid var(--line)}
+.lmem li small{color:var(--muted)}.lmem .kick{font-size:12px;padding:2px 8px;min-height:0}.lmem .seat{margin-left:auto;font-size:12px;padding:2px 8px;border-radius:999px;border:1px solid var(--line)}
 .lmem .seat.s{background:#7a2416;color:#fff}.lmem .seat.g{background:#1f3f6b;color:#fff}.lseat{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}.lnote{font-size:12px;color:var(--muted);margin:4px 0}
 #pname{width:9em}
 .ptip{border-left-color:#c9a14a}.ptip.ps{border-left-color:#d8a85a}.ptip.pg{border-left-color:#6e8fb0}
@@ -3081,6 +3081,7 @@ function showLibrary(){
 /* ---------- patch notes (newest first; add an entry for every rule/card change) ---------- */
 const PATCH_NOTES=[
  {date:'2026-10-28',items:[
+  ['オンライン','部屋主がロビーでほかの人を追放できるようにした。'],
   ['おまかせ・bot','「おまかせ」の10デッキと、botの「つよい」が使う5デッキを、最新の大会（342局）の上位に入れ替えた。'],
   ['合わせると強い軸','新しいカード（アキンボ化・自動再装填・グランドスラム・呪い壺・投げナイフ・マーシー・犠牲・受け継がれる意志・適応者・救援物資など）を入れて作り直した。'],
   ['オンライン対戦','部屋主がロビーで1手の持ち時間（秒）を決められるようになった。0でなし。時間が切れると、botが代わりに1手指して番を終える（カードは使わない）。'],
@@ -3292,7 +3293,7 @@ function lobbyHTML(){
   const seatOf=id=>seats.s===id?'s':seats.g===id?'g':'w';
   const lab={s:'先手（▲）',g:'後手（△）',w:'観戦'};
   const mine=seatOf(myId),isHost=o.host===myId;
-  const row=id=>`<li>${esc(mem[id].name||'？')}${id===o.host?' <small>（部屋主）</small>':''}${id===myId?' <small>（あなた）</small>':''}<span class="seat ${seatOf(id)}">${lab[seatOf(id)]}</span></li>`;
+  const row=id=>`<li>${esc(mem[id].name||'？')}${id===o.host?' <small>（部屋主）</small>':''}${id===myId?' <small>（あなた）</small>':''}<span class="seat ${seatOf(id)}">${lab[seatOf(id)]}</span>${isHost&&id!==myId?`<button class="btn kick" type="button" data-kick="${esc(id)}">追放</button>`:''}</li>`;
   const can=seats.s&&seats.g&&mem[seats.s]&&mem[seats.g]&&mem[seats.s].deck&&mem[seats.g].deck;
   return `<div class="lobby"><div class="lobbyhead"><div class="roomcode">${o.code}</div><button class="btn" type="button" data-copy="${o.code}">合言葉をコピー</button><span class="lcount">${ids.length}/${ROOM_MAX}人</span></div>
     <ul class="lmem">${ids.map(row).join('')}</ul>
@@ -3310,7 +3311,7 @@ async function enterRoom(db,ref,code,role,name){
   ref.child('members/'+myId).onDisconnect().remove();
   if(role==='host')ref.onDisconnect().remove();
   ref.child('host').on('value',sn=>{if(ONLINE!==o)return;const h=sn.val();if(!h){dissolved(o);return;}o.host=h;refreshLobby();});
-  ref.child('members').on('value',sn=>{if(ONLINE!==o)return;o.members=sn.val()||{};refreshLobby();});
+  ref.child('members').on('value',sn=>{if(ONLINE!==o)return;o.members=sn.val()||{};if(!o.members[myId]&&o.host&&o.host!==myId){o.ref.child('host').get().then(h=>{if(ONLINE!==o)return;if(!h.val())dissolved(o);else if(!(o.members||{})[myId])kicked(o);}).catch(()=>{});return;}refreshLobby();});
   ref.child('seats').on('value',sn=>{if(ONLINE!==o)return;o.seats=sn.val()||{};refreshLobby();});
   ref.child('settings').on('value',sn=>{if(ONLINE!==o)return;o.settings=sn.val()||{};refreshLobby();});
   ref.child('status').on('value',sn=>{if(ONLINE!==o)return;const st=sn.val();if(!st)return;const prev=o.status;o.status=st;
@@ -3320,6 +3321,11 @@ async function enterRoom(db,ref,code,role,name){
   watchRoom();
 }
 function dissolved(o){if(ONLINE!==o)return;leaveOnline(true);G=freshState([],[],true);G.log=[{t:'部屋が解散されました',sep:true}];pieceEls.clear();$('#pieces').innerHTML='';render();openBuilder('online');setTimeout(()=>{const st=$('#modalRoot').querySelector('#onstatus');if(st)st.innerHTML='<p class="err">部屋主が抜けたため、部屋は解散されました。</p>';},50);}
+function kicked(o){if(ONLINE!==o)return;leaveOnline(true);G=freshState([],[],true);G.log=[{t:'部屋から追放されました',sep:true}];pieceEls.clear();$('#pieces').innerHTML='';render();openBuilder('online');setTimeout(()=>{const st=$('#modalRoot').querySelector('#onstatus');if(st)st.innerHTML='<p class="err">部屋主に追放されました。</p>';},50);}
+async function kickMember(id){const o=ONLINE;if(!o||o.host!==myId||id===myId||o.status==='playing')return;const nm=((o.members||{})[id]||{}).name||'？';
+  if(!confirm(`${nm}を部屋から追放しますか？`))return;
+  const s=o.seats||{};if(s.s===id)await o.ref.child('seats/s').remove();if(s.g===id)await o.ref.child('seats/g').remove();
+  await o.ref.child('presence/'+id).remove();await o.ref.child('members/'+id).remove();}
 async function beginOnline(o){
   const snap=await o.ref.get();if(ONLINE!==o)return;const room=snap.val()||{};const seats=room.seats||{},mem=room.members||{};
   o.seats=seats;o.v=0;o.lastJson=null;
@@ -3466,7 +3472,7 @@ function openBuilder(tab){
 } } } }</pre>部屋の合言葉を知っている人だけが、その部屋を読み書きできます（部屋の一覧は読めません）。決まった形以外のデータや、大きすぎるデータは書き込めません。部屋主が抜けると部屋は消えます。</li>
               <li><b>ウェブアプリを登録</b>：プロジェクトの設定でウェブアプリを追加し、表示される firebaseConfig をここに貼り付けます（コードの先頭の FIREBASE_CONFIG に書いておけば、毎回の貼り付けは不要です）。</li>
               <li><b>ページを公開する</b>：ダウンロードした html を GitHub Pages や Cloudflare Pages に置きます。Claude上のこのページからは通信できないため、オンライン対戦は公開したページで遊んでください。</li>
-              <li><b>対戦する</b>：1人が「部屋を作る」で合言葉を出し、ほかの人（4人まで）はそれを入れて「部屋に入る」。ロビーで先手・後手・観戦を選び、部屋主が「対局開始」を押します。座る人は12枚のデッキを組んでおきます。対局中に入った人は観戦になります。</li>
+              <li><b>対戦する</b>：1人が「部屋を作る」で合言葉を出し、ほかの人（4人まで）はそれを入れて「部屋に入る」。ロビーで先手・後手・観戦を選び、部屋主が「対局開始」を押します。部屋主はロビーで「追放」を押すと、ほかの人を部屋から出せます。座る人は12枚のデッキを組んでおきます。対局中に入った人は観戦になります。</li>
             </ol></details>
         </div>`;
       const st=pane.querySelector('#onstatus');
@@ -3491,6 +3497,7 @@ function openBuilder(tab){
       });
       pane.addEventListener('change',e=>{if(e.target.id==='ltime'&&ONLINE&&ONLINE.host===myId){const v=Math.max(0,Math.min(600,Math.round(+e.target.value||0)));e.target.value=v;ONLINE.ref.child('settings/time').set(v);}});
       pane.addEventListener('click',e=>{const b=e.target.closest('[data-seat]');if(b&&!b.disabled){takeSeat(b.dataset.seat).catch(err);return;}
+        {const k=e.target.closest('[data-kick]');if(k){kickMember(k.dataset.kick).catch(err);return;}}
         if(e.target.closest('[data-lstart]')){startFromLobby().catch(err);return;}
         if(e.target.closest('[data-lleave]')){leaveOnline(true);setStatus('<p>部屋を出ました。</p>');return;}});
       pane.addEventListener('click',e=>{const b=e.target.closest('[data-copy]');if(!b)return;const t=b.dataset.copy;navigator.clipboard&&navigator.clipboard.writeText(t).then(()=>{b.textContent='コピーしました';}).catch(()=>{b.textContent='合言葉：'+t;});});
