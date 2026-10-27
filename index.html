@@ -97,6 +97,15 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .pc.beast .k::before{content:"";position:absolute;z-index:1;width:46%;aspect-ratio:1;left:27%;top:30%;border-radius:50%;background:var(--beast-head)}
 .pc.king .k{font-size:calc(var(--bs) / 7 * .48)}
 .pc.hid .k{color:#55606f;background:linear-gradient(170deg,#c9ccd3,#a5aab5)}
+.pc.chess .kw{width:80%;height:80%}
+.pc.chess .k{clip-path:circle(48% at 50% 50%);padding-top:0;font-family:"Segoe UI Symbol","Noto Sans Symbols 2","DejaVu Sans",sans-serif;font-weight:400;font-size:calc(var(--bs) / 7 * .56)}
+.pc.chess.s .k{background:radial-gradient(circle at 35% 30%,#fffaf0,#e3d4b4);color:#2b2118}
+.pc.chess.g .k{background:radial-gradient(circle at 35% 30%,#5d626d,#22252c);color:#f4efe4}
+.pc.chess.s.pro .k{color:#9a5b00}.pc.chess.g.pro .k{color:#ffd36a}
+.pc.chess.g .kw{transform:none}
+.board-wrap.flip .pc.chess .kw{transform:rotate(180deg)}
+.pc.chess.hid .k{color:#55606f;background:linear-gradient(170deg,#c9ccd3,#a5aab5)}
+.pc.chess.beast .k{color:transparent;background:linear-gradient(90deg,var(--beast-l) 50%,var(--beast-r) 50%)}
 .pc.mine-hid .kw{opacity:.72}
 .pc.gone{opacity:0;transform:scale(.6)}
 .pc.shake{animation:shake .35s}
@@ -626,8 +635,13 @@ const has=(cells,r,c)=>cells.some(x=>x[0]===r&&x[1]===c);
 const turnsLeft=at=>Math.max(0,Math.ceil((at-G.T)/2));
 
 function mkPiece(t,c){return {id:uid++,t,c,pro:false,b:{},poison:null};}
-function setup(){
-  const b=[...Array(N)].map(()=>Array(N).fill(null)), backG='RNSKGBL', backS='LBGKSNR';
+let CHESS_MODE=false;try{CHESS_MODE=localStorage.getItem('shogi7_variant')==='chess';}catch(e){}
+const isChess=()=>!!(G&&G.chess);
+const CJ={K:'キング',R:'ルーク',B:'ビショップ',N:'ナイト',P:'ポーン'},CGL={K:'♚',R:'♜',B:'♝',N:'♞',P:'♟',Q:'♛'};
+const glyph=p=>(p.pro&&p.t==='P'?CGL.Q:CGL[p.t])+'\uFE0E';
+function setup(chess){
+  if(chess===undefined)chess=CHESS_MODE;
+  const b=[...Array(N)].map(()=>Array(N).fill(null)), backG=chess?'RNBKBNR':'RNSKGBL', backS=chess?'RNBKBNR':'LBGKSNR';
   for(let i=0;i<N;i++){b[0][i]=mkPiece(backG[i],'g');b[1][i]=mkPiece('P','g');b[5][i]=mkPiece('P','s');b[6][i]=mkPiece(backS[i],'s');}
   return b;
 }
@@ -635,11 +649,12 @@ function eachPiece(fn){for(let r=0;r<N;r++)for(let c=0;c<N;c++){const p=G.board[
 function piecesOf(col){const o=[];eachPiece((p,r,c)=>{if(p.c===col)o.push([r,c,p]);});return o;}
 function findKing(col){let k=null;eachPiece((p,r,c)=>{if(p.c===col&&p.t==='K')k=[r,c,p];});return k;}
 function findById(id){let f=null;eachPiece((p,r,c)=>{if(p.id===id)f=[r,c,p];});return f;}
-const pname=p=>p.t==='K'?(p.c==='s'?'玉':'王'):(p.pro?KJP[p.t]:KJ[p.t]);
-const val=p=>p.pro?VALP[p.t]:VAL[p.t];
+const pname=p=>isChess()?(p.pro&&p.t==='P'?'クイーン':CJ[p.t]||'？'):p.t==='K'?(p.c==='s'?'玉':'王'):(p.pro?KJP[p.t]:KJ[p.t]);
+const VALC={P:1,N:4,B:5,R:7,K:100};
+const val=p=>isChess()?(p.pro?11:VALC[p.t]):p.pro?VALP[p.t]:VAL[p.t];
 const inCamp=(col,r)=>col==='s'?r>=5:r<=1;
-const zone=(col,r)=>col==='s'?r<=1:r>=5;
-const canPromote=p=>!p.pro&&'PLNSBR'.includes(p.t);
+const zone=(col,r)=>isChess()?(col==='s'?r===0:r===6):col==='s'?r<=1:r>=5;
+const canPromote=p=>!p.pro&&(isChess()?p.t==='P':'PLNSBR'.includes(p.t));
 const ward=p=>!!(p.b.ward&&p.b.ward.until>G.T&&!p.lethal);
 function wardBlock(p){if(!ward(p))return false;delete p.b.ward;const f=findById(p.id);if(f){fx(f[0],f[1],'加護が防いだ','enh');if(!SIM)log(`${isHidden(p,f[0],f[1])?'？':pname(p)}（${nota(f[0],f[1])}）の加護が防いで消えた`,p.c);}return true;}
 const hasteReady=p=>p.b.haste&&G.T>=p.b.haste.ready;
@@ -899,7 +914,7 @@ function botDeck(){
   const out=[];pick(by('enh'),5,out);pick(by('res'),3,out);pick(by('mag'),4,out);return out;
 }
 function freshState(deckS,deckG,preview){
-  return {mode:'bot',board:setup(),T:0,turn:'s',players:{s:mkPlayer(deckS),g:mkPlayer(deckG)},main:true,sel:null,pending:null,shootMode:false,
+  return {mode:'bot',chess:CHESS_MODE,board:setup(CHESS_MODE),T:0,turn:'s',players:{s:mkPlayer(deckS),g:mkPlayer(deckG)},main:true,sel:null,pending:null,shootMode:false,
     fields:[],campManual:{s:2,g:2},over:null,log:[],last:null,busy:false,modal:!!preview,preview:!!preview,flash:null};
 }
 function newGame(deck){
@@ -1148,7 +1163,16 @@ function genMoves(r,c,f){
   const slide=(dr,dc)=>{let rr=r+dr,cc=c+dc;const path=[];let bump=null;while(inB(rr,cc)){const t=b[rr][cc];if(t&&t.c===p.c)break;const iv=!!t&&invis(t);path.push([rr,cc]);out.push({r:rr,c:cc,cap:!!t&&!iv,path:[...path],bump:bump||(iv?[rr,cc]:null)});if(iv&&!bump)bump=[rr,cc];if(t&&!iv)break;rr+=dr;cc+=dc;}};
   const GOLD=[[f,0],[f,-1],[f,1],[0,-1],[0,1],[-f,0]];
   const t=p.t;
-  if(t==='K')[...ORTH,...DIAG].forEach(([a,d])=>step(a,d));
+  if(G.chess){
+    if(t==='K')[...ORTH,...DIAG].forEach(([a,d])=>step(a,d));
+    else if(t==='P'&&p.pro)[...ORTH,...DIAG].forEach(([a,d])=>slide(a,d));
+    else if(t==='P'){const rr=r+f;if(inB(rr,c)){const q=b[rr][c];if(!q)out.push({r:rr,c,cap:false,path:[[rr,c]],bump:null});else if(q.c!==p.c&&invis(q))out.push({r:rr,c,cap:false,path:[[rr,c]],bump:[rr,c]});}
+      for(const dc of[-1,1]){const cc=c+dc;if(!inB(rr,cc))continue;const q=b[rr][cc];if(q&&q.c!==p.c&&!invis(q))out.push({r:rr,c:cc,cap:true,path:[[rr,cc]],bump:null});}}
+    else if(t==='N')[[2,1],[2,-1],[-2,1],[-2,-1],[1,2],[1,-2],[-1,2],[-1,-2]].forEach(([a,d])=>step(a,d));
+    else if(t==='B')DIAG.forEach(([a,d])=>slide(a,d));
+    else if(t==='R')ORTH.forEach(([a,d])=>slide(a,d));
+  }
+  else if(t==='K')[...ORTH,...DIAG].forEach(([a,d])=>step(a,d));
   else if(t==='G'||(p.pro&&'PLNS'.includes(t)))GOLD.forEach(([a,d])=>step(a,d));
   else if(t==='P')step(f,0);
   else if(t==='L')slide(f,0);
@@ -1284,8 +1308,8 @@ function doMove(fr,fc,tr,tc,face){
   if(t){ died(t,tr,tc,'capture',p.c,p); }
   let promo=false;if(canPromote(p)&&(zone(p.c,fr)||zone(p.c,tr))){p.pro=true;promo=true;}
   G.last=invis(p)?null:{fr,fc,tr,tc};
-  if(invis(p))log(`${mark(p.c)}見えない駒が動いた`,p.c);else log(`${mark(p.c)}${nota(tr,tc)}${pn}${promo&&!hid?'成':''}${t?`（${tn}を取る）`:''}${tag}`,p.c);
-  if(promo&&!isHidden(p,tr,tc))fx(tr,tc,'成り','res');
+  if(invis(p))log(`${mark(p.c)}見えない駒が動いた`,p.c);else log(`${mark(p.c)}${nota(tr,tc)}${pn}${promo&&!hid?(isChess()?'（クイーンに昇格）':'成'):''}${t?`（${tn}を取る）`:''}${tag}`,p.c);
+  if(promo&&!isHidden(p,tr,tc))fx(tr,tc,isChess()?'昇格':'成り','res');
   if(G.over){render();return;}
   if(hasFacing(p)){const nf=face||(p.c==='g'?bestFace(p,tr,tc):null);if(nf)p.face=nf;}
   G.faceSel=null;
@@ -2602,8 +2626,8 @@ function renderPieces(){
     el.style.left=`calc(${c}*100%/7)`;el.style.top=`calc(${r}*100%/7)`;
     const hid=isHidden(p,r,c),enemyHid=hid&&p.c!==ME&&!G.over&&!peeking(ME)&&!isSpect();
     const beast=p.t==='K'&&G.players[p.c].awake&&!enemyHid;
-    el.className='pc '+p.c+(p.pro&&!enemyHid?' pro':'')+(p.t==='K'&&!enemyHid?' king':'')+(beast?' beast':'')+(enemyHid?' hid':'')+(hid&&p.c===ME?' mine-hid':'');
-    el.querySelector('.k').textContent=enemyHid?'？':beast?'':pname(p);
+    el.className='pc '+(G.chess?'chess ':'')+p.c+(p.pro&&!enemyHid?' pro':'')+(p.t==='K'&&!enemyHid?' king':'')+(beast?' beast':'')+(enemyHid?' hid':'')+(hid&&p.c===ME?' mine-hid':'');
+    el.querySelector('.k').textContent=enemyHid?'？':beast?'':G.chess?glyph(p):pname(p);
     el.querySelector('.badges').innerHTML=enemyHid?'':badgesFor(p);
     let ring=el.querySelector('.ring');
     if(p.b.barrier&&!enemyHid){if(!ring){ring=document.createElement('div');ring.className='ring';el.appendChild(ring);}}else if(ring)ring.remove();
@@ -3081,6 +3105,7 @@ function showLibrary(){
 /* ---------- patch notes (newest first; add an entry for every rule/card change) ---------- */
 const PATCH_NOTES=[
  {date:'2026-10-28',items:[
+  ['チェスモード','駒の動きをチェスにした「チェスモード」を追加（クイーンなしの7×7、ポーンは奥で昇格、キングを取ったら勝ち）。bot戦・オンラインで選べる。'],
   ['オンライン','部屋主がロビーでほかの人を追放できるようにした。'],
   ['おまかせ・bot','「おまかせ」の10デッキと、botの「つよい」が使う5デッキを、最新の大会（342局）の上位に入れ替えた。'],
   ['合わせると強い軸','新しいカード（アキンボ化・自動再装填・グランドスラム・呪い壺・投げナイフ・マーシー・犠牲・受け継がれる意志・適応者・救援物資など）を入れて作り直した。'],
@@ -3171,6 +3196,7 @@ const RULES_HTML=`<div class="rules">
     <div><h4>botの強さ</h4><p>デッキを組む画面で3段階から選べます。やさしいはすぐに指します。ふつうは約6秒、つよいは約10秒考え、カードと駒の動かし方の組み合わせを先読みして選びます。つよいは大会の上位5デッキ（物資争奪・補給ドロー・守り反撃・致死毒シーズ・保留大技）のどれかで挑んできます。</p></div>
     <div><h4>王について</h4><p>王は取られるほか、毒・延焼・アトミック・自爆・狙撃・弩でも倒れます。アルマゲドンの爆撃と爆撃跡だけは耐えます。爆発で両方の王が同時に倒れたら引き分けです。</p></div>
     <div><h4>保留と消えるカード</h4><p>アマゾンで取り寄せたカードや、「保留」のカードで選んだカードは「保留」になり、使うまでターンをまたいで手札に残ります。保留のカードは持ち越しの枚数に数えません。「保持化」を使うと、以降ターン終了時に持ち越せる手札が2枚になります。供物は使っても消えず、捨て札に戻ります。保険を付けた歩を供物にすると、保険の+2も入ります（合計+3）。</p></div>
+    <div><h4>チェスモード</h4><p>デッキを組む画面の「盤」でチェスを選ぶと、駒の動きがチェスになります（オンラインでは部屋主がロビーで選びます）。並びはルーク・ナイト・ビショップ・キング・ビショップ・ナイト・ルークで、クイーンはありません。ポーンは前に1マス進み、斜め前の駒を取ります（2マス進み・アンパッサン・キャスリングはなし）。ポーンが一番奥の段に着くと自動でクイーンに昇格します。チェックメイトはなく、キングを取ったら勝ちです。カードとルールはすべて将棋と同じで、カードの説明の「歩」はポーン、「成る」はクイーンへの昇格、「王」はキングのことです。倒した時のエネルギーは、ポーン0・ナイト+1・ビショップとルークとクイーン+2です。</p></div>
     <div><h4>ターンの数え方</h4><p>カードの「2ターン」は、使った人の手番が2回来るまで続きます。駒のバッジや盤上の数字は残りターン数です。</p></div>
   </div>`;
 function openRulesOverlay(first){
@@ -3227,7 +3253,7 @@ async function connectDb(){
 }
 function roomCode(){const a='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=a[Math.random()*a.length|0];return s;}
 function sharedJson(){
-  return JSON.stringify({clock:G.clock||null,timeout:!!G.timeout,names:G.names||null,board:G.board,T:G.T,turn:G.turn,players:G.players,main:G.main,fields:G.fields,campManual:G.campManual,over:G.over,resigned:!!G.resigned,log:G.log.slice(0,80),last:G.last});
+  return JSON.stringify({chess:!!G.chess,clock:G.clock||null,timeout:!!G.timeout,names:G.names||null,board:G.board,T:G.T,turn:G.turn,players:G.players,main:G.main,fields:G.fields,campManual:G.campManual,over:G.over,resigned:!!G.resigned,log:G.log.slice(0,80),last:G.last});
 }
 function syncPush(){
   if(!ONLINE||!isOnline()||ONLINE.applying||G.waiting||SIM||ONLINE.spect)return;
@@ -3258,9 +3284,9 @@ function watchRoom(){
   o.ref.child('state').on('value',snap=>{const d=snap.val();if(!d||ONLINE!==o||!G||G.mode!=='online')return;if(d.v<=o.v)return;if(d.by===myId){o.v=d.v;return;}applyRemote(d);});
   o.ref.child('presence').on('value',snap=>{if(ONLINE!==o)return;o.presence=snap.val()||{};if(!G||!isOnline())return;const oid=o.seats&&o.seats[opp(ME)];const gone=!isSpect()&&!G.waiting&&!!oid&&!o.presence[oid];if(gone!==!!G.oppGone){G.oppGone=gone;render();}});
 }
-function startOnlineGame(sDeck,gDeck,names,mins){
+function startOnlineGame(sDeck,gDeck,names,mins,chess){
   uid=1;pieceEls.clear();$('#pieces').innerHTML='';$('#fx').innerHTML='';closeModal();
-  G=freshState(sDeck,gDeck,false);G.mode='online';G.names=names||null;G.clock=mins>0?{sec:mins}:null;
+  G=freshState(sDeck,gDeck,false);if(G.chess!==!!chess){G.chess=!!chess;G.board=setup(G.chess);}G.mode='online';G.names=names||null;G.clock=mins>0?{sec:mins}:null;
   for(const[col,deck]of[['s',sDeck],['g',gDeck]]){const pl=G.players[col];const i=pl.draw.findIndex(c=>c.key===deck[0]);if(i>=0)pl.opener=pl.draw.splice(i,1)[0];}
   log(`オンライン対局開始（部屋 ${ONLINE.code}）。先手（▲）から。`,null,true);
   startTurn();
@@ -3299,6 +3325,7 @@ function lobbyHTML(){
     <ul class="lmem">${ids.map(row).join('')}</ul>
     <div class="lseat"><button class="btn${mine==='s'?' on':''}" type="button" data-seat="s" ${seats.s&&seats.s!==myId?'disabled':''}>先手に座る</button><button class="btn${mine==='g'?' on':''}" type="button" data-seat="g" ${seats.g&&seats.g!==myId?'disabled':''}>後手に座る</button><button class="btn${mine==='w'?' on':''}" type="button" data-seat="w">観戦する</button></div>
     <div class="lseat ltime"><b>1手の持ち時間</b>${isHost?`<input id="ltime" type="number" min="0" max="600" step="5" value="${+((o.settings||{}).time)||0}">秒<span class="lnote">（0でなし。切れるとbotが代わりに1手指す・カードは使わない）</span>`:`<span>${+((o.settings||{}).time)?((o.settings||{}).time)+'秒':'なし'}</span>`}</div>
+    <div class="lseat ltime"><b>盤</b>${isHost?`<button class="btn${(o.settings||{}).chess?'':' on'}" type="button" data-lvar="shogi">将棋</button><button class="btn${(o.settings||{}).chess?' on':''}" type="button" data-lvar="chess">チェス</button>`:`<span>${(o.settings||{}).chess?'チェス':'将棋'}</span>`}</div>
     <p class="lnote">先手・後手に座る時は、上で組んだ12枚のデッキで座ります（座り直すとデッキも更新）。観戦は両方の手札まで見えます。</p>
     <div class="lseat">${isHost?`<button class="btn on" type="button" data-lstart ${can?'':'disabled'}>対局開始</button>`:'<span class="lnote">部屋主が対局を始めるのを待っています。</span>'}<button class="btn" type="button" data-lleave>部屋を出る</button></div></div>`;
 }
@@ -3330,7 +3357,7 @@ async function beginOnline(o){
   const snap=await o.ref.get();if(ONLINE!==o)return;const room=snap.val()||{};const seats=room.seats||{},mem=room.members||{};
   o.seats=seats;o.v=0;o.lastJson=null;
   const names={s:(mem[seats.s]||{}).name||'先手',g:(mem[seats.g]||{}).name||'後手'};
-  if(seats.s===myId){o.spect=false;ME='s';setOrientation();startOnlineGame(mem[seats.s].deck,mem[seats.g].deck,names,+((room.settings||{}).time)||0);}
+  if(seats.s===myId){o.spect=false;ME='s';setOrientation();startOnlineGame(mem[seats.s].deck,mem[seats.g].deck,names,+((room.settings||{}).time)||0,!!(room.settings||{}).chess);}
   else if(seats.g===myId){o.spect=false;ME='g';setOrientation();waitingState('対局開始。先手の準備を待っています');}
   else{o.spect=true;ME='s';setOrientation();waitingState('観戦中。対局の開始を待っています');}
 }
@@ -3402,6 +3429,7 @@ function openBuilder(tab){
       <div class="lvrow" id="lvrow"><span class="lvlabel">botの強さ</span>
         <button type="button" class="btn lv" data-lv="1">やさしい</button><button type="button" class="btn lv" data-lv="2">ふつう</button><button type="button" class="btn lv" data-lv="3">つよい</button>
         <span class="lvnote" id="lvnote"></span></div>
+      <div class="lvrow" id="varrow"><span class="lvlabel">盤</span><button type="button" class="btn lv" data-var="shogi">将棋</button><button type="button" class="btn lv" data-var="chess">チェス</button><span class="lvnote">チェスは駒の動きだけチェスになります（カードとルールは同じ）</span></div>
       <details class="bhelp"><summary>使い方・アイコンの説明</summary><p style="margin:0;font-size:12px">カードを押すと追加、枠のカード名を押すと外します。<b style="color:var(--gold)">一番左の「初手」枠のカードは必ず最初の手札に入ります</b>（「初手へ」で入れ替え）。同じカードは2枚まで（使うと消えるカードは1枚まで）。botのデッキはランダムに組まれます。</p>
       <p class="wlegend"><span class="winfo"><em class="wf main">手番</em></span>メインの手を使う <span class="winfo"><em class="wf both">移動後OK</em></span>動いた後なら手を使わない <span class="winfo"><em class="wf after">移動後のみ</em></span>動いた後だけ撃てる <span class="winfo"><em class="wr">リロード2</em></span>撃った後2回の自分の番は撃てない <span class="winfo"><em class="wd poison" data-db="poison">毒</em><em class="wd stun" data-db="stun">スタン</em><em class="wd lethal" data-db="lethal">致死毒</em><em class="wd burn" data-db="burn">延焼</em><em class="wd petri" data-db="petri">石化</em></span>与えるデバフ（押すと説明へ） <span class="winfo"><em class="wl d">予告1</em></span>1ターン後に着弾　カードにカーソル（スマホは長押し）で全文と範囲図</p></details>
       ${jumpNav(cats)}
@@ -3438,6 +3466,8 @@ function openBuilder(tab){
     const lvNotes=['','すぐに指す。デッキはランダム。','1手ごとに約6秒考え、カードの使い方も読む。デッキはランダム。','1手ごとに約10秒考え、カードの組み合わせまで読む。5種類の最強デッキのどれかで来る。'];
     const updLv=()=>{root.querySelectorAll('[data-lv]').forEach(b=>b.classList.toggle('on',+b.dataset.lv===botLevel));root.querySelector('#lvnote').textContent=lvNotes[botLevel];};
     root.querySelectorAll('[data-lv]').forEach(b=>b.addEventListener('click',()=>{botLevel=+b.dataset.lv;updLv();}));
+    const updVar=()=>root.querySelectorAll('[data-var]').forEach(b=>b.classList.toggle('on',(b.dataset.var==='chess')===CHESS_MODE));updVar();
+    root.querySelectorAll('[data-var]').forEach(b=>b.addEventListener('click',()=>{CHESS_MODE=b.dataset.var==='chess';try{localStorage.setItem('shogi7_variant',CHESS_MODE?'chess':'shogi');}catch(e){}updVar();}));
     updLv();
     let busyOn=false;
     const pane=root.querySelector('#onlinePane');
@@ -3498,6 +3528,7 @@ function openBuilder(tab){
       pane.addEventListener('change',e=>{if(e.target.id==='ltime'&&ONLINE&&ONLINE.host===myId){const v=Math.max(0,Math.min(600,Math.round(+e.target.value||0)));e.target.value=v;ONLINE.ref.child('settings/time').set(v);}});
       pane.addEventListener('click',e=>{const b=e.target.closest('[data-seat]');if(b&&!b.disabled){takeSeat(b.dataset.seat).catch(err);return;}
         {const k=e.target.closest('[data-kick]');if(k){kickMember(k.dataset.kick).catch(err);return;}}
+        {const v=e.target.closest('[data-lvar]');if(v&&ONLINE&&ONLINE.host===myId){ONLINE.ref.child('settings/chess').set(v.dataset.lvar==='chess');return;}}
         if(e.target.closest('[data-lstart]')){startFromLobby().catch(err);return;}
         if(e.target.closest('[data-lleave]')){leaveOnline(true);setStatus('<p>部屋を出ました。</p>');return;}});
       pane.addEventListener('click',e=>{const b=e.target.closest('[data-copy]');if(!b)return;const t=b.dataset.copy;navigator.clipboard&&navigator.clipboard.writeText(t).then(()=>{b.textContent='コピーしました';}).catch(()=>{b.textContent='合言葉：'+t;});});
@@ -3505,7 +3536,7 @@ function openBuilder(tab){
     const setTab=t=>{
       mode=t;
       root.querySelectorAll('[data-tab]').forEach(b=>{b.classList.toggle('on',b.dataset.tab===t);b.setAttribute('aria-selected',b.dataset.tab===t);});
-      pane.hidden=t!=='online';root.querySelector('#lvrow').hidden=t==='online';root.querySelector('#dbGo').hidden=t==='online';
+      pane.hidden=t!=='online';root.querySelector('#lvrow').hidden=t==='online';root.querySelector('#varrow').hidden=t==='online';root.querySelector('#dbGo').hidden=t==='online';
       if(t==='online')renderPane();
     };
     root.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.tab)));
